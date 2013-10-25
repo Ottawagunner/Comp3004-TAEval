@@ -4,7 +4,7 @@
 
 
 	Author: Draymire
-	Date: 24/10/13 23:13
+	Date: 25/10/13 18:25
 
 
 	NOTE: remember to rename to BinaryTree.h as contains 
@@ -82,6 +82,10 @@ public:
 	Node getRoot() const;//WARNING::TEMPORARY DEBUGGING
 
 private:
+	void addLeftChild(KEY*, VALUE*, Node*);
+	void addRightChild(KEY*, VALUE*, Node*);
+	void fixDepth(Node*);
+
 	void incrementSize();
 	void decrementSize();
 	void setSize(int);
@@ -95,15 +99,15 @@ private:
 template <class KEY, class VALUE>
 BinaryTree<KEY,VALUE>::BinaryTree() {
 //
-//     Function : 
+//     Function : Constructor
 //
-// Input Params : 
+// Input Params : None
 //
-//Output Params : 
+//Output Params : None
 //
-//  Description : 
+//  Description : Initializes the BinaryTree
 //	
-	//setSize(0);
+	setSize(0);
 	root.parent = ROOT;
 	root.leftChild = LEAF;
 	root.rightChild = LEAF;
@@ -115,56 +119,155 @@ BinaryTree<KEY,VALUE>::BinaryTree() {
 template <class KEY, class VALUE>
 BinaryTree<KEY,VALUE>::~BinaryTree(){
 //
-//     Function : 
+//     Function : Destructor
 //
-// Input Params : 
+// Input Params : None
 //
-//Output Params : 
+//Output Params : None
 //
-//  Description : 
+//  Description : Destroys the BinaryTree
 //
 }
 
 template <class KEY, class VALUE>
-void BinaryTree<KEY,VALUE>::add(KEY*, VALUE*){
+void BinaryTree<KEY,VALUE>::add(KEY* addKey, VALUE* addValue){
 //
-//     Function : 
+//     Function : add
 //
-// Input Params : 
+// Input Params : The key and value to be added
 //
-//Output Params : 
+//Output Params : None
 //
-//  Description : 
+//  Description : Finds the location to add the New Node
+//					And then adds it.
 //
-	std::cout << "IMPLEMENT BINARY TREE ADDITION" << std::endl;
+	if (isEmpty()){
+		root.key = addKey;
+		root.value = addValue;
+	} else {
+		Node* iterNode = &root;
+		while (iterNode != LEAF){
+			if (addKey <= iterNode->key){
+				if (iterNode->leftChild == LEAF){
+					addLeftChild(addKey, addValue, iterNode);
+					iterNode = LEAF;
+				} else {
+					iterNode = iterNode->leftChild;
+				}
+			} else {
+				if (iterNode->rightChild == LEAF){
+					addRightChild(addKey, addValue, iterNode);
+					iterNode = LEAF;
+				} else {
+					iterNode = iterNode->rightChild;
+				}
+			}
+		}
+	}
+}
+
+template <class KEY, class VALUE>
+void BinaryTree<KEY,VALUE>::addLeftChild(KEY* addKey, VALUE* addValue, Node* parentNode){
+//
+//     Function : addLeftChild
+//
+// Input Params : The key and value to be added along with 
+//					The parent to add it too.
+//
+//Output Params : None
+//
+//  Description : Adds a new node to the BinaryTree at
+//					The chosen location.
+//
+	Node* tempNode = new Node();
+	tempNode->parent = parentNode;
+	tempNode->key = addKey;
+	tempNode->data = addValue;
+	tempNode->leftChild = LEAF;
+	tempNode->rightChild = LEAF;
+	parentNode->leftChild = tempNode;
+	fixDepth(tempNode);
+	incrementSize();
+}
+
+template <class KEY, class VALUE>
+void BinaryTree<KEY,VALUE>::addRightChild(KEY* addKey, VALUE* addValue, Node* parentNode){
+//
+//     Function : addRightChild
+//
+// Input Params : The key and value to be added along with 
+//					The parent to add it too.
+//
+//Output Params : None
+//
+//  Description : Adds a new node to the BinaryTree at
+//					The chosen location.
+//
+	Node* tempNode = new Node();
+	tempNode->parent = parentNode;
+	tempNode->key = addKey;
+	tempNode->data = addValue;
+	tempNode->leftChild = LEAF;
+	tempNode->rightChild = LEAF;
+	parentNode->rightChild = tempNode;
+	fixDepth(tempNode);
+	incrementSize();
+}
+
+template <class KEY, class VALUE>
+void BinaryTree<KEY,VALUE>::fixDepth(Node* leafNode){
+//
+//     Function : fixDepth
+//
+// Input Params : The Node to start at
+//
+//Output Params : Node
+//
+//  Description : Checks Depth Values and fixes incorrect ones
+//
+	Node* currNode = leafNode->parent;
+	Node* prevNode = leafNode;
+	while (currNode != ROOT){
+		if (currNode->depth < (prevNode->depth + 1)){
+			currNode->depth = (prevNode->depth + 1);
+		}
+		prevNode = currNode;
+		currNode = currNode->parent;
+	}	
 }
 
 template <class KEY, class VALUE>
 void BinaryTree<KEY,VALUE>::remove(KEY*){
 //
-//     Function : 
+//     Function : remove
 //
-// Input Params : 
+// Input Params : The key to find and remove
 //
-//Output Params : 
+//Output Params : None
 //
-//  Description : 
+//  Description : Finds and removes a specific Entry
 //
+// Comment: Maybe have a return value rather then node 
+// 			to help indicate success or failure.
 	std::cout << "KEY based removal" << std::endl;
 }
 
 template <class KEY, class VALUE>
 bool BinaryTree<KEY,VALUE>::isEmpty() const{
 //
-//     Function : 
+//     Function : isEmpty
 //
-// Input Params : 
+// Input Params : None
 //
-//Output Params : 
+//Output Params : True if Empty, False if not
 //
-//  Description : 
+//  Description : Check if the Tree is empty or not.
 //
-	std::cout << "Is this a waste of space" << std::endl;
+	if (!size()){
+		std::cout << "empty" << std::endl;
+	} else {
+		std::cout << "got something" << std::endl;
+	}
 }
 
 template <class KEY, class VALUE>
@@ -212,7 +315,7 @@ void BinaryTree<KEY,VALUE>::decrementSize(){
 }
 
 template <class KEY, class VALUE>
-void BinaryTree<KEY,VALUE>::setSize(int changeValue){
+void BinaryTree<KEY,VALUE>::setSize(int input){
 //
 //     Function : setSize
 //
@@ -226,7 +329,7 @@ void BinaryTree<KEY,VALUE>::setSize(int changeValue){
 //
 //Comment: Contemplate passing a reference rather then 
 //			an actual value.
-	numberOfNodes = changeValue;
+	numberOfNodes = input;
 }
 //WARNING::TEMPORARY FUNCTION
 template <class KEY, class VALUE>
@@ -239,146 +342,148 @@ typename BinaryTree<KEY,VALUE>::Node BinaryTree<KEY,VALUE>::getRoot() const{
 ///////////////////////NODE Functions
 
 template <class KEY, class VALUE>
-void BinaryTree<KEY,VALUE>::Node::setData(VALUE*){
+void BinaryTree<KEY,VALUE>::Node::setData(VALUE* input){
 //
-//     Function : 
+//     Function : setData
 //
-// Input Params : 
+// Input Params : Pointer to the Data
 //
-//Output Params : 
+//Output Params : None
 //
-//  Description : 
+//  Description : sets the nodes data value to the input
 //
+
+	data = input;
 }
 
 template <class KEY, class VALUE>
-void BinaryTree<KEY,VALUE>::Node::setKey(KEY*){
+void BinaryTree<KEY,VALUE>::Node::setKey(KEY* input){
 //
-//     Function : 
+//     Function : setKey
 //
-// Input Params : 
+// Input Params : Pointer to the Key
 //
-//Output Params : 
+//Output Params : None
 //
-//  Description : 
+//  Description : Sets the nodes key to the input
 //
+	key = input;
 }
 
 template <class KEY, class VALUE>
-void BinaryTree<KEY,VALUE>::Node::setParent(Node*){
+void BinaryTree<KEY,VALUE>::Node::setParent(Node* input){
 //
-//     Function : 
+//     Function : setParent
 //
-// Input Params : 
+// Input Params : Pointer to a node
 //
-//Output Params : 
+//Output Params : None
 //
-//  Description : 
+//  Description : Sets the Parent Node to the input
 //
+	parent = input;
 }
 
 template <class KEY, class VALUE>
-void BinaryTree<KEY,VALUE>::Node::setLeftChild(Node*){
+void BinaryTree<KEY,VALUE>::Node::setLeftChild(Node* input){
 //
-//     Function : 
+//     Function : setLeftChild
 //
-// Input Params : 
+// Input Params : Pointer to a node
 //
-//Output Params : 
+//Output Params : None
 //
-//  Description : 
+//  Description : Sets the Left Child Node to the input 
 //
+	leftChild = input;
 }
 
 template <class KEY, class VALUE>
-void BinaryTree<KEY,VALUE>::Node::setRightChild(Node*){
+void BinaryTree<KEY,VALUE>::Node::setRightChild(Node* input){
 //
-//     Function : 
+//     Function : setRightChild
 //
-// Input Params : 
+// Input Params : Pointer to a node
 //
-//Output Params : 
+//Output Params : None
 //
-//  Description : 
+//  Description : Sets the Right Child Node to the input
 //
+	rightChild = input;
 }
 
 template <class KEY, class VALUE>
-void BinaryTree<KEY,VALUE>::Node::setDepth(int){
+void BinaryTree<KEY,VALUE>::Node::setDepth(int input){
 //
-//     Function : 
+//     Function : setDepth
 //
-// Input Params : 
+// Input Params : value the depth should be
 //
-//Output Params : 
+//Output Params : None
 //
-//  Description : 
+//  Description : Sets the depth of the node to the input
 //
+	depth = input;
 }
 
 template <class KEY, class VALUE>
 VALUE* BinaryTree<KEY,VALUE>::Node::getData() const{
 //
-//     Function : 
+//     Function : getData 
 //
-// Input Params : 
+// Input Params : None
 //
-//Output Params : 
+//Output Params : Returns a Pointer to the data.
 //
-//  Description : 
-//
+	return data;
 }
 
 template <class KEY, class VALUE>
 KEY* BinaryTree<KEY,VALUE>::Node::getKey() const{
 //
-//     Function : 
+//     Function : getKey
 //
-// Input Params : 
+// Input Params : None
 //
-//Output Params : 
+//Output Params : Returns a Pointer to the data
 //
-//  Description : 
-//
+	return key;
 }
 
 template <class KEY, class VALUE>
 typename BinaryTree<KEY,VALUE>::Node* BinaryTree<KEY,VALUE>::Node::getParent() const{
 //
-//     Function : 
+//     Function : getParent
 //
-// Input Params : 
+// Input Params : None
 //
-//Output Params : 
+//Output Params : Returns a Pointer to the Parent Node
 //
-//  Description : 
-//
+	return parent;
 }
 
 template <class KEY, class VALUE>
 typename BinaryTree<KEY,VALUE>::Node* BinaryTree<KEY,VALUE>::Node::getLeftChild() const{
 //
-//     Function : 
+//     Function : getLeftChild
 //
-// Input Params : 
+// Input Params : None
 //
-//Output Params : 
+//Output Params : Returns a Pointer to the Left Child Node
 //
-//  Description : 
-//
+	return leftChild;
 }
 
 template <class KEY, class VALUE>
 typename BinaryTree<KEY,VALUE>::Node* BinaryTree<KEY,VALUE>::Node::getRightChild() const{
 //
-//     Function : 
+//     Function : getRightChild
 //
-// Input Params : 
+// Input Params : None
 //
-//Output Params : 
+//Output Params : Returns a Pointer to the Right Child Node
 //
-//  Description : 
-//
+	return rightChild;
 }
 
 template <class KEY, class VALUE>
@@ -390,17 +495,17 @@ int BinaryTree<KEY,VALUE>::Node::getDepth() const{
 //
 //Output Params : Returns the Depth
 //
-//  Description : A controlled method of accessing the Depth 
-//					Variable
-//
 	return depth;
 }
 
+
+
+//WARNING: TEMPORARY FUNCTION
 int main()
 {
 	BinaryTree<int, int> test;
 
-	std::cout << test.getRoot().getDepth() << std::endl;
+	test.isEmpty();// << std::endl;
 
 	return 0;
 }
