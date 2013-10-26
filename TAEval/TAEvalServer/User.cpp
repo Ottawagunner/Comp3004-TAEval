@@ -14,3 +14,10 @@ string User::getUserName(){
 string User::getEmail(){
     return email;
 }
+short User::login(){
+
+}
+
+short User::logout(){
+
+}
