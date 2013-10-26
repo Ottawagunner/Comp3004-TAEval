@@ -260,10 +260,8 @@ void BinaryTree<KEY,VALUE>::remove(KEY* locatorKey){
 // Comment: Maybe have a return value rather then node 
 // 			to help indicate success or failure.
 
-	std::cout << "Begining of Remove"<<std::endl;
 	remove(findNode(locatorKey));
 	decrementSize();
-	std::cout << "Ending of Remove "<<std::endl;
 }
 
 template <class KEY, class VALUE>
@@ -329,8 +327,10 @@ void BinaryTree<KEY,VALUE>::remove(Node* theNode){
 // Comment: Maybe have a return value rather then node 
 // 			to help indicate success or failure.
 	Node* tempNode = new Node();
-
-	if (theNode->rightChild != LEAF){
+	if (size() == 1){
+		delete(theNode);
+		root = new Node();
+	} else if (theNode->rightChild != LEAF){
 	
 		if (theNode->rightChild->leftChild != LEAF){//NOTE: WORKS
 			//Replicate theNode
@@ -354,8 +354,10 @@ void BinaryTree<KEY,VALUE>::remove(Node* theNode){
 			}
 
 			//Change the parent of the Children to tempNode
-			tempNode->leftChild->parent = tempNode;
-			tempNode->rightChild->parent = tempNode;
+			if (tempNode->leftChild != LEAF)
+				tempNode->leftChild->parent = tempNode;
+			if (tempNode->rightChild != LEAF)
+				tempNode->rightChild->parent = tempNode;
 
 			//Give tempNode the appropriate Data
 			tempNode->key = tempNode->rightChild->leftChild->key;
@@ -368,46 +370,43 @@ void BinaryTree<KEY,VALUE>::remove(Node* theNode){
 			if (theNode->rightChild != LEAF){
 				theNode->rightChild->parent = theNode;
 			}
-			std::cout <<"----V" <<std::endl;
-			std::cout <<"theNode"<<*(theNode->data)<<std::endl;
-			std::cout <<"tempNode->rightChild->leftChild: "<<*(tempNode->rightChild->leftChild->data)<<std::endl<<std::endl;
+
 			delete(tempNode->rightChild->leftChild);
 
 			tempNode->rightChild->leftChild = theNode;
 
 			remove(theNode);
-		} else {//NOTE: Seg Fault
-			//Replicate theNode
-			tempNode->parent = theNode->parent;
-			tempNode->leftChild = theNode->leftChild;
-			tempNode->rightChild = theNode->rightChild;
-			tempNode->depth = theNode->depth;
-			tempNode->key = theNode->key;
-			tempNode->data = theNode->data;			
+		} else {
 
-			//Change what theNode knows about
-			theNode->parent = tempNode->rightChild;
-			theNode->rightChild = LEAF;
-			theNode->leftChild = LEAF;
-			
-			//Change where the parent points
-			if (tempNode->parent->leftChild == theNode){
-				tempNode->parent->leftChild = tempNode;
-			} else if (tempNode->parent->rightChild == theNode){
-				tempNode->parent->rightChild = tempNode;
+			if (theNode->leftChild != LEAF){
+				theNode->leftChild->parent = theNode->rightChild;
+				theNode->rightChild->leftChild = theNode->leftChild;
+				if (theNode->rightChild->rightChild != LEAF){
+					if ((theNode->rightChild->leftChild->depth + 1) > (theNode->rightChild->rightChild->depth + 1)){
+						theNode->rightChild->depth = (theNode->rightChild->leftChild->depth + 1);
+					} else {
+						theNode->rightChild->depth = (theNode->rightChild->rightChild->depth + 1);
+					} 
+				} else {
+					theNode->rightChild->depth = (theNode->rightChild->leftChild->depth + 1);
+				}	
 			}
 
-			//Change the parent of the Children to tempNode
-			tempNode->leftChild->parent = tempNode;
-			tempNode->rightChild->parent = tempNode;
+			theNode->rightChild->parent = theNode->parent;
+			if (theNode->parent != ROOT){
+				if (theNode->parent->leftChild == theNode){
+					theNode->parent->leftChild = theNode->rightChild;
+				} else {
+					theNode->parent->rightChild = theNode->rightChild;
+				}
+			}
 
+			fixDepth(theNode->rightChild);
 
-			theNode->parent->depth = (theNode->parent->rightChild->depth + 1);
-			fixDepth(theNode->parent);
-			std::cout <<"----V" <<std::endl;
-			std::cout <<"theNode"<<*(theNode->data)<<std::endl;
-			std::cout <<"tempNode->rightChild: "<<*(tempNode->rightChild->data)<<std::endl<<std::endl;
+			VALUE* backup = theNode->rightChild->data;
 			delete(theNode);
+
+			Node* temp = findNode(backup);
 		}
 	} else if(theNode->leftChild != LEAF){//Change
 		if (theNode->leftChild->rightChild != LEAF){
@@ -432,8 +431,10 @@ void BinaryTree<KEY,VALUE>::remove(Node* theNode){
 			}
 
 			//Change the parent of the Children to tempNode
-			tempNode->leftChild->parent = tempNode;
-			tempNode->rightChild->parent = tempNode;
+			if (tempNode->leftChild != LEAF)
+				tempNode->leftChild->parent = tempNode;
+			if (tempNode->rightChild != LEAF)
+				tempNode->rightChild->parent = tempNode;
 
 			//Give tempNode the appropriate Data
 			tempNode->key = tempNode->leftChild->rightChild->key;
@@ -446,9 +447,6 @@ void BinaryTree<KEY,VALUE>::remove(Node* theNode){
 			if (theNode->rightChild != LEAF){
 				theNode->rightChild->parent = theNode;
 			}
-			std::cout <<"----V" <<std::endl;
-			std::cout <<"theNode"<<*(theNode->data)<<std::endl;
-			std::cout <<"tempNode->leftChild->rightChild: "<<*(tempNode->leftChild->rightChild->data)<<std::endl<<std::endl;
 
 			delete(tempNode->leftChild->rightChild);
 
@@ -456,45 +454,26 @@ void BinaryTree<KEY,VALUE>::remove(Node* theNode){
 
 			remove(theNode);
 		} else {
-			//Replicate theNode
-			tempNode->parent = theNode->parent;
-			tempNode->leftChild = theNode->leftChild;
-			tempNode->rightChild = theNode->rightChild;
-			tempNode->depth = theNode->depth;
-			tempNode->key = theNode->key;
-			tempNode->data = theNode->data;			
 
-			//Change what theNode knows about
-			theNode->parent = tempNode->leftChild;
-			theNode->rightChild = LEAF;
-			theNode->leftChild = LEAF;
-			
-			//Change where the parent points
-			if (tempNode->parent->leftChild == theNode){
-				tempNode->parent->leftChild = tempNode;
-			} else if (tempNode->parent->rightChild == theNode){
-				tempNode->parent->rightChild = tempNode;
+			theNode->leftChild->parent = theNode->parent;
+			if (theNode->parent != ROOT){
+				if (theNode->parent->leftChild == theNode){
+					theNode->parent->leftChild = theNode->leftChild;
+				} else {
+					theNode->parent->rightChild = theNode->leftChild;
+				}
+			} else {
+				root = theNode->leftChild;
 			}
-
-			//Change the parent of the Children to tempNode
-			tempNode->leftChild->parent = tempNode;
-			tempNode->rightChild->parent = tempNode;
-
-			theNode->parent->depth = theNode->parent->leftChild->depth;
-			fixDepth(theNode->parent);
-			std::cout <<"----V" <<std::endl;
-			std::cout <<"theNode"<<*(theNode->data)<<std::endl;
-			std::cout <<"tempNode->leftChild: "<<*(tempNode->leftChild->data)<<std::endl<<std::endl;
+			fixDepth(theNode->leftChild);
 			delete(theNode);
 		}
 	} else {
 		if(theNode->parent->leftChild == theNode){
 			theNode->parent->leftChild = LEAF;
-			std::cout << "Killing the Node Finally: "<<*(theNode->data)<<std::endl<<std::endl;
 			delete(theNode);
 		} else{
 			theNode->parent->rightChild = LEAF;
-			std::cout << "Killing the Node Finally: "<<*(theNode->data)<<std::endl<<std::endl;
 			delete(theNode);
 		}
 	}
@@ -767,9 +746,13 @@ std::ostream& operator<<(std::ostream& out, BinaryTree<KEY,VALUE> const& rhs){
 						tempNode = tempNode->getParent();
 					} else if (tempNode->getParent() == ROOT){
 						backupNode = rhs.root;
+					} else {
+						tempNode = tempNode->getParent();
+						backupNode = tempNode->getRightChild();
 					}
 				} while (tempNode->getRightChild() == backupNode);
-				tempNode = tempNode->getRightChild();
+				if (tempNode->getRightChild() != LEAF)
+					tempNode = tempNode->getRightChild();
 			}
 		} while (count != rhs.size());
 		out <<")";
@@ -779,75 +762,5 @@ std::ostream& operator<<(std::ostream& out, BinaryTree<KEY,VALUE> const& rhs){
 	return out;
 
 }
-
-
-
-//WARNING: TEMPORARY FUNCTION
-int main()
-{
-	BinaryTree<int, int> test;
-
-	int* a = new int(100);
-	int* b = new int(50);
-	int* c = new int(150);
-	int* d = new int(25);
-	int* e = new int(75);
-	int* f = new int(125);
-	int* g = new int(175);
-	int* h = new int(10);
-	int* i = new int(30);
-	int* j = new int(55);
-	int* k = new int(80);
-	int* l = new int(110);
-	int* m = new int(130);
-	int* n = new int(155);
-	int* o = new int(180);
-
-	test.add(a,a);
-	test.add(b,b);
-	test.add(c,c);
-	test.add(d,d);
-	test.add(e,e);
-	test.add(f,f);
-	test.add(g,g);
-	test.add(h,h);
-	test.add(i,i);
-	test.add(j,j);
-	test.add(k,k);
-	test.add(l,l);
-	test.add(m,m);
-	test.add(n,n);
-	test.add(o,o);
-
-	std::cout << "TEST OUT 1: " << test << std::endl;
-
-	//std::cout << "FIND TEST: " << *(test.find(j)) << std::endl;
-	test.remove(b);//WARNING: Removes wrong value. Debugg
-	test.remove(c);
-
-	std::cout << "TEST OUT 2: " << test << std::endl;
-
-
-	delete(a);
-	delete(b);
-	delete(c);
-	delete(d);
-	delete(e);
-	delete(f);
-	delete(g);
-	delete(h);
-	delete(i);
-	delete(j);
-	delete(k);
-	delete(l);
-	delete(m);
-	delete(n);
-	delete(o);
-
-
-
-	return 0;
-}
-
 
 #endif
