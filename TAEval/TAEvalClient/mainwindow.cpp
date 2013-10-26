@@ -99,3 +99,40 @@ short MainWindow::handleViewCourse(){
     ui->textBrowser->append("View Course Test Handled");
     return 0;
 }
+
+void MainWindow::on_selectTestOption_highlighted(const int i)
+{
+    QString info = ""+i;
+    switch(i){
+    case 0:
+        info = "Login test description";
+        break;
+    case 1:
+        info = "Logout test description";
+        break;
+    case 2:
+        info = "Create task test description";
+        break;
+    case 3:
+        info = "Edit task test description";
+        break;
+    case 4:
+        info = "Delete task test description";
+        break;
+    case 5:
+        info = "View task test description";
+        break;
+    case 6:
+        info = "Evaluation test description";
+        break;
+    case 7:
+        info = "View TAs test description";
+        break;
+    case 8:
+        info = "View course test description";
+        break;
+    default:
+        break;
+    }
+    ui->description->setText(info);
+}
