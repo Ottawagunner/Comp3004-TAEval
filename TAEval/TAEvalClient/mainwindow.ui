@@ -14,80 +14,38 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="gridLayoutWidget">
+   <widget class="QComboBox" name="selectTestOption">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>451</width>
-      <height>251</height>
+      <x>50</x>
+      <y>30</y>
+      <width>151</width>
+      <height>31</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="1">
-      <widget class="QPushButton" name="viewAsignedTasks">
-       <property name="text">
-        <string>View Assigned Tasks</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="editTaskButton">
-       <property name="text">
-        <string>Edit Task</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="deleteTaskButton">
-       <property name="text">
-        <string>Delete Task</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QPushButton" name="createTaskButton">
-       <property name="text">
-        <string>Create Task</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="viewCoursesButton">
-       <property name="text">
-        <string>View Courses</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QPushButton" name="loginButton">
-       <property name="text">
-        <string>Log in</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QPushButton" name="logoutButton">
-       <property name="text">
-        <string>Log out</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QPushButton" name="viewTAButton">
-       <property name="text">
-        <string>View TAs</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QPushButton" name="giveEvaluationButton">
-       <property name="text">
-        <string>Give Feedback</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   </widget>
+   <widget class="QPushButton" name="runTestButton">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>30</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Run Test</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>35</x>
+      <y>101</y>
+      <width>401</width>
+      <height>161</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

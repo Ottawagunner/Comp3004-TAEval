@@ -7,7 +7,19 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    options[0] = "Log in";
+    options[1] = "Log out";
+    options[2] = "Create Task";
+    options[3] = "Edit Task";
+    options[4] = "Delete Task";
+    options[5] = "View Task";
+    options[6] = "Create Evaluation";
+    options[7] = "View TAs";
+    options[8] = "View Course";
     ui->setupUi(this);
+    for(short i=0; i<9; ++i){
+        ui->selectTestOption->addItem(options[i]);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -15,48 +27,75 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_createTaskButton_clicked()
+void MainWindow::on_runTestButton_clicked()
 {
-    QMessageBox::information(this,"Create Task Test","Creating a task...");
+
+    //ui->textBrowser->append(ui->selectTestOption->currentText()+" Test");
+    switch(ui->selectTestOption->currentIndex()){
+    case 0:
+        handleLogIn();
+        break;
+    case 1:
+        handleLogOut();
+        break;
+    case 2:
+        handleCreateTask();
+        break;
+    case 3:
+        handleEditTask();
+        break;
+    case 4:
+        handleDeleteTask();
+        break;
+    case 5:
+        handleViewTask();
+        break;
+    case 6:
+        handleCreateEval();
+        break;
+    case 7:
+        handleViewTAs();
+        break;
+    case 8:
+        handleViewCourse();
+        break;
+    default:
+        break;
+    }
 }
-
-void MainWindow::on_editTaskButton_clicked()
-{
-    QMessageBox::information(this,"Edit Task Test","Editing a task...");
+short MainWindow::handleLogIn(){
+    ui->textBrowser->append("Login Test Handled");
+    return 0;
 }
-
-void MainWindow::on_deleteTaskButton_clicked()
-{
-    QMessageBox::information(this,"Delete Task Test","Deleting a task...");
+short MainWindow::handleLogOut(){
+    ui->textBrowser->append("Logout Test Handled");
+    return 0;
 }
-
-void MainWindow::on_viewCoursesButton_clicked()
-{
-    QMessageBox::information(this,"View Course Test","Viewing Courses...");
+short MainWindow::handleCreateTask(){
+    ui->textBrowser->append("Create Task Test Handled");
+    return 0;
 }
-
-void MainWindow::on_viewAsignedTasks_clicked()
-{
-    QMessageBox::information(this,"View Assigned Tasks Test","Viewing Assigned Tasks...");
+short MainWindow::handleEditTask(){
+    ui->textBrowser->append("Edit Task Test Handled");
+    return 0;
 }
-
-void MainWindow::on_viewTAButton_clicked()
-{
-    QMessageBox::information(this,"View TA Test","Viewing TAs...");
+short MainWindow::handleDeleteTask(){
+    ui->textBrowser->append("Delete Task Test Handled");
+    return 0;
 }
-
-
-void MainWindow::on_loginButton_clicked()
-{
-    QMessageBox::information(this,"Login Test","Logging in...");
+short MainWindow::handleViewTask(){
+    ui->textBrowser->append("View Task Test Handled");
+    return 0;
 }
-
-void MainWindow::on_logoutButton_clicked()
-{
-    QMessageBox::information(this,"Logout Test","Logging out...");
+short MainWindow::handleCreateEval(){
+    ui->textBrowser->append("Create Evaluation Test Handled");
+    return 0;
 }
-
-void MainWindow::on_giveEvaluationButton_clicked()
-{
-    QMessageBox::information(this,"Give Evaluation Test","Giving an Evaluation...");
+short MainWindow::handleViewTAs(){
+    ui->textBrowser->append("View TA Test Handled");
+    return 0;
+}
+short MainWindow::handleViewCourse(){
+    ui->textBrowser->append("View Course Test Handled");
+    return 0;
 }
