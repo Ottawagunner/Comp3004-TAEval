@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     for(short i=0; i<9; ++i){
         ui->selectTestOption->addItem(options[i]);
     }
+    client.Setup();
+    client.Send();
 }
 
 MainWindow::~MainWindow()

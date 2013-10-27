@@ -1,10 +1,10 @@
 #include "server.h"
-
+#include "QDebug"
 Server::Server()
 {
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = 0; // bind to all interface addresses
-    servaddr.sin_port = htons(15000);
+    servaddr.sin_port = htons(2000);
 }
 void Server::Setup()
 {
@@ -31,6 +31,7 @@ std::string Server::ReciveText()
    if (n>0){
        ERROR="FAILED TO READ";
    }
+
    return buffer;
 }
 /*

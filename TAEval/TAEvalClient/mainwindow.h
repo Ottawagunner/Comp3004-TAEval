@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "server.h"
 #include <QMainWindow>
 namespace Ui {
 class MainWindow;
@@ -14,7 +14,7 @@ public:
     QString options[9];
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+    Server client;
     
 private slots:
     short handleLogIn();
