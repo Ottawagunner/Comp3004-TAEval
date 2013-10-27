@@ -15,9 +15,9 @@ string User::getEmail(){
     return email;
 }
 short User::login(){
-
+return 0;
 }
 
 short User::logout(){
-
+return 0;
 }

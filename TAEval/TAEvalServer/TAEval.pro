@@ -35,7 +35,8 @@ SOURCES += main.cpp \
     Instructor.cpp \
     Admin.cpp \
     TA.cpp \
-    server.cpp
+    server.cpp \
+    Database.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -46,4 +47,6 @@ HEADERS += \
     User.h \
     Admin.h \
     TA.h \
-    server.h
+    server.h \
+    BinaryTree.h \
+    Database.h
