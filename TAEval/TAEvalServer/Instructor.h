@@ -6,6 +6,13 @@ public:
     Instructor(string u,string n,string e);
     void save();
     void write();
+    short createTask();
+    short editTask();
+    short deleteTask();
+    short viewTask();
+    short viewTAs();
+    short viewCourses();
+    short writeReview();
 };
 
 

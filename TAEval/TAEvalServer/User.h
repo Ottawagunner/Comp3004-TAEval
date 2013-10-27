@@ -11,6 +11,8 @@ public:
     string getEmail();
     virtual void save() = 0;
     virtual void write() = 0;
+    short login();
+    short logout();
 
 
 protected:

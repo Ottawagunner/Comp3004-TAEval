@@ -28,6 +28,8 @@ private slots:
     short handleViewCourse();
     void on_runTestButton_clicked();
 
+    void on_selectTestOption_highlighted(const int i);
+
 private:
     Ui::MainWindow *ui;
 };
