@@ -1,11 +1,27 @@
 #include "server.h"
 #include "QDebug"
+#include "string.h"
+#include <sstream>
+
 Server::Server()
 {
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = 0; // bind to all interface addresses
-    servaddr.sin_port = htons(2000);
+    servaddr.sin_port = htons(5000);
 }
+
+std::string Server::ReciveText()
+{
+   ssize_t n;
+   char buffer[255];
+   n = read(client,&buffer,255);
+   if (n>0){
+       ERROR="FAILED TO READ";
+   }
+    std::string out =(buffer);
+   return out;
+}
+
 void Server::Setup()
 {
     server = socket(AF_INET, SOCK_STREAM, 0);
@@ -17,22 +33,14 @@ void Server::Setup()
     clilen = sizeof(cliaddr);
     client = accept(server,(sockaddr*)&servaddr, &clilen);  // addr gets info about client
 
-
 }
-void Server::SendText(std::string* )
+void Server::SendText(std::string X )
 {
+    char data[255];
+    strcpy(data,X.c_str());
+    send(client, data, (size_t) strlen(data) + 1, 0);
+    qDebug()<<"Message Sent ";
 
-}
-std::string Server::ReciveText()
-{
-   ssize_t n;
-   std::string buffer;
-   n = read(client,&buffer,255);
-   if (n>0){
-       ERROR="FAILED TO READ";
-   }
-
-   return buffer;
 }
 /*
      int sockfd, newsockfd, portno;

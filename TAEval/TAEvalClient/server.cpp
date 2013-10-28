@@ -13,7 +13,7 @@ void Server::Setup(){
     /*Copy size of sockaddr_in b/c res->ai_addr to big for this example*/
     memcpy (&server, serverinfo->ai_addr, sizeof(struct sockaddr_in));
     server.sin_family = AF_INET;
-    server.sin_port = htons(2000);
+    server.sin_port = htons(5000);
     freeaddrinfo(serverinfo);
 
     if (connect(sockfd, (const struct sockaddr *) &server,sizeof(struct sockaddr_in))<0){
@@ -23,6 +23,23 @@ void Server::Setup(){
     }
 
 }
-void Server::Send(){
-    send(sockfd, "TEST String", (size_t) strlen("TEST String") + 1, 0);
+void Server::SendText(std::string X )
+{
+    char data[255];
+    strcpy(data,X.c_str());
+    send(sockfd, data, (size_t) strlen(data) + 1, 0);
+    qDebug()<<"Message Sent ";
+
+}
+
+std::string Server::ReciveText()
+{
+   ssize_t n;
+   char buffer[255];
+   n = read(sockfd,&buffer,255);
+   if (n>0){
+       ERROR="FAILED TO READ";
+   }
+    std::string out =(buffer);
+   return out;
 }

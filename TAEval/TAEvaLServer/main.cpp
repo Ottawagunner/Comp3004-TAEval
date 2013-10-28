@@ -10,9 +10,5 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    host.Setup();
-    QString buffer = QString::fromStdString(host.ReciveText());
-    qDebug()<<(buffer);
-
     return a.exec();
 }
