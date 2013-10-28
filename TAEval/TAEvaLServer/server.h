@@ -21,7 +21,7 @@ public:
 
 
     void Setup();
-    void SendText(std::string*);
+    void SendText(std::string);
     std::string ReciveText();
 };
 

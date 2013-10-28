@@ -21,8 +21,8 @@ public:
 
     ssize_t bytesreceived;
 
-    void Send();
-    //void Recive();
+    void SendText(std::string);
+    std::string ReciveText();
     void Setup();
 };
 
