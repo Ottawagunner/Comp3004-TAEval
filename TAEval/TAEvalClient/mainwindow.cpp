@@ -21,7 +21,9 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->selectTestOption->addItem(options[i]);
     }
     client.Setup();
-    client.Send();
+    client.SendText("NEW MESSAGE");
+    QString buffer = QString::fromStdString(client.ReciveText());
+    qDebug()<<(buffer);
 }
 
 MainWindow::~MainWindow()
