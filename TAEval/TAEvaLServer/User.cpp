@@ -1,17 +1,17 @@
 #include "User.h"
 
-User::User(string u, string n, string e){
+User::User(std::string u, std::string n, std::string e){
     userName = u;
     name = n;
     email = e;
 }
-string User::getName(){
+std::string User::getName(){
     return name;
 }
-string User::getUserName(){
+std::string User::getUserName(){
     return userName;
 }
-string User::getEmail(){
+std::string User::getEmail(){
     return email;
 }
 short User::login(){

@@ -1,8 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "server.h"
 #include <QMainWindow>
-
 namespace Ui {
 class MainWindow;
 }
@@ -12,27 +11,24 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
+    QString options[9];
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    Server client;
     
 private slots:
-    void on_createTaskButton_clicked();
+    short handleLogIn();
+    short handleLogOut();
+    short handleCreateTask();
+    short handleEditTask();
+    short handleDeleteTask();
+    short handleViewTask();
+    short handleCreateEval();
+    short handleViewTAs();
+    short handleViewCourse();
+    void on_runTestButton_clicked();
 
-    void on_editTaskButton_clicked();
-
-    void on_deleteTaskButton_clicked();
-
-    void on_viewCoursesButton_clicked();
-
-    void on_viewAsignedTasks_clicked();
-
-    void on_viewTAButton_clicked();
-
-    void on_loginButton_clicked();
-
-    void on_logoutButton_clicked();
-
-    void on_giveEvaluationButton_clicked();
+    void on_selectTestOption_highlighted(const int i);
 
 private:
     Ui::MainWindow *ui;

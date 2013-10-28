@@ -3,7 +3,7 @@
 #include "User.h"
 class Instructor:User{
 public:
-    Instructor(string u,string n,string e);
+    Instructor(std::string u,std::string n,std::string e);
     void save();
     void write();
     short createTask();

@@ -1,6 +1,6 @@
 #include "Instructor.h"
 
-Instructor::Instructor(string u, string n, string e):User(u,n,e){}
+Instructor::Instructor(std::string u, std::string n, std::string e):User(u,n,e){}
 void Instructor::save(){
 }
 void Instructor::write(){
