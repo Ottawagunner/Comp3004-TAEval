@@ -75,6 +75,7 @@ short MainWindow::handleLogIn(){
 short MainWindow::handleLogOut(){
     client.SendText(userName+"~LogoutRequest~"+userName);
     QString buffer = QString::fromStdString(client.ReciveText());
+    ui->textBrowser->append(buffer);
     return 0;
 }
 short MainWindow::handleCreateTask(){
@@ -82,6 +83,7 @@ short MainWindow::handleCreateTask(){
     taskInfo = "Please grade all of the tests in your mailbox";
     client.SendText(userName+"~CreateTaskRequest~"+taskInfo);
     QString buffer = QString::fromStdString(client.ReciveText());
+    ui->textBrowser->append(buffer);
     return 0;
 }
 short MainWindow::handleEditTask(){
@@ -91,26 +93,31 @@ short MainWindow::handleEditTask(){
 short MainWindow::handleDeleteTask(){
     client.SendText(userName+"~DeleteTaskRequest~"+"TASK001");
     QString buffer = QString::fromStdString(client.ReciveText());
+    ui->textBrowser->append(buffer);
     return 0;
 }
 short MainWindow::handleViewTask(){
     client.SendText(userName+"~ViewTaskRequest~"+"COMP3004");
     QString buffer = QString::fromStdString(client.ReciveText());
+    ui->textBrowser->append(buffer);
     return 0;
 }
 short MainWindow::handleCreateEval(){
     client.SendText(userName+"~CreateEvaluationRequest~"+"TASK001");
     QString buffer = QString::fromStdString(client.ReciveText());
+    ui->textBrowser->append(buffer);
     return 0;
 }
 short MainWindow::handleViewTAs(){
     client.SendText(userName+"~ViewTARequest~"+"COMP3004");
     QString buffer = QString::fromStdString(client.ReciveText());
+    ui->textBrowser->append(buffer);
     return 0;
 }
 short MainWindow::handleViewCourse(){
     client.SendText(userName+"~ViewCoursesRequest~"+userName);
     QString buffer = QString::fromStdString(client.ReciveText());
+    ui->textBrowser->append(buffer);
     return 0;
 }
 
