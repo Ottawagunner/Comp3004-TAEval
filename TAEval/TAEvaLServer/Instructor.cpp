@@ -4,7 +4,6 @@ Instructor::Instructor(std::string u, std::string n, std::string e, Database *d)
 void Instructor::search(std::string s, std::string a[]){
 
 }
-
 short Instructor::createTask(){
     return 0;
 }
