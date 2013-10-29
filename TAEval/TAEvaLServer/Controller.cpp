@@ -4,6 +4,8 @@
 #include "Instructor.h"
 #include "Admin.h"
 #include "TA.h"
+#include <cstdlib>
+using namespace std;
 
 Controller::Controller()
 {
@@ -50,11 +52,14 @@ void Controller::parse(std::string command)
             pos[i] = command.find_first_of("~", pos[i-1]+1);
         }
     }
+    message[0]=command.substr(pos[0],1);
+    message[1]=command.substr(pos[0]+1,pos[1]-1);
+    message[2]=command.substr(pos[1]+1,(pos[2]-pos[1]-1));
+    message[3]=command.substr(pos[2]+1,pos[3]);
 
-    for(int i = 0; i < 5-1; i++)
-    {
-        message[i] = command.substr(pos[i],pos[i+1]);
-        //QString buffer = QString::fromStdString(message[i]);
-        qDebug(message[i].c_str());
-    }
+    qDebug()<<(message[0].c_str());
+    qDebug()<<(message[1].c_str());
+    qDebug()<<(message[2].c_str());
+    qDebug()<<(message[3].c_str());
+
 }
