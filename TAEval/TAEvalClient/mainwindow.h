@@ -16,6 +16,7 @@ public:
     ~MainWindow();
     Server client;
     std::string userName;
+    bool connected;
     
 private slots:
     short handleLogIn();
