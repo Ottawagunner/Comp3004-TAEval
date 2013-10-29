@@ -6,8 +6,9 @@ class Controller
 {
 
 public:
-    Controller(std::string,std::string,std::string);
+    Controller();
     void parse(std::string);
+    void executeMessage(std::string);
 
 private:
     std::string message[4];
