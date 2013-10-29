@@ -20,10 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     for(short i=0; i<9; ++i){
         ui->selectTestOption->addItem(options[i]);
     }
-    client.Setup();
-    client.SendText("NEW MESSAGE");
-    QString buffer = QString::fromStdString(client.ReciveText());
-    qDebug()<<(buffer);
+    userName = "JohnSmith";
+
 }
 
 MainWindow::~MainWindow()
@@ -68,39 +66,51 @@ void MainWindow::on_runTestButton_clicked()
     }
 }
 short MainWindow::handleLogIn(){
-    ui->textBrowser->append("Login Test Handled");
+    client.Setup();
+    client.SendText(userName+"~LoginRequest~"+userName);
+    QString buffer = QString::fromStdString(client.ReciveText());
+    ui->textBrowser->append(buffer);
     return 0;
 }
 short MainWindow::handleLogOut(){
-    ui->textBrowser->append("Logout Test Handled");
+    client.SendText(userName+"~LogoutRequest~"+userName);
+    QString buffer = QString::fromStdString(client.ReciveText());
     return 0;
 }
 short MainWindow::handleCreateTask(){
-    ui->textBrowser->append("Create Task Test Handled");
+    std::string taskInfo;
+    taskInfo = "Please grade all of the tests in your mailbox";
+    client.SendText(userName+"~CreateTaskRequest~"+taskInfo);
+    QString buffer = QString::fromStdString(client.ReciveText());
     return 0;
 }
 short MainWindow::handleEditTask(){
     ui->textBrowser->append("Edit Task Test Handled");
-    return 0;
+    return 0;//unsure of how this is going to work but its here untill we figure it out
 }
 short MainWindow::handleDeleteTask(){
-    ui->textBrowser->append("Delete Task Test Handled");
+    client.SendText(userName+"~DeleteTaskRequest~"+"TASK001");
+    QString buffer = QString::fromStdString(client.ReciveText());
     return 0;
 }
 short MainWindow::handleViewTask(){
-    ui->textBrowser->append("View Task Test Handled");
+    client.SendText(userName+"~ViewTaskRequest~"+"COMP3004");
+    QString buffer = QString::fromStdString(client.ReciveText());
     return 0;
 }
 short MainWindow::handleCreateEval(){
-    ui->textBrowser->append("Create Evaluation Test Handled");
+    client.SendText(userName+"~CreateEvaluationRequest~"+"TASK001");
+    QString buffer = QString::fromStdString(client.ReciveText());
     return 0;
 }
 short MainWindow::handleViewTAs(){
-    ui->textBrowser->append("View TA Test Handled");
+    client.SendText(userName+"~ViewTARequest~"+"COMP3004");
+    QString buffer = QString::fromStdString(client.ReciveText());
     return 0;
 }
 short MainWindow::handleViewCourse(){
-    ui->textBrowser->append("View Course Test Handled");
+    client.SendText(userName+"~ViewCoursesRequest~"+userName);
+    QString buffer = QString::fromStdString(client.ReciveText());
     return 0;
 }
 
