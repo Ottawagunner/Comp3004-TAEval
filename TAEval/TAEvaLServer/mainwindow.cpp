@@ -11,8 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     host.Setup();
     while(true){
         QString buffer = QString::fromStdString(host.ReciveText());
-        qDebug()<<(buffer);
-        host.SendText("Accepted "+buffer.toStdString()+" Request");
+        host.SendText("Accepted "+buffer.toStdString());
     }
 
 }

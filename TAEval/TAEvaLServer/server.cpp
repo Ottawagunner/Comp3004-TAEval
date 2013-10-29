@@ -15,7 +15,7 @@ std::string Server::ReciveText()
    ssize_t n;
    char buffer[255];
    n = read(client,&buffer,255);
-   if (n>0){
+   if (n<0){
        ERROR="FAILED TO READ";
    }
     std::string out =(buffer);

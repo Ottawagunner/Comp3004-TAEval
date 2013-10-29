@@ -4,9 +4,8 @@
 #include "User.h"
 class Admin:User{
 public:
-    Admin(std::string,std::string,std::string);
-    void save();
-    void write();
+    Admin(std::string,std::string,std::string,Database* d);
+    void search(std::string, std::string[]);
 };
 
 #endif // ADMIN_H

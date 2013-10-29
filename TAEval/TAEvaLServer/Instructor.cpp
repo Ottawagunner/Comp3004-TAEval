@@ -1,10 +1,10 @@
 #include "Instructor.h"
 
-Instructor::Instructor(std::string u, std::string n, std::string e):User(u,n,e){}
-void Instructor::save(){
+Instructor::Instructor(std::string u, std::string n, std::string e, Database *d):User(u,n,e,d){}
+void Instructor::search(std::string s, std::string a[]){
+
 }
-void Instructor::write(){
-}
+
 short Instructor::createTask(){
     return 0;
 }
