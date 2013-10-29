@@ -1,9 +1,10 @@
 #include "User.h"
 
-User::User(std::string u, std::string n, std::string e){
+User::User(std::string u, std::string n, std::string e, Database* d){
     userName = u;
     name = n;
     email = e;
+    database = d;
 }
 std::string User::getName(){
     return name;
