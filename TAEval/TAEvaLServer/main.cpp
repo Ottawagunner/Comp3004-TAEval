@@ -7,7 +7,7 @@
 int main(int argc, char *argv[])
 {
     Controller c;
-    c.executeMessage("Iusername~LoginRequest~Message");
+    c.executeMessage("Iusername~ViewTaskRequest~Message");
     Server host;
     QApplication a(argc, argv);
     MainWindow w;

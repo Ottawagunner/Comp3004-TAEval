@@ -8,7 +8,7 @@ class Controller
 
 public:
     Controller();
-    void parse(std::string);
+    void parse(std::string *);
     void executeMessage(std::string);
 
 private:
