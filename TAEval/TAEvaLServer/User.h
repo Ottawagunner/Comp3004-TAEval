@@ -5,13 +5,13 @@
 class User{
 
 public:
-    User(std::string,std::string,std::string, Database*);
+    User(Database*);
     std::string getUserName();
     std::string getName();
     std::string getEmail();
-    virtual void search() = 0;
-    short login();
-    short logout();
+    virtual void search(std::string,std::string[]) = 0;
+    short login(std::string, std::string*);
+    short logout(std::string, std::string*);
 
 
 protected:

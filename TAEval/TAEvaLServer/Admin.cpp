@@ -1,6 +1,6 @@
 #include "Admin.h"
 
-Admin::Admin(std::string u, std::string n, std::string e, Database* d):User(u,n,e,d){}
+Admin::Admin(Database* d):User(d){}
 void Admin::search(std::string s, std::string a[]){
 
 }

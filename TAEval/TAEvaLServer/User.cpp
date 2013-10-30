@@ -1,9 +1,6 @@
 #include "User.h"
 
-User::User(std::string u, std::string n, std::string e, Database* d){
-    userName = u;
-    name = n;
-    email = e;
+User::User(Database *d){
     database = d;
 }
 std::string User::getName(){
@@ -15,10 +12,12 @@ std::string User::getUserName(){
 std::string User::getEmail(){
     return email;
 }
-short User::login(){
+short User::login(std::string userName, std::string *response){
+    //Database call to look for the userName and respond if it is found or not
 return 0;
 }
 
-short User::logout(){
+short User::logout(std::string userName, std::string* response){
+    //Database call to log out the user
 return 0;
 }
