@@ -1,6 +1,6 @@
 #include "TA.h"
 
-TA::TA(std::string u, std::string n, std::string e, Database *d):User(u,n,e,d){}
+TA::TA(Database *d):User(d){}
 void TA::search(std::string s, std::string a[]){
 
 }

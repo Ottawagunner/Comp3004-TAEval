@@ -4,7 +4,7 @@
 #include "User.h"
 class TA:User{
 public:
-    TA(std::string,std::string,std::string, Database* d);
+    TA(Database* d);
     void search(std::string, std::string[]);
 };
 

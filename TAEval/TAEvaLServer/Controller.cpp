@@ -5,22 +5,55 @@
 #include "Admin.h"
 #include "TA.h"
 #include <cstdlib>
+#include <string>
+
 using namespace std;
 
 Controller::Controller()
 {
     for(int i=0; i<4;i++)
         message[i] = "";
+    Database* database = new Database(); //Need to add parameters
 }
 
 void Controller::executeMessage(std::string command)
 {
+    bool isAdmin = false;
+    bool isInstructor = false;
+    bool isTA = false;
+    bool userExists = false;
+
     parse(command);
-    //if(message[0])
+    if(message[0].compare("I")==0){
+        Instructor *t = new Instructor(&database);
+        t->manageReq(message[2],message[3], &command);
+        delete(t);
+    }
+
+    short userType = userType(message[0]);
+    switch(userType){
+        case 0:
+            qDebug()<<"ERROR: User type not recognized.";
+            break;
+        case 1:
+            isAdmin = true;
+            break;
+        case 2:
+            isInstructor = true;
+            break;
+        case 3:
+            isTA = true;
+            break;
+        default:
+            qDebug()<<"ERROR: User type not parsed.";
+            break;
+    }
+
+
     //Add more commands
 }
 
-void Controller::parse(std::string command)
+void Controller::parse(std::string command) // userType, userName, actionRequested, Message
 {
 
    /* int index=1;
@@ -28,7 +61,7 @@ void Controller::parse(std::string command)
     short currPos = 0;
     pos[currPos] = 0;
     currPos=currPos+1;
-    while(command[index] != NULL){
+    while(command[index] != NULL){ // This should work if you turned command from string to char[]
         if(command[index] == '~'){
             pos[currPos] = index;
             currPos=currPos+1;
@@ -36,9 +69,9 @@ void Controller::parse(std::string command)
         }
         ++index;
     }*/
-    int pos[4+1];
+    short pos[4+1];
 
-    for(int i = 0; i < 5; i++) // Goes through all '~' and records the positions in the string
+    for(short i = 0; i < 5; i++) // Goes through all '~' and records the positions in the string
     {
         pos[i] = 0;
         if(i == 0) continue;
@@ -62,4 +95,12 @@ void Controller::parse(std::string command)
     qDebug()<<(message[2].c_str());
     qDebug()<<(message[3].c_str());
 
+}
+
+short Controller::userType(std::string userType) // userType is either A, I or T and returns 1, 2 or 3 respectively
+{
+    if(userType.compare("A") == 0) return 1;
+    else if(userType.compare("I") == 0) return 2;
+    else if(userType.compare("T") == 0) return 3;
+    else return 0;
 }
