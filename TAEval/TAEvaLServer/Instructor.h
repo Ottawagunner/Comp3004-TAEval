@@ -2,19 +2,22 @@
 #define INSTRUCTOR_H
 #include "User.h"
 #include "Database.h"
+#include <cstdlib>
 class Instructor:User{
 public:
-    Instructor(std::string u,std::string n,std::string e, Database *database);
-    short createTask();
-    short editTask();
-    short deleteTask();
-    short viewTask();
-    short viewTAs();
-    short viewCourses();
-    short writeReview();
+    Instructor(Database *database);
+    void manageReq(std::string, std::string, std::string*);
+    void search(std::string, std::string[]);
 private:
     Database* d;
-    void search(std::string, std::string[]);
+    short createTask(std::string, std::string *);
+    short editTask(std::string, std::string *);
+    short deleteTask(std::string, std::string *);
+    short viewTask(std::string, std::string *);
+    short viewTAs(std::string, std::string *);
+    short viewCourses(std::string, std::string *);
+    short writeReview(std::string, std::string *);
+    std::string reqType[10];
 };
 
 

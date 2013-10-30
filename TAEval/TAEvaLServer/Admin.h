@@ -4,7 +4,7 @@
 #include "User.h"
 class Admin:User{
 public:
-    Admin(std::string,std::string,std::string,Database* d);
+    Admin(Database* d);
     void search(std::string, std::string[]);
 };
 
