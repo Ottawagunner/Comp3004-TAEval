@@ -23,13 +23,13 @@ void Server::Setup(){
     }
 
 }
-void Server::SendText(std::string X )
+void Server::SendText(std::string X)
 {
     char data[255];
     strcpy(data,X.c_str());
     send(sockfd, data, (size_t) strlen(data) + 1, 0);
-    qDebug()<<"Message Sent ";
-
+    qDebug()<<"Sent:";
+    qDebug()<<data;
 }
 
 std::string Server::ReciveText()
@@ -39,7 +39,10 @@ std::string Server::ReciveText()
    n = read(sockfd,&buffer,255);
    if (n<0){
        ERROR="FAILED TO READ";
+       qDebug()<<"FAILED TO READ";
    }
-    std::string out =(buffer);
+   std::string out =(buffer);
+   qDebug()<<"Received:";
+   qDebug()<<buffer;
    return out;
 }

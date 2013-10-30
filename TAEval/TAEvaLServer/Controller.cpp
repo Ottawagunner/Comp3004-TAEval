@@ -16,40 +16,15 @@ Controller::Controller()
     Database* database = new Database(); //Need to add parameters
 }
 
+Controller::~Controller()
+{
+    delete &database;
+}
+
 void Controller::executeMessage(std::string command)
 {
-    bool isAdmin = false;
-    bool isInstructor = false;
-    bool isTA = false;
-    bool userExists = false;
-
     parse(command);
-    if(message[0].compare("I")==0){
-        Instructor *t = new Instructor(&database);
-        t->manageReq(message[2],message[3], &command);
-        delete(t);
-    }
-
-    short userType = userType(message[0]);
-    switch(userType){
-        case 0:
-            qDebug()<<"ERROR: User type not recognized.";
-            break;
-        case 1:
-            isAdmin = true;
-            break;
-        case 2:
-            isInstructor = true;
-            break;
-        case 3:
-            isTA = true;
-            break;
-        default:
-            qDebug()<<"ERROR: User type not parsed.";
-            break;
-    }
-
-
+    handleMessage();
     //Add more commands
 }
 
@@ -85,6 +60,10 @@ void Controller::parse(std::string command) // userType, userName, actionRequest
             pos[i] = command.find_first_of("~", pos[i-1]+1);
         }
     }
+
+
+
+    //for(short i = 0; i < message.)
     message[0]=command.substr(pos[0],1);
     message[1]=command.substr(pos[0]+1,pos[1]-1);
     message[2]=command.substr(pos[1]+1,(pos[2]-pos[1]-1));
@@ -97,10 +76,37 @@ void Controller::parse(std::string command) // userType, userName, actionRequest
 
 }
 
-short Controller::userType(std::string userType) // userType is either A, I or T and returns 1, 2 or 3 respectively
+void Controller::handleMessage() // finds the userType which is one of A, I or T, created an object of the proper class and passes on the request
 {
-    if(userType.compare("A") == 0) return 1;
-    else if(userType.compare("I") == 0) return 2;
-    else if(userType.compare("T") == 0) return 3;
-    else return 0;
+    short userType = 0;
+
+    if(message[0].compare("A") == 0) userType = 1;
+    else if(message[0].compare("I") == 0) userType = 2;
+    else if(message[0].compare("T") == 0) userType = 3;
+    switch(userType){
+        case 1:
+        {
+            Admin *a = new Admin(&database);
+            //a->manageReq(message[2],message[3], &command);
+            delete(a);
+            break;
+        }
+        case 2:
+        {
+            Instructor *i = new Instructor(&database);
+            //i->manageReq(message[2],message[3], &command);
+            delete(i);
+            break;
+        }
+        case 3:
+        {
+            TA *t = new TA(&database);
+            //t->manageReq(message[2],message[3], &command);
+            delete(t);
+            break;
+        }
+        default:
+            qDebug()<<"ERROR: User type not recognized.";
+            break;
+    }
 }
