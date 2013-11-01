@@ -1,23 +1,24 @@
 #ifndef USER_H
 #define USER_H
 #include <string>
+#include "Database.h"
 class User{
 
 public:
-    User(std::string,std::string,std::string);
+    User(Database*);
     std::string getUserName();
     std::string getName();
     std::string getEmail();
-    virtual void save() = 0;
-    virtual void write() = 0;
-    short login();
-    short logout();
+    virtual void search(std::string,std::string[]) = 0;
+    short login(std::string, std::string*);
+    short logout(std::string, std::string*);
 
 
 protected:
     std::string userName;
     std::string name;
     std::string email;
+    Database* database;
 };
 
 

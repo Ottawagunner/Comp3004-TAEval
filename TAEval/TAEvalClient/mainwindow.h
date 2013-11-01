@@ -15,6 +15,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     Server client;
+    std::string userName;
+    bool connected;
     
 private slots:
     short handleLogIn();

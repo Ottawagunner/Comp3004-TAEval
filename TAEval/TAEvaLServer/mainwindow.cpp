@@ -9,8 +9,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     host.Setup();
-    QString buffer = QString::fromStdString(host.ReciveText());
-    qDebug()<<(buffer);
+    while(true){
+        QString buffer = QString::fromStdString(host.ReciveText());
+        host.SendText("Accepted "+buffer.toStdString());
+    }
 
 }
 
