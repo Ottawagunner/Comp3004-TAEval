@@ -8,11 +8,14 @@ class Controller
 
 public:
     Controller();
-    void parse(std::string *);
+    ~Controller();
+    void parse(std::string);
+    void handleMessage(std::string);
     void executeMessage(std::string);
 
 private:
-    std::string message[4];
+    const static short messageLength = 4;
+    std::string message[messageLength];
     Database database;
 };
 
