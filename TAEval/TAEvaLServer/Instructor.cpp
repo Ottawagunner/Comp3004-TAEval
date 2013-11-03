@@ -18,10 +18,12 @@ void Instructor::search(std::string s, std::string a[]){
 }
 short Instructor::createTask(std::string message, std::string* response){
     qDebug()<<"createTaskHandler";
+    *response = "Create Task handled";
     return 0;
 }
 short Instructor::editTask(std::string message, std::string* response){
     qDebug()<<"editTaskHandler";
+    *response = "Edit task handled";
     return 0;
 }
 short Instructor::deleteTask(std::string message, std::string* response){

@@ -6,11 +6,13 @@
 
 int main(int argc, char *argv[])
 {
-    Controller c;
-    c.executeMessage("Iusername~CreateTaskRequest~Message");
-    Server host;
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+    std::string fileList[4];
+    fileList[0] = "Admin.db";
+    fileList[1] = "Instructor.db";
+    fileList[2] = "TA.db";
+    fileList[3] = "Course.db";
+    std::string path = "./Storage/";
+    Controller c(4,path,fileList);
+    c.runServer();
+    //c.executeMessage("Iusername~CreateTaskRequest~Message");
 }
