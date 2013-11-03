@@ -30,7 +30,7 @@ Data: 30/10/13
 
 #include <iostream>
 #include <fstream>
-#include <stdio.h>
+#include <sstream>
 #include "BinaryTree.h"
 
 
