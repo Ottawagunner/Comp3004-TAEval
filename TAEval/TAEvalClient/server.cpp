@@ -1,6 +1,7 @@
 #include "server.h"
 #include "string.h"
 #include <QDebug>
+
 Server::Server()
 {
 }
@@ -21,7 +22,6 @@ void Server::Setup(){
     }else{
         qDebug()<<"CONNECTED";
     }
-
 }
 void Server::SendText(std::string X)
 {
@@ -44,5 +44,6 @@ std::string Server::ReciveText()
    std::string out =(buffer);
    qDebug()<<"Received:";
    qDebug()<<buffer;
+
    return out;
 }
