@@ -12,6 +12,8 @@ public:
     MainWindow* window;
 
     short handleRunButton(int);
+    std::string* parse(std::string, int);
+    void handleMessage(std::string);
 
 private:
     std::string userName;
