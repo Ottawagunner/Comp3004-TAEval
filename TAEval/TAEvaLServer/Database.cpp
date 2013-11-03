@@ -3,11 +3,9 @@
 Database that utilizes my Binary Tree as the storage mechanism
 
 Author: Draymire
-Data: 30/10/13
+Data: 1/11/13
 
-NOTE:: Remember to search out and correct WARNING content.
-
-WARNING:: filename probably should be dereference everywhere, as should most other string variables. Check it over.  
+NOTE:: Remember write the update function
 
 DESIGN_DECISION: THIS DATABASE MAKES NO GUARANTEE THAT REFERENCES TO DATA WILL BE REMOVED
 				WHEN THE ACTUAL DATA IS. 
@@ -44,16 +42,22 @@ Database::Database(int size = 0, std::string path = "", std::string* setupList =
 	pathname = path;
 	numberOfTrees = size;
 	if (size != 0)
-		arrayOfTrees = &((new typename BinaryTree<std::string,std::string>::BinaryTree())[size]);	
+		arrayOfTrees = (new typename BinaryTree<std::string,std::string>::BinaryTree[size]);	
 
+	treeFiles = new std::string[size];
 	for (int i = 0;i<size;i++){
 		//Should probably do something with this so that the program won't go forward with a corrupt database.
+		treeFiles[i] = setupList[i];
 		populateTree(i, &setupList[i]);
 	}
 }
 
 Database::~Database(){
-	delete[] arrayOfTrees;
+
+	/*for (int i = numberOfTrees-1; i >= 0; i--){
+		delete(&arrayOfTrees[i]);
+	}
+	delete(treeFiles);*/
 }
 
 ////////Public Functions
@@ -78,10 +82,11 @@ char Database::query(int treeNumber, std::string* key, std::string** returnValue
 	char error = ARRAY_OUT_OF_BOUNDS;
 	std::string filename;
 
-	if (treeNumber < numberOfTrees) //Make sure the treeNumber actually exists.
-		if ( (error = findFile(treeNumber, key, &filename)) == NONE)
+	if (treeNumber < numberOfTrees){ //Make sure the treeNumber actually exists.
+		error = findFile(treeNumber, key, &filename);
+		if (error == NONE)
 			return readFile(&filename, returnValue);
-	
+	}
 	return error;
 }
 
@@ -110,12 +115,15 @@ char Database::insert(int treeNumber, std::string* key, std::string** data){
 	char error = ARRAY_OUT_OF_BOUNDS;
 	std::string filename;
 
-	if (treeNumber < numberOfTrees)
-		if ( (error = findFile(treeNumber, key, &filename)) == KEY_NOT_FOUND)
-			if ( (error = buildFile(data, &filename)) == NONE)
+	if (treeNumber < numberOfTrees){
+		error = findFile(treeNumber, key, &filename);
+		if (error == KEY_NOT_FOUND){
+			error = buildFile(data, &filename);
+			if (error  == NONE)
 				return insertFile(treeNumber, key, &filename);
-		else if (error == NONE)
+		} else if (error == NONE)
 			return KEY_ALREADY_IN_USE;
+	}
 
 	return error;
 }
@@ -137,13 +145,15 @@ char Database::removeEntry(int treeNumber, std::string* key){
 //						any Error Code produced by updateTreeFile()
 //
 	std::string filename;
+	char error = ARRAY_OUT_OF_BOUNDS;
 
-	if (treeNumber < numberOfTrees)
-		return removeFile(treeNumber, key);
+	if (treeNumber < numberOfTrees){
+		error = removeFile(treeNumber, key);
+		if (error == NONE)
+			return updateTreeFile(treeNumber);
+	}
 
-	updateTreeFile(treeNumber);
-
-	return ARRAY_OUT_OF_BOUNDS;
+	return error;
 }
 
 char Database::update(){//WARNING
@@ -180,7 +190,7 @@ char Database::buildFile(std::string** data, std::string* filename){
 
 	int size, ss;
 
-	std::ofstream theFile ((*filename).c_str());
+	std::ofstream theFile ((pathname+(*filename)).c_str());
 
 	if (!theFile.is_open())
 		return FILE_ALREADY_EXISTS;
@@ -189,13 +199,13 @@ char Database::buildFile(std::string** data, std::string* filename){
 
 	try{
 		//create integer array from data[0]
-		size = std::stoi(data[0][0]);
+		std::stringstream (data[0][0]) >> size;//size = std::stoi(data[0][0]);
 		arraySizes = new int[size];
 
 		theFile << data[0][0];
 
 		for (int i = 1; i <= size; i++){
-			ss = std::stoi(data[0][i]);
+			std::stringstream (data[0][i]) >> ss;// = std::stoi(data[0][i]);
 			(arraySizes[i-1]) = ss;
 			theFile << data[0][i];
 		}
@@ -237,7 +247,7 @@ char Database::readFile(std::string* filename, std::string** data){
 	std::string buffer;
 
 	// filename probably should have path prepended to it.
-	std::ifstream theFile ((*filename).c_str());
+	std::ifstream theFile ((pathname+(*filename)).c_str());
 
 	if (!theFile.is_open())
 		return FILE_NOT_FOUND;
@@ -249,7 +259,7 @@ char Database::readFile(std::string* filename, std::string** data){
 
 	try{
 		//Change the buffer into an int
-		size = std::stoi(buffer);
+		std::stringstream (buffer) >> size;// = std::stoi(buffer);
 
 		int* arraySizes[size+1];
 		(*arraySizes[0]) = size;
@@ -262,7 +272,7 @@ char Database::readFile(std::string* filename, std::string** data){
 			if(!getline(theFile, buffer))
 				return CORRUPT_FILE;	
 
-			temp = std::stoi(buffer);
+			std::stringstream (buffer) >> temp;// = std::stoi(buffer);
 			(*arraySizes[i]) = temp;
 			data[0][i] = buffer;
 			data[i] = new std::string[temp];
@@ -307,12 +317,30 @@ char Database::removeFile(int treeNumber, std::string* key){
 	if (findFile(treeNumber, key, &filename))
 		return FILE_NOT_FOUND;
 
-	arrayOfTrees[treeNumber].remove(key);//WARNING
+	arrayOfTrees[treeNumber].remove(key);
 
 	updateTreeFile(treeNumber);
 
 	if (remove((filename).c_str()))
 		return FAILED_FILE_DELETION;
+}
+
+char Database::findFile(int treeNumber, std::string* key, std::string* filename){
+//
+// Input Params : treeNumber -> The tree to search in
+//					key -> The key used to find a file
+//
+//Output Params : filename -> The name of the file requested
+//
+//  Description :
+//
+//      Returns : 0 if there were no errors
+//
+
+	if (arrayOfTrees[treeNumber].find(key, filename) != NONE)
+		return KEY_NOT_FOUND;
+
+	return SUCCESS;
 }
 
 char Database::updateTreeFile(int treeNumber){
@@ -329,16 +357,16 @@ char Database::updateTreeFile(int treeNumber){
 //						FAILED_TO_RENAME_FILE
 //
 
-	std::ofstream myFile (((treeFiles[treeNumber])+".TEMP").c_str());
+	std::ofstream myFile (((pathname+treeFiles[treeNumber])+".TEMP").c_str());
 
 	myFile << arrayOfTrees[treeNumber];
 
 	myFile.close();
 
-	if (remove((treeFiles[treeNumber]).c_str()))
+	if (remove((pathname+treeFiles[treeNumber]).c_str()))
 		return FAILED_FILE_DELETION;
 
-	if (rename((treeFiles[treeNumber]+".TEMP").c_str(), (treeFiles[treeNumber]).c_str()))
+	if (rename((pathname+treeFiles[treeNumber]+".TEMP").c_str(), (pathname+treeFiles[treeNumber]).c_str()))
 		return FAILED_TO_RENAME_FILE;
 
 	return SUCCESS;
@@ -368,7 +396,7 @@ char Database::insertFile(int treeNumber, std::string* key, std::string* filenam
 
 }
 
-char Database::editFile(std::string* filename, std::string** dataList){//WARNING
+char Database::editFile(std::string* filename, std::string** dataList){
 //
 // Input Params : filename -> the name of the file to edit
 //					dataList -> The data that is to replace the old data
@@ -380,31 +408,18 @@ char Database::editFile(std::string* filename, std::string** dataList){//WARNING
 //
 //      Returns : 0 if there were no errors
 //					Otherwise can return:
-//						UNABLE_TO_CREATE_FILE
+//						any Error Code produced by buildFile()
 //						FAILED_FILE_DELETION
 //						FAILED_TO_RENAME_FILE
 //
-	std::ofstream tempFile (((*filename)+".TEMP").c_str());
-	if(!tempFile.is_open())
-		return UNABLE_TO_CREATE_FILE;
-	
-	              /* Might need to dereference dataList[k]*/
-				/* Might just call buildFile() instead. Kinda makes more sense*/
-	//WARNING REWRITE
-	for (int k = 0; (*dataList[k]) != DELIMETER_STRING; k++){
-		for (int i = 0; (dataList[k][i]) != DELIMETER_STRING; i++){
-			tempFile << dataList[k][i] << std::endl;
-		}
-		tempFile << DELIMETER_STRING << std::endl;
-	}
-	tempFile << DELIMETER_STRING << std::endl;
+	std::string tempFilename = (*filename)+".TEMP";
 
-	tempFile.close();
+	char error = buildFile(dataList, &tempFilename);
 
-	if (remove((*filename).c_str()))
+	if (remove((pathname+(*filename)).c_str()))
 		return FAILED_FILE_DELETION;
 
-	if (rename(((*filename)+".TEMP").c_str(), (*filename).c_str()))
+	if (rename((pathname+(*filename)+".TEMP").c_str(), (*filename).c_str()))
 		return FAILED_TO_RENAME_FILE;
 
 	return SUCCESS;
@@ -425,7 +440,9 @@ char Database::populateTree(int treeNumber, std::string* filename){
 //						CORRUPT_FILE
 //	
 
-	std::ifstream theFile ((*filename).c_str());
+	std::ifstream theFile ((pathname+(*filename)).c_str());
+
+	//arrayOfTrees[treeNumber] = (new BinaryTree<std::string,std::string>());
 
 	if (!theFile.is_open())
 		return CORRUPT_FILE;
@@ -445,6 +462,6 @@ char Database::populateTree(int treeNumber, std::string* filename){
 	return SUCCESS;
 }
 
-int main(){
-	return 0;
-}
+//int main(){
+//	return 0;
+//}

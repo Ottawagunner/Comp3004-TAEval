@@ -81,7 +81,7 @@ public:
 
 	int size() const;
 
-	VALUE* find(KEY*);
+	char find(KEY*, VALUE*);
 
 	Node getRoot() const;//WARNING::TEMPORARY DEBUGGING
 
@@ -91,7 +91,7 @@ private:
 	void fixDepth(Node*);
 
 	void remove(Node*);
-	Node* findNode(KEY*);
+	char findNode(KEY*, Node*);
 
 	void incrementSize();
 	void decrementSize();
@@ -172,6 +172,7 @@ BinaryTree<KEY,VALUE>::~BinaryTree(){
 					tempNode->rightChild = LEAF;
 			}
 			delete(destroyNode);
+			decrementSize();
 		}
 	}
 
@@ -313,14 +314,15 @@ void BinaryTree<KEY,VALUE>::remove(KEY* locatorKey){
 //
 // Comment: Maybe have a return value rather then node 
 // 			to help indicate success or failure.
-
-	remove(findNode(locatorKey));
+	Node* tempNode;
+	findNode(locatorKey, tempNode);
+	remove(tempNode);
 	decrementSize();
 	balance();
 }
 
 template <class KEY, class VALUE>
-VALUE* BinaryTree<KEY,VALUE>::find(KEY* locatorKey){
+char BinaryTree<KEY,VALUE>::find(KEY* locatorKey, VALUE* returnValue){
 //
 //     Function : find
 //
@@ -330,7 +332,12 @@ VALUE* BinaryTree<KEY,VALUE>::find(KEY* locatorKey){
 //
 //  Description : Locates the first occurence of a given key
 //
-	return findNode(locatorKey)->data;
+	Node* tempNode;
+	char error = findNode(locatorKey, tempNode);
+	if (error != NONE)
+		return error;
+	returnValue = tempNode->data;
+	return error;
 }
 
 
@@ -400,7 +407,7 @@ void BinaryTree<KEY,VALUE>::remove(Node* theNode){
 }
 
 template <class KEY, class VALUE>
-typename BinaryTree<KEY,VALUE>::Node* BinaryTree<KEY,VALUE>::findNode(KEY* locatorKey){
+char BinaryTree<KEY,VALUE>::findNode(KEY* locatorKey, Node* tempNode){
 //
 //     Function : findNode
 //
@@ -417,12 +424,13 @@ typename BinaryTree<KEY,VALUE>::Node* BinaryTree<KEY,VALUE>::findNode(KEY* locat
 		} else if (*(currNode->key) < *(locatorKey)){
 			currNode = currNode->rightChild;
 		} else {
-			return currNode;
+			tempNode = currNode;
+			return SUCCESS;
 		}
 	}
 
 	//Found none. Return NULL
-	return EMPTY;
+	return KEY_NOT_FOUND;
 }
 
 template <class KEY, class VALUE>
