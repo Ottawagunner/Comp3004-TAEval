@@ -42,7 +42,7 @@ Database::Database(int size = 0, std::string path = "", std::string* setupList =
 	pathname = path;
 	numberOfTrees = size;
 	if (size != 0)
-		arrayOfTrees = (new typename BinaryTree<std::string,std::string>::BinaryTree[size]);	
+		arrayOfTrees = (new BinaryTree<std::string,std::string>[size]);	
 
 	treeFiles = new std::string[size];
 	for (int i = 0;i<size;i++){
@@ -54,10 +54,12 @@ Database::Database(int size = 0, std::string path = "", std::string* setupList =
 
 Database::~Database(){
 
-	/*for (int i = numberOfTrees-1; i >= 0; i--){
+	/*for (int i = 0; i < numberOfTrees; i++){
+		std::cout <<"Welcome to tree number: " << i << std::endl;
 		delete(&arrayOfTrees[i]);
-	}
-	delete(treeFiles);*/
+	}*/
+	delete[] arrayOfTrees;
+	delete[] treeFiles;
 }
 
 ////////Public Functions

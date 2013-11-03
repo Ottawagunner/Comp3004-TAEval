@@ -175,7 +175,6 @@ BinaryTree<KEY,VALUE>::~BinaryTree(){
 			decrementSize();
 		}
 	}
-
 }
 
 template <class KEY, class VALUE>
