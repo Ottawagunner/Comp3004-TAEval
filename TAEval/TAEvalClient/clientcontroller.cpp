@@ -22,20 +22,23 @@ short clientcontroller::handleLogIn(){
     window->writeToLog(s);
     QString buffer = QString::fromStdString(client.ReciveText());
     window->writeToLog(buffer);
+    //handleMessage(client.ReciveText());
     return 0;
 }
 short clientcontroller::handleLogOut(){
     client.SendText("I"+userName+"~LogoutRequest~"+userName);
     QString buffer = QString::fromStdString(client.ReciveText());
     window->writeToLog(buffer);
+    //handleMessage(client.ReciveText());
     return 0;
 }
 short clientcontroller::handleCreateTask(){
     std::string taskInfo;
     taskInfo = "Please grade all of the tests in your mailbox";
     client.SendText("I"+userName+"~CreateTaskRequest~"+taskInfo);
-    QString buffer = QString::fromStdString(client.ReciveText());
-    window->writeToLog(buffer);
+    //QString buffer = QString::fromStdString(client.ReciveText());
+    //window->writeToLog(buffer);
+    handleMessage(client.ReciveText());
     return 0;
 }
 short clientcontroller::handleEditTask(){
@@ -45,32 +48,37 @@ short clientcontroller::handleEditTask(){
 }
 short clientcontroller::handleDeleteTask(){
     client.SendText("I"+userName+"~DeleteTaskRequest~"+"TASK001");
-    QString buffer = QString::fromStdString(client.ReciveText());
-    window->writeToLog(buffer);
+    //QString buffer = QString::fromStdString(client.ReciveText());
+    //window->writeToLog(buffer);
+    handleMessage(client.ReciveText());
     return 0;
 }
 short clientcontroller::handleViewTask(){
     client.SendText("I"+userName+"~ViewTaskRequest~"+"COMP3004");
-    QString buffer = QString::fromStdString(client.ReciveText());
-    window->writeToLog(buffer);
+    //QString buffer = QString::fromStdString(client.ReciveText());
+    //window->writeToLog(buffer);
+    handleMessage(client.ReciveText());
     return 0;
 }
 short clientcontroller::handleCreateEval(){
     client.SendText("I"+userName+"~CreateEvaluationRequest~"+"TASK001");
-    QString buffer = QString::fromStdString(client.ReciveText());
-    window->writeToLog(buffer);
+    //QString buffer = QString::fromStdString(client.ReciveText());
+    //window->writeToLog(buffer);
+    handleMessage(client.ReciveText());
     return 0;
 }
 short clientcontroller::handleViewTAs(){
     client.SendText("I"+userName+"~ViewTARequest~"+"COMP3004");
-    QString buffer = QString::fromStdString(client.ReciveText());
-    window->writeToLog(buffer);
+    //QString buffer = QString::fromStdString(client.ReciveText());
+    //window->writeToLog(buffer);
+    handleMessage(client.ReciveText());
     return 0;
 }
 short clientcontroller::handleViewCourse(){
     client.SendText("I"+userName+"~ViewCoursesRequest~"+userName);
-    QString buffer = QString::fromStdString(client.ReciveText());
-   window->writeToLog(buffer);
+    //QString buffer = QString::fromStdString(client.ReciveText());
+    //window->writeToLog(buffer);
+    handleMessage(client.ReciveText());
     return 0;
 }
 short clientcontroller::handleRunButton(int index){
@@ -106,7 +114,8 @@ short clientcontroller::handleRunButton(int index){
         break;
     }
 }
-std::string* clientcontroller::parse(std::string command, int numberOfSegments) // numberOfTildas, lockStatus, message
+
+std::string* clientcontroller::parse(std::string command, int numberOfSegments, bool log) // numberOfTildas, lockStatus, message
  {
      short pos[numberOfSegments];
 
@@ -141,15 +150,16 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments) 
              message[i] = command.substr(pos[i]+1,-1);
          else
              message[i] = command.substr(pos[i]+1,pos[i+1]-pos[i]-1);
-         qDebug()<<(message[i].c_str());
+         //qDebug()<<(message[i].c_str());
+         if(log) window->writeToLog(QString::fromStdString(message[i]));
      }
 
      return message;
  }
 
-void clientcontroller::handleMessage(std::string command) // Learns if data server-side is locked or not and decomposes the message
+std::string* clientcontroller::handleMessage(std::string command) // Learns if data server-side is locked or not and decomposes the message
  {
-     std::string* parsedCommand = parse(command, 3); // Parses the command and turns message[] into {numberOfTildas,lockStatus,message}
+     std::string* parsedCommand = parse(command, 3, false); // Parses the command and turns message[] into {numberOfTildas,lockStatus,message}
      qDebug()<<"";
 
      bool locked = true; // check if data is locked
@@ -171,7 +181,8 @@ void clientcontroller::handleMessage(std::string command) // Learns if data serv
 
      int numberOfSegments = atoi(parsedCommand[0].c_str()); // knows how many tildas the last part of the message contains
 
-     std::string* message = parse(parsedCommand[2], numberOfSegments); // parses it
+     std::string* message = parse(parsedCommand[2], numberOfSegments, true); // parses it
+     return message;
      /*
       * I failed at liberating occupied memory => Memory Leak!
       */
