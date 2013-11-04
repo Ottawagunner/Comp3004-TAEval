@@ -9,7 +9,7 @@ Instructor::Instructor(Database *database):User(database){
     reqType[4] = "EditTaskRequest";
     reqType[5] = "ViewTaskRequest";
     reqType[6] = "ViewTARequest";
-    reqType[7] = "ViewCourseRequest";
+    reqType[7] = "ViewCoursesRequest";
     reqType[8] = "CreateEvaluationRequest";
 
 }
