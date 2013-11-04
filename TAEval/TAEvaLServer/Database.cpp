@@ -39,7 +39,7 @@ CODE :         NAME           :           DESCRIPTION
 //				path = the storage pathname
 //				setupList = list of files used in tree population
 Database::Database(int size = 0, std::string path = "", std::string* setupList = NULL){
-	pathname = path;
+    pathname = path;
 	numberOfTrees = size;
 	if (size != 0)
 		arrayOfTrees = (new BinaryTree<std::string,std::string>[size]);	

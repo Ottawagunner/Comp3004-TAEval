@@ -4,6 +4,7 @@
 clientcontroller::clientcontroller()
 {
     userName = "JohnSmith";
+    userType = "I";
 }
 
 int clientcontroller::run(int argc, char **argv)
@@ -16,127 +17,50 @@ int clientcontroller::run(int argc, char **argv)
     return a.exec();
 }
 
-short clientcontroller::handleLogIn()
-{
-    QString s ="Logging in username:";//+userName);
-    window->writeToLog(s);
-    client.Setup();
-    client.SendText("I"+userName+"~LoginRequest~"+userName);
-    s = "Request Sent";
-    window->writeToLog(s);
-    QString buffer = QString::fromStdString(client.ReciveText());
-    window->writeToLog(buffer);
-    //handleMessage(client.ReciveText());
-    return 0;
-}
-
-short clientcontroller::handleLogOut()
-{
-    client.SendText("I"+userName+"~LogoutRequest~"+userName);
-    QString buffer = QString::fromStdString(client.ReciveText());
-    window->writeToLog(buffer);
-    close(client.sockfd);
-    //handleMessage(client.ReciveText());
-    return 0;
-}
-
-short clientcontroller::handleCreateTask()
-{
-    std::string taskInfo;
-    taskInfo = "Please grade all of the tests in your mailbox";
-    client.SendText("I"+userName+"~CreateTaskRequest~"+taskInfo);
-    //QString buffer = QString::fromStdString(client.ReciveText());
-    //window->writeToLog(buffer);
-    handleMessage(client.ReciveText());
-    return 0;
-}
-
-short clientcontroller::handleEditTask()
-{
-    QString s = "Edit Task Test Handled";
-    window->writeToLog(s);
-    return 0;//unsure of how this is going to work but its here until we figure it out
-}
-
-short clientcontroller::handleDeleteTask()
-{
-    client.SendText("I"+userName+"~DeleteTaskRequest~"+"TASK001");
-    //QString buffer = QString::fromStdString(client.ReciveText());
-    //window->writeToLog(buffer);
-    handleMessage(client.ReciveText());
-    return 0;
-}
-
-short clientcontroller::handleViewTask()
-{
-    client.SendText("I"+userName+"~ViewTaskRequest~"+"COMP3004");
-    //QString buffer = QString::fromStdString(client.ReciveText());
-    //window->writeToLog(buffer);
-    handleMessage(client.ReciveText());
-    return 0;
-}
-
-short clientcontroller::handleCreateEval()
-{
-    client.SendText("I"+userName+"~CreateEvaluationRequest~"+"TASK001");
-    //QString buffer = QString::fromStdString(client.ReciveText());
-    //window->writeToLog(buffer);
-    handleMessage(client.ReciveText());
-    return 0;
-}
-
-short clientcontroller::handleViewTAs()
-{
-    client.SendText("I"+userName+"~ViewTARequest~"+"COMP3004");
-    //QString buffer = QString::fromStdString(client.ReciveText());
-    //window->writeToLog(buffer);
-    handleMessage(client.ReciveText());
-    return 0;
-}
-
-short clientcontroller::handleViewCourse()
-{
-    client.SendText("I"+userName+"~ViewCoursesRequest~"+userName);
-    //QString buffer = QString::fromStdString(client.ReciveText());
-    //window->writeToLog(buffer);
-    handleMessage(client.ReciveText());
-    return 0;
-}
-
 short clientcontroller::handleRunButton(int index)
 {
+    std::string response ="";
     switch(index)
     {
     case 0:
-        handleLogIn();
+        client.Setup();
+        response = encode("LoginRequest", userName);
         break;
     case 1:
-        handleLogOut();
+        response = encode("LogoutRequest", userName);
+        client.SendText(response);
+        handleMessage(client.ReciveText());
+        close(client.sockfd);
+        return 0;
         break;
     case 2:
-        handleCreateTask();
+        response = encode("CreateTaskRequest", "Please grade all of the tests in your mailbox");
         break;
     case 3:
-        handleEditTask();
+        response = encode("EditTaskRequest", "TASK001~Title~Grade/5~Written review"); // WIP
         break;
     case 4:
-        handleDeleteTask();
+        response = encode("DeleteTaskRequest", "TASK001");
         break;
     case 5:
-        handleViewTask();
+        response = encode("ViewTaskRequest", "COMP3004");
         break;
     case 6:
-        handleCreateEval();
+        response = encode("CreateEvaluationRequest", "TASK001");
         break;
     case 7:
-        handleViewTAs();
+        response = encode("ViewTARequest", "COMP3004");
         break;
     case 8:
-        handleViewCourse();
+        response = encode("ViewCoursesRequest", userName);
         break;
     default:
+        return 1;
         break;
     }
+    client.SendText(response);
+    handleMessage(client.ReciveText());
+    return 0;
 }
 
 std::string* clientcontroller::parse(std::string command, int numberOfSegments, bool log) // numberOfTildas, lockStatus, message
@@ -223,3 +147,8 @@ std::string* clientcontroller::handleMessage(std::string command) // Learns if d
      // do stuff with the message;
      qDebug()<<"";
  }
+
+std::string clientcontroller::encode(std::string command, std::string userInput)
+{
+    return userType+userName+"~"+command+"~"+userInput;
+}
