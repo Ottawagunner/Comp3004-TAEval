@@ -4,6 +4,7 @@
 clientcontroller::clientcontroller()
 {
     userName = "JohnSmith";
+    userType = "I";
 }
 
 int clientcontroller::run(int argc, char **argv)
@@ -21,7 +22,7 @@ short clientcontroller::handleLogIn()
     QString s ="Logging in username:";//+userName);
     window->writeToLog(s);
     client.Setup();
-    client.SendText("I"+userName+"~LoginRequest~"+userName);
+    client.SendText(encode("LoginRequest", userName));
     s = "Request Sent";
     window->writeToLog(s);
     QString buffer = QString::fromStdString(client.ReciveText());
@@ -32,7 +33,7 @@ short clientcontroller::handleLogIn()
 
 short clientcontroller::handleLogOut()
 {
-    client.SendText("I"+userName+"~LogoutRequest~"+userName);
+    client.SendText(encode("LogoutRequest", userName));
     QString buffer = QString::fromStdString(client.ReciveText());
     window->writeToLog(buffer);
     close(client.sockfd);
@@ -44,7 +45,7 @@ short clientcontroller::handleCreateTask()
 {
     std::string taskInfo;
     taskInfo = "Please grade all of the tests in your mailbox";
-    client.SendText("I"+userName+"~CreateTaskRequest~"+taskInfo);
+    client.SendText(encode("CreateTaskRequest", taskInfo));
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
@@ -60,7 +61,7 @@ short clientcontroller::handleEditTask()
 
 short clientcontroller::handleDeleteTask()
 {
-    client.SendText("I"+userName+"~DeleteTaskRequest~"+"TASK001");
+    client.SendText(encode("DeleteTaskRequest", "TASK001"));
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
@@ -69,7 +70,7 @@ short clientcontroller::handleDeleteTask()
 
 short clientcontroller::handleViewTask()
 {
-    client.SendText("I"+userName+"~ViewTaskRequest~"+"COMP3004");
+    client.SendText(encode("ViewTaskRequest", "COMP3004"));
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
@@ -78,7 +79,7 @@ short clientcontroller::handleViewTask()
 
 short clientcontroller::handleCreateEval()
 {
-    client.SendText("I"+userName+"~CreateEvaluationRequest~"+"TASK001");
+    client.SendText(encode("CreateEvaluationRequest", "TASK001"));
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
@@ -87,7 +88,7 @@ short clientcontroller::handleCreateEval()
 
 short clientcontroller::handleViewTAs()
 {
-    client.SendText("I"+userName+"~ViewTARequest~"+"COMP3004");
+    client.SendText(encode("ViewTARequest", "COMP3004"));
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
@@ -96,7 +97,7 @@ short clientcontroller::handleViewTAs()
 
 short clientcontroller::handleViewCourse()
 {
-    client.SendText("I"+userName+"~ViewCoursesRequest~"+userName);
+    client.SendText(encode("ViewCoursesRequest", userName));
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
@@ -223,3 +224,8 @@ std::string* clientcontroller::handleMessage(std::string command) // Learns if d
      // do stuff with the message;
      qDebug()<<"";
  }
+
+std::string clientcontroller::encode(std::string command, std::string userInput)
+{
+    return userType+userName+"~"+command+"~"+userInput;
+}

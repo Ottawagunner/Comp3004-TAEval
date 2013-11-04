@@ -12,11 +12,10 @@ public:
     MainWindow* window;
 
     short handleRunButton(int);
-    std::string* parse(std::string, int, bool);
-    std::string* handleMessage(std::string);
 
 private:
     std::string userName;
+    std::string userType;
 
     short handleLogIn();
     short handleLogOut();
@@ -27,6 +26,9 @@ private:
     short handleCreateEval();
     short handleViewTAs();
     short handleViewCourse();
+    std::string  encode(std::string, std::string);
+    std::string* parse(std::string, int, bool);
+    std::string* handleMessage(std::string);
 };
 
 #endif // CLIENTCONTROLLER_H
