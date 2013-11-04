@@ -33,9 +33,7 @@ int Controller::runServer(){
             executeMessage(&buffer);
             host.SendText(buffer);
         }while(listening);
-        listen(host.server, 100);  // 50 (the backlog) isn't really used on modern systems
-        host.clilen = sizeof(host.cliaddr);
-        host.client = accept(host.server,(sockaddr*)&(host.servaddr), &(host.clilen));  // addr gets info about client
+        host.Listen();
     }
     //w.show();
     //return a.exec();

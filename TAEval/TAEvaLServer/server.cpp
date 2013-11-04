@@ -10,6 +10,25 @@ Server::Server()
     servaddr.sin_port = htons(5000);
 }
 
+void Server::Setup()
+{
+    server = socket(AF_INET, SOCK_STREAM, 0);
+    if (bind(server,(sockaddr*)&servaddr,sizeof(servaddr)) < 0)
+    {
+        ERROR="Failed to Bind";
+        qDebug()<<"Failed to Bind";
+    }
+    Listen();
+}
+
+void Server::Listen()
+{
+    listen(server, 100);  // 50 (the backlog) isn't really used on modern systems
+    clilen = sizeof(cliaddr);
+    client = accept(server,(sockaddr*)&servaddr, &clilen);  // addr gets info about client
+}
+
+
 std::string Server::ReciveText()
 {
    ssize_t n;
@@ -23,19 +42,6 @@ std::string Server::ReciveText()
    qDebug()<<"Received:";
    qDebug()<<buffer;
    return out;
-}
-
-void Server::Setup()
-{
-    server = socket(AF_INET, SOCK_STREAM, 0);
-    if (bind(server,(sockaddr*)&servaddr,sizeof(servaddr)) < 0)
-    {
-        ERROR="Failed to Bind";
-        qDebug()<<"Failed to Bind";
-    }
-    listen(server, 100);  // 50 (the backlog) isn't really used on modern systems
-    clilen = sizeof(cliaddr);
-    client = accept(server,(sockaddr*)&servaddr, &clilen);  // addr gets info about client
 }
 
 void Server::SendText(std::string message)
