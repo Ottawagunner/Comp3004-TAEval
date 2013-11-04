@@ -42,7 +42,7 @@ public:
 	~Database();
 
 	char query(int /*Tree Number*/,std::string* /*Key*/, std::string** /*Return Value*/);
-	char insert(int /*Tree Number*/, std::string* /*Key*/, std::string** /*Data*/);
+	char insert(int /*Tree Number*/, std::string* /*Key*/, std::string** /*Data*/, std::string*);
 	char removeEntry(int /*Tree Number*/, std::string* /*Key*/);
 	char update();//variables to be determined
 
@@ -63,6 +63,8 @@ private:
 
 	char populateTree(int /*Tree*/, std::string* /*Filename*/); 
 	char updateTreeFile(int /*Tree Number*/);
+
+	char cleanUp(char, std::string*);
 };
 
 #endif
