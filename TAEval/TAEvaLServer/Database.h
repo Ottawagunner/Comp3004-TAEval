@@ -32,7 +32,6 @@ Data: 30/10/13
 #include <fstream>
 #include <sstream>
 #include "BinaryTree.h"
-#include <QDebug>
 
 
 

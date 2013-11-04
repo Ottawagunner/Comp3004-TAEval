@@ -80,12 +80,8 @@ std::string** Database::query(int treeNumber, std::string* key){
         return NULL;
 
     std::string filename;
-    qDebug()<<"ABOUT TO FIND";
-    std::cout << "KEY :"<<*key<<":"<<std::endl;
     if (arrayOfTrees[treeNumber]->find(*&key, &filename))
         return NULL;
-    std::cout << filename << " : filename" << std::endl;
-    qDebug()<<"FINISHED FINDING";
     return readFile(&filename);
 
 }
@@ -123,7 +119,10 @@ char Database::insert(int treeNumber, std::string* key, std::string** data, std:
 
     arrayOfTrees[treeNumber]->add(key, filename);
 
-    return buildFile(filename, *&data);
+    if (buildFile(filename, *&data))
+        return UNABLE_TO_CREATE_FILE;
+
+    return updateTreeFile(treeNumber);
 }
 
 char Database::removeEntry(int treeNumber, std::string* key){
@@ -273,7 +272,6 @@ std::string** Database::readFile(std::string* filename){
     returnValue[0][0] = *(new std::string(buffer));
     //returnValue[0][0] = buffer;
 
-    std::cout << returnValue[0][0] << std::endl;
 
     //find the size of the following arrays and create the placeholder
     for (int i = 1; i < size+1; i++){
@@ -285,7 +283,6 @@ std::string** Database::readFile(std::string* filename){
         returnValue[i] = new std::string[tempValue];
         returnValue[0][i] = *(new std::string(buffer));
         //returnValue[0][i] = buffer;
-        std::cout << returnValue[0][i] << std::endl;
     }
 
     //Populate the arrays
@@ -296,7 +293,6 @@ std::string** Database::readFile(std::string* filename){
 
             returnValue[i][k] = *(new std::string(buffer));
             //returnValue[i][k] = buffer;
-            std::cout << returnValue[i][k] << std::endl;
         }
     }
 
@@ -374,7 +370,7 @@ char Database::updateTreeFile(int treeNumber){
 
 	std::ofstream myFile (((storagePath+treeFiles[treeNumber])+".TEMP").c_str());
 
-	myFile << arrayOfTrees[treeNumber];
+    myFile << *(arrayOfTrees[treeNumber]);
 
 	myFile.close();
 
@@ -455,12 +451,9 @@ char Database::populateTree(int treeNumber, std::string* filename){
 //                                        Otherwise can return:
 //                                                CORRUPT_FILE
 //        
-    std::cout << *filename << " : crap out" <<std::endl;
         std::ifstream theFile ((storagePath+(*filename)).c_str());
-        std::cout<< (storagePath+(*filename)) << " : StoragePAth" <<std::endl;
 
         if (!theFile.is_open()){
-            std::cout << "It be fucked" << std::endl;
                 return CORRUPT_FILE;
         }
 
@@ -469,11 +462,9 @@ char Database::populateTree(int treeNumber, std::string* filename){
         std::string* value;
 
         while(getline(theFile, buffer)){
-            std::cout << buffer << " : buffer" <<std::endl;
                 key = new std::string(buffer);
                 getline(theFile, buffer);
                 value = new std::string(buffer);
-                std::cout << *key << " : " << *value << std::endl;
                 arrayOfTrees[treeNumber]->add(key,value);
         }
 
