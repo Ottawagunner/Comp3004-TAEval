@@ -30,39 +30,47 @@ Data: 30/10/13
 
 #include <iostream>
 #include <fstream>
-#include <stdio.h>
+#include <sstream>
 #include "BinaryTree.h"
+#include <QDebug>
 
 
 
 class Database{
 
 public:
-	Database(int /*Number of Trees*/,std::string /*Path to Storage*/, std::string* /*Tree File Names*/);
+	Database(int, std::string, std::string*);
 	~Database();
 
-	char query(int /*Tree Number*/,std::string* /*Key*/, std::string** /*Return Value*/);
-	char insert(int /*Tree Number*/, std::string* /*Key*/, std::string** /*Data*/);
+	std::string** query(int/*Tree Number*/, std::string* /*Search Key*/);// std::string** /*Return Data*/);
+	char insert(int, std::string*, std::string**, std::string*);
+	
 	char removeEntry(int /*Tree Number*/, std::string* /*Key*/);
 	char update();//variables to be determined
 
 private:
 
-	BinaryTree<std::string,std::string>* arrayOfTrees;
-	std::string pathname;
 	int numberOfTrees;
+	std::string storagePath;
+
+	BinaryTree<std::string, std::string>** arrayOfTrees;
 	std::string* treeFiles;
 
 	char insertFile(int /*Tree Number*/, std::string* /*Key*/, std::string* /*Data*/);
 	char findFile(int /*Tree Number*/, std::string* /*Key*/, std::string* /*Return Filename*/);
 
 	char removeFile(int /*Tree Number*/, std::string* /*Filename*/);
-	char buildFile(std::string** /*Data*/, std::string* /*Return Filename*/);
-	char readFile(std::string* /*Filename*/, std::string** /*Return Data*/);
+	char buildFile(std::string*, std::string**);
 	char editFile(std::string* /*filename*/, std::string** /*Data List*/);
 
-	char populateTree(int /*Tree*/, std::string* /*Filename*/); 
+	char populateTree(int, std::string*);
+
+	std::string** readFile(std::string*);
+
+
 	char updateTreeFile(int /*Tree Number*/);
+
+	char cleanUp(char, std::string*);
 };
 
 #endif

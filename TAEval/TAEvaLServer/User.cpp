@@ -1,23 +1,29 @@
 #include "User.h"
 
-User::User(Database *d){
+
+User::User(Database *d)
+{
     database = d;
 }
-std::string User::getName(){
+
+std::string User::getName()
+{
     return name;
 }
-std::string User::getUserName(){
+
+std::string User::getUserName()
+{
     return userName;
 }
-std::string User::getEmail(){
+
+std::string User::getEmail()
+{
     return email;
 }
-short User::login(std::string userName, std::string *response){
-    //Database call to look for the userName and respond if it is found or not
-return 0;
-}
 
-short User::logout(std::string userName, std::string* response){
-    //Database call to log out the user
-return 0;
+std::string User::encode(short messageLength, std::string lockStatus, std::string message)
+{
+    std::stringstream mL;
+    mL << messageLength;
+    return ""+mL.str()+"~"+lockStatus+"~"+message;
 }

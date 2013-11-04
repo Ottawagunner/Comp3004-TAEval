@@ -4,13 +4,14 @@
 #include <QDebug>
 #include "Controller.h"
 
-int main(int argc, char *argv[])
+int main()
 {
-    Controller c;
-    c.executeMessage("Iusername~CreateTaskRequest~Message");
-    Server host;
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+    std::string fileList[4];
+    fileList[0] = "Admin.db";
+    fileList[1] = "Instructor.db";
+    fileList[2] = "TA.db";
+    fileList[3] = "Course.db";
+    std::string path = "./Storage/";
+    Controller* c = new Controller(4,path,fileList);
+    c->runServer();
 }
