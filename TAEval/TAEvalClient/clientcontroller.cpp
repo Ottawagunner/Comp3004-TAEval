@@ -140,8 +140,8 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
          }
          qDebug()<<pos[i]; // note it won't show 0 as the continue skips this call
      }
-     qDebug()<<"";
-     qDebug()<<"Content of message:";
+     //qDebug()<<"";
+     //qDebug()<<"Content of message:";
 
      for(short i = 0; i < numberOfSegments; i++){ // Assigns every segment of the command to the message array
          if(i == 0)

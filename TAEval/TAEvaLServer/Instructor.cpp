@@ -9,7 +9,7 @@ Instructor::Instructor(Database *database):User(database){
     reqType[4] = "EditTaskRequest";
     reqType[5] = "ViewTaskRequest";
     reqType[6] = "ViewTARequest";
-    reqType[7] = "ViewCourseRequest";
+    reqType[7] = "ViewCoursesRequest";
     reqType[8] = "CreateEvaluationRequest";
 
 }
@@ -18,37 +18,37 @@ void Instructor::search(std::string s, std::string a[]){
 }
 short Instructor::createTask(std::string message, std::string* response){
     qDebug()<<"createTaskHandler";
-    *response = "1~U~Create Task handled";
+    *response = "2~U~Create Task handled~";
     return 0;
 }
 short Instructor::editTask(std::string message, std::string* response){
     qDebug()<<"editTaskHandler";
-    *response = "1~U~Edit task handled";
+    *response = "2~U~Edit task handled~";
     return 0;
 }
 short Instructor::deleteTask(std::string message, std::string* response){
     qDebug()<<"deleteTaskHandler";
-    *response = "1~U~Delete task handled";
+    *response = "2~U~Delete task handled~";
     return 0;
 }
 short Instructor::viewTask(std::string message, std::string* response){
     qDebug()<<"viewTaskHandler";
-    *response = "4~U~Mark midterms~4/5~All midterms marked two days later than expected~View task handled";
+    *response = "5~U~Mark midterms~4/5~All midterms marked two days later than expected~View task handled~";
     return 0;
 }
 short Instructor::viewTAs(std::string message, std::string* response){
     qDebug()<<"viewTAHandler";
-    *response = "4~U~Alphonse Brown~Charles Dupont~Elise Festive~View TA handled";
+    *response = "5~U~Alphonse Brown~Charles Dupont~Elise Festive~View TAs handled~";
     return 0;
 }
 short Instructor::viewCourses(std::string message, std::string* response){
     qDebug()<<"viewCourseHandler";
-    *response = "5~U~COMP1804~COMP2804~COMP3804~COMP4804~COMP3004";
+    *response = "7~U~COMP1804~COMP2804~COMP3804~COMP4804~COMP3004~View courses handled~";
     return 0;
 }
 short Instructor::writeReview(std::string message, std::string* response){
     qDebug()<<"writeReviewHandler";
-    *response = "1~U~Write review handled";
+    *response = "2~U~Write review handled~";
     return 0;
 }
 void Instructor::manageReq(std::string req, std::string message, std::string *response){
