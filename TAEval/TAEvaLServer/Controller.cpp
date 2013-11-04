@@ -13,7 +13,7 @@ Controller::Controller(int size, std::string path, std::string* fileList) : data
 {
     for(int i=0; i<messageLength;i++)
         message[i] = "";
-    //database = *(new Database(4,path, fileList));
+    database = *(new Database(4,path, fileList));
 }
 
 Controller::~Controller()

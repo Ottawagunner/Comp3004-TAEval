@@ -3,7 +3,7 @@
 
 clientcontroller::clientcontroller()
 {
-    userName = "JohnSmith";
+    userName = "Glynda Goodwitch";
     userType = "I";
 }
 
