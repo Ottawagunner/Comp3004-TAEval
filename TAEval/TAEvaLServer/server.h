@@ -19,7 +19,6 @@ public:
     struct sockaddr_in servaddr, cliaddr;
     //bzero(&addr, sizeof(addr));
 
-
     void Setup();
     void SendText(std::string);
     std::string ReciveText();

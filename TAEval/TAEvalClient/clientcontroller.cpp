@@ -1,11 +1,13 @@
 #include "clientcontroller.h"
 #include <QDebug>
 
-clientcontroller::clientcontroller(){
+clientcontroller::clientcontroller()
+{
     userName = "JohnSmith";
 }
 
-int clientcontroller::run(int argc, char **argv){
+int clientcontroller::run(int argc, char **argv)
+{
     QApplication a(argc, argv);
     MainWindow w;
     window = &w;
@@ -13,7 +15,9 @@ int clientcontroller::run(int argc, char **argv){
     w.setController(this);
     return a.exec();
 }
-short clientcontroller::handleLogIn(){
+
+short clientcontroller::handleLogIn()
+{
     QString s ="Logging in username:";//+userName);
     window->writeToLog(s);
     client.Setup();
@@ -25,7 +29,9 @@ short clientcontroller::handleLogIn(){
     //handleMessage(client.ReciveText());
     return 0;
 }
-short clientcontroller::handleLogOut(){
+
+short clientcontroller::handleLogOut()
+{
     client.SendText("I"+userName+"~LogoutRequest~"+userName);
     QString buffer = QString::fromStdString(client.ReciveText());
     window->writeToLog(buffer);
@@ -33,7 +39,9 @@ short clientcontroller::handleLogOut(){
     //handleMessage(client.ReciveText());
     return 0;
 }
-short clientcontroller::handleCreateTask(){
+
+short clientcontroller::handleCreateTask()
+{
     std::string taskInfo;
     taskInfo = "Please grade all of the tests in your mailbox";
     client.SendText("I"+userName+"~CreateTaskRequest~"+taskInfo);
@@ -42,48 +50,63 @@ short clientcontroller::handleCreateTask(){
     handleMessage(client.ReciveText());
     return 0;
 }
-short clientcontroller::handleEditTask(){
+
+short clientcontroller::handleEditTask()
+{
     QString s = "Edit Task Test Handled";
     window->writeToLog(s);
     return 0;//unsure of how this is going to work but its here until we figure it out
 }
-short clientcontroller::handleDeleteTask(){
+
+short clientcontroller::handleDeleteTask()
+{
     client.SendText("I"+userName+"~DeleteTaskRequest~"+"TASK001");
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
     return 0;
 }
-short clientcontroller::handleViewTask(){
+
+short clientcontroller::handleViewTask()
+{
     client.SendText("I"+userName+"~ViewTaskRequest~"+"COMP3004");
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
     return 0;
 }
-short clientcontroller::handleCreateEval(){
+
+short clientcontroller::handleCreateEval()
+{
     client.SendText("I"+userName+"~CreateEvaluationRequest~"+"TASK001");
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
     return 0;
 }
-short clientcontroller::handleViewTAs(){
+
+short clientcontroller::handleViewTAs()
+{
     client.SendText("I"+userName+"~ViewTARequest~"+"COMP3004");
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
     return 0;
 }
-short clientcontroller::handleViewCourse(){
+
+short clientcontroller::handleViewCourse()
+{
     client.SendText("I"+userName+"~ViewCoursesRequest~"+userName);
     //QString buffer = QString::fromStdString(client.ReciveText());
     //window->writeToLog(buffer);
     handleMessage(client.ReciveText());
     return 0;
 }
-short clientcontroller::handleRunButton(int index){
-    switch(index){
+
+short clientcontroller::handleRunButton(int index)
+{
+    switch(index)
+    {
     case 0:
         handleLogIn();
         break;
@@ -144,7 +167,8 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
      //qDebug()<<"";
      //qDebug()<<"Content of message:";
 
-     for(short i = 0; i < numberOfSegments; i++){ // Assigns every segment of the command to the message array
+     for(short i = 0; i < numberOfSegments; i++) // Assigns every segment of the command to the message array
+     {
          if(i == 0)
              message[i] = command.substr(pos[i],pos[i+1]-pos[i]);
          else if(i+1 >= numberOfSegments)
@@ -154,7 +178,6 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
          //qDebug()<<(message[i].c_str());
          if(log) window->writeToLog(QString::fromStdString(message[i]));
      }
-
      return message;
  }
 

@@ -13,13 +13,11 @@ public:
     short login(std::string, std::string*);
     short logout(std::string, std::string*);
 
-
 protected:
     std::string userName;
     std::string name;
     std::string email;
     Database* database;
 };
-
 
 #endif // USER_H

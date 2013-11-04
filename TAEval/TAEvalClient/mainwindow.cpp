@@ -32,7 +32,6 @@ void MainWindow::on_runTestButton_clicked()
     controller->handleRunButton(ui->selectTestOption->currentIndex());
 }
 
-
 void MainWindow::on_selectTestOption_highlighted(const int i)
 {
     QString info = ""+i;
@@ -69,12 +68,18 @@ void MainWindow::on_selectTestOption_highlighted(const int i)
     }
     ui->description->setText(info);
 }
-void MainWindow::setController(clientcontroller *c){
+
+void MainWindow::setController(clientcontroller *c)
+{
     controller = c;
 }
-void MainWindow::writeToDescription(QString str){
+
+void MainWindow::writeToDescription(QString str)
+{
     ui->description->setText(QString(str));
 }
-void MainWindow::writeToLog(QString str){
+
+void MainWindow::writeToLog(QString str)
+{
     ui->textBrowser->append(QString(str));
 }

@@ -13,7 +13,7 @@ public:
     void parse(std::string*);
     void handleMessage(std::string *);
     void executeMessage(std::string *);
-    int runServer(bool);
+    int runServer();
     Server host;
 
 private:

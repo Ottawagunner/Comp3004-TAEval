@@ -20,24 +20,23 @@ Controller::~Controller()
 {
     delete &database;
 }
-int Controller::runServer(bool firstTime){
+
+int Controller::runServer(){
     //QApplication a(argc, argv);
     //MainWindow w;
-    if(firstTime) host.Setup();
-    else
+    host.Setup();
+    while(true)
     {
+        listening = true;
+        do{
+            std::string buffer = (host.ReciveText());
+            executeMessage(&buffer);
+            host.SendText(buffer);
+        }while(listening);
         listen(host.server, 100);  // 50 (the backlog) isn't really used on modern systems
         host.clilen = sizeof(host.cliaddr);
         host.client = accept(host.server,(sockaddr*)&(host.servaddr), &(host.clilen));  // addr gets info about client
     }
-    listening = true;
-    do{
-        std::string buffer = (host.ReciveText());
-        executeMessage(&buffer);
-        host.SendText(buffer);
-    }while(listening);
-    if(listening == false) runServer(false);//TERRIBLE!
-
     //w.show();
     //return a.exec();
 }

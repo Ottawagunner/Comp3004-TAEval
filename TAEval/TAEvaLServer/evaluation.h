@@ -8,7 +8,6 @@ public:
     Evaluation();
     int Rating;
     std::string Message;
-
 };
 
 #endif // EVALUATION_H
