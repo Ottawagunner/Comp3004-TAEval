@@ -28,20 +28,20 @@ std::string Server::ReciveText()
 void Server::Setup()
 {
     server = socket(AF_INET, SOCK_STREAM, 0);
-    if (bind(server,(sockaddr*)&servaddr,sizeof(servaddr)) < 0){
+    if (bind(server,(sockaddr*)&servaddr,sizeof(servaddr)) < 0)
+    {
         ERROR="Failed to Bind";
         qDebug()<<"Failed to Bind";
     }
     listen(server, 100);  // 50 (the backlog) isn't really used on modern systems
     clilen = sizeof(cliaddr);
     client = accept(server,(sockaddr*)&servaddr, &clilen);  // addr gets info about client
-
 }
 
-void Server::SendText(std::string X )
+void Server::SendText(std::string message)
 {
     char data[255];
-    strcpy(data,X.c_str());
+    strcpy(data, message.c_str());
     send(client, data, (size_t) strlen(data) + 1, 0);
     //qDebug()<<"Sent:";
     //qDebug()<<data;

@@ -20,6 +20,7 @@ private:
     const static short messageLength = 4;
     std::string message[messageLength];
     Database database;
+    bool listening;
 };
 
 #endif // CONTROLLER_H

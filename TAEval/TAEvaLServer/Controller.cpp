@@ -20,16 +20,23 @@ Controller::~Controller()
 {
     delete &database;
 }
+
 int Controller::runServer(){
     //QApplication a(argc, argv);
     //MainWindow w;
     host.Setup();
-    while(true){
-        std::string buffer = (host.ReciveText());
-        executeMessage(&buffer);
-        host.SendText(buffer);
+    while(true)
+    {
+        listening = true;
+        do{
+            std::string buffer = (host.ReciveText());
+            executeMessage(&buffer);
+            host.SendText(buffer);
+        }while(listening);
+        listen(host.server, 100);  // 50 (the backlog) isn't really used on modern systems
+        host.clilen = sizeof(host.cliaddr);
+        host.client = accept(host.server,(sockaddr*)&(host.servaddr), &(host.clilen));  // addr gets info about client
     }
-
     //w.show();
     //return a.exec();
 }
@@ -85,10 +92,15 @@ void Controller::handleMessage(std::string *command) // finds the userType which
         }
         case 2:
         {
-        qDebug()<<"Made it through the switch";
+            qDebug()<<"Made it through the switch";
             Instructor *i = new Instructor(&database);
             i->manageReq(message[2],message[3], command);
             delete(i);
+            if(message[2].compare("LogoutRequest")==0)
+            {
+                qDebug()<<"LOGOUT!!";
+                listening=false;
+            }
             break;
         }
         case 3:

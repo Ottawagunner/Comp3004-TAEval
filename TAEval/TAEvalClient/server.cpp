@@ -18,15 +18,17 @@ void Server::Setup(){
 
     if (connect(sockfd, (const struct sockaddr *) &server,sizeof(struct sockaddr_in))<0){
         qDebug()<<"ERROR CONNECTING";
-    }else{
+    }
+    else{
         qDebug()<<"CONNECTED";
     }
 
 }
-void Server::SendText(std::string X)
+
+void Server::SendText(std::string message)
 {
     char data[255];
-    strcpy(data,X.c_str());
+    strcpy(data, message.c_str());
     send(sockfd, data, (size_t) strlen(data) + 1, 0);
     qDebug()<<"Sent:";
     qDebug()<<data;
