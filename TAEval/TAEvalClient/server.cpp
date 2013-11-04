@@ -30,8 +30,8 @@ void Server::SendText(std::string message)
     char data[255];
     strcpy(data, message.c_str());
     send(sockfd, data, (size_t) strlen(data) + 1, 0);
-    qDebug()<<"Sent:";
-    qDebug()<<data;
+    //qDebug()<<"Sent:";
+    //qDebug()<<data;
 }
 
 std::string Server::ReciveText()
@@ -44,7 +44,7 @@ std::string Server::ReciveText()
        qDebug()<<"FAILED TO READ";
    }
    std::string out =(buffer);
-   qDebug()<<"Received:";
-   qDebug()<<buffer;
+   //qDebug()<<"Received:";
+   //qDebug()<<buffer;
    return out;
 }

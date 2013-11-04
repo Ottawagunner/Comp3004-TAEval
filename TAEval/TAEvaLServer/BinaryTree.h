@@ -26,9 +26,6 @@
 
 #include <iostream>
 #include <string>
-#include <QDebug>
-
-
 
 
 template <class KEY, class VALUE>
@@ -335,18 +332,12 @@ char BinaryTree<KEY,VALUE>::find(KEY* locatorKey, VALUE* returnValue){
 //
 //  Description : Locates the first occurence of a given key
 //
-    std::cout << *root->data << std::endl;
-	Node* tempNode;
-    qDebug()<<"BT ABOUT TO FIND NODE";
-	char error = findNode(locatorKey, &tempNode);
-    std::cout<<*tempNode->getData() << std::endl;
+    Node* tempNode;
+    char error = findNode(locatorKey, &tempNode);
 	if (error != NONE)
-		return error;
-    qDebug()<<"BT CHECKED ERROR";
-	VALUE tempValue = *(tempNode->data);
-    qDebug()<<"BT ASSIGNED TEMP VALUE";
-	*returnValue = tempValue;
-    qDebug()<<"BT ASSIGNED RETURN";
+        return error;
+    VALUE tempValue = *(tempNode->data);
+    *returnValue = tempValue;
 	delete tempNode;
 	return error;
 }
@@ -427,11 +418,9 @@ char BinaryTree<KEY,VALUE>::findNode(KEY* locatorKey, Node** tempNode){
 //Output Params : The node corresponding to said key
 //
 //  Description : Finds the first Node which has the input key
-//	
-    std::cout << *root->data << " : ROOT" <<std::endl;
+//
 	Node* currNode = root;
-	while (currNode != LEAF){
-        qDebug()<<"LOOP";
+    while (currNode != LEAF){
 		if (*(currNode->key) > *(locatorKey)){
 			currNode = currNode->leftChild;
 		} else if (*(currNode->key) < *(locatorKey)){

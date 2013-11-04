@@ -80,12 +80,10 @@ std::string** Database::query(int treeNumber, std::string* key){
         return NULL;
 
     std::string filename;
-    qDebug()<<"ABOUT TO FIND";
     std::cout << "KEY :"<<*key<<":"<<std::endl;
     if (arrayOfTrees[treeNumber]->find(*&key, &filename))
         return NULL;
     std::cout << filename << " : filename" << std::endl;
-    qDebug()<<"FINISHED FINDING";
     return readFile(&filename);
 
 }
@@ -455,12 +453,9 @@ char Database::populateTree(int treeNumber, std::string* filename){
 //                                        Otherwise can return:
 //                                                CORRUPT_FILE
 //        
-    std::cout << *filename << " : crap out" <<std::endl;
         std::ifstream theFile ((storagePath+(*filename)).c_str());
-        std::cout<< (storagePath+(*filename)) << " : StoragePAth" <<std::endl;
 
         if (!theFile.is_open()){
-            std::cout << "It be fucked" << std::endl;
                 return CORRUPT_FILE;
         }
 
@@ -469,11 +464,9 @@ char Database::populateTree(int treeNumber, std::string* filename){
         std::string* value;
 
         while(getline(theFile, buffer)){
-            std::cout << buffer << " : buffer" <<std::endl;
                 key = new std::string(buffer);
                 getline(theFile, buffer);
                 value = new std::string(buffer);
-                std::cout << *key << " : " << *value << std::endl;
                 arrayOfTrees[treeNumber]->add(key,value);
         }
 

@@ -71,8 +71,8 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
      for(int i=0; i<numberOfSegments;i++)
          message[i] = "";
 
-     qDebug()<<"";
-     qDebug()<<"Positions of ~:";
+     //qDebug()<<"";
+     //qDebug()<<"Positions of ~:";
      for(short i = 0; i < numberOfSegments; i++) // Goes through numberOfSegments of '~' and records the positions in the string
      {
          pos[i] = 0;
@@ -86,7 +86,7 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
              }
              pos[i] = command.find_first_of("~", pos[i-1]+1);
          }
-         qDebug()<<pos[i]; // note it won't show 0 as the continue skips this call
+       //  qDebug()<<pos[i]; // note it won't show 0 as the continue skips this call
      }
      //qDebug()<<"";
      //qDebug()<<"Content of message:";
@@ -108,18 +108,18 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
 std::string* clientcontroller::handleMessage(std::string command) // Learns if data server-side is locked or not and decomposes the message
  {
      std::string* parsedCommand = parse(command, 3, false); // Parses the command and turns message[] into {numberOfTildas,lockStatus,message}
-     qDebug()<<"";
+     //qDebug()<<"";
 
      bool locked = true; // check if data is locked
 
      if(parsedCommand[1].compare("L") == 0){
          locked = true;
-         qDebug()<<"Data is Locked";
+       //  qDebug()<<"Data is Locked";
          // do stuff here or later on
      }
      else if(parsedCommand[1].compare("U") == 0){
          locked = false;
-         qDebug()<<"Data is Unlocked";
+         //qDebug()<<"Data is Unlocked";
          // do stuff here or later on
      }
      else
@@ -145,7 +145,7 @@ std::string* clientcontroller::handleMessage(std::string command) // Learns if d
 
 
      // do stuff with the message;
-     qDebug()<<"";
+     //qDebug()<<"";
  }
 
 std::string clientcontroller::encode(std::string command, std::string userInput)
