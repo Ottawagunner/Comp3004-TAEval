@@ -43,6 +43,9 @@ class BinaryTree
 		friend class BinaryTree;
 
 	public:
+		Node();
+		Node(const Node&);
+
 		void setData(VALUE*);
 		void setKey(KEY*);
 		void setParent(Node*);
@@ -91,7 +94,7 @@ private:
 	void fixDepth(Node*);
 
 	void remove(Node*);
-	char findNode(KEY*, Node*);
+	char findNode(KEY*, Node**);
 
 	void incrementSize();
 	void decrementSize();
@@ -314,7 +317,7 @@ void BinaryTree<KEY,VALUE>::remove(KEY* locatorKey){
 // Comment: Maybe have a return value rather then node 
 // 			to help indicate success or failure.
 	Node* tempNode;
-	findNode(locatorKey, tempNode);
+	findNode(locatorKey, &tempNode);
 	remove(tempNode);
 	decrementSize();
 	balance();
@@ -332,10 +335,12 @@ char BinaryTree<KEY,VALUE>::find(KEY* locatorKey, VALUE* returnValue){
 //  Description : Locates the first occurence of a given key
 //
 	Node* tempNode;
-	char error = findNode(locatorKey, tempNode);
+	char error = findNode(locatorKey, &tempNode);
 	if (error != NONE)
 		return error;
-	returnValue = tempNode->data;
+	VALUE tempValue = *(tempNode->data);
+	*returnValue = tempValue;
+	delete tempNode;
 	return error;
 }
 
@@ -406,7 +411,7 @@ void BinaryTree<KEY,VALUE>::remove(Node* theNode){
 }
 
 template <class KEY, class VALUE>
-char BinaryTree<KEY,VALUE>::findNode(KEY* locatorKey, Node* tempNode){
+char BinaryTree<KEY,VALUE>::findNode(KEY* locatorKey, Node** tempNode){
 //
 //     Function : findNode
 //
@@ -423,7 +428,7 @@ char BinaryTree<KEY,VALUE>::findNode(KEY* locatorKey, Node* tempNode){
 		} else if (*(currNode->key) < *(locatorKey)){
 			currNode = currNode->rightChild;
 		} else {
-			tempNode = currNode;
+			*tempNode = (new Node(*currNode));
 			return SUCCESS;
 		}
 	}
@@ -843,6 +848,18 @@ typename BinaryTree<KEY,VALUE>::Node BinaryTree<KEY,VALUE>::getRoot() const{
 
 
 ///////////////////////NODE Functions
+
+template <class KEY, class VALUE>
+BinaryTree<KEY,VALUE>::Node::Node(){};
+
+template <class KEY, class VALUE>
+BinaryTree<KEY,VALUE>::Node::Node(const Node& rhs){
+	parent = rhs.parent;
+	leftChild = rhs.leftChild;
+	rightChild = rhs.rightChild;
+	data = rhs.data;
+	key = rhs.key;
+}
 
 template <class KEY, class VALUE>
 void BinaryTree<KEY,VALUE>::Node::setData(VALUE* input){

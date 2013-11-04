@@ -41,15 +41,15 @@ public:
 	Database(int /*Number of Trees*/,std::string /*Path to Storage*/, std::string* /*Tree File Names*/);
 	~Database();
 
-	char query(int /*Tree Number*/,std::string* /*Key*/, std::string** /*Return Value*/);
-	char insert(int /*Tree Number*/, std::string* /*Key*/, std::string** /*Data*/);
+	std::string** query(int/*Tree Number*/, std::string* /*Search Key*/);// std::string** /*Return Data*/);
+	char insert(int /*Tree Number*/, std::string* /*Key*/, std::string** /*Data*/, std::string*);
 	char removeEntry(int /*Tree Number*/, std::string* /*Key*/);
 	char update();//variables to be determined
 
 private:
 
 	BinaryTree<std::string,std::string>* arrayOfTrees;
-	std::string pathname;
+	std::string storagePath;
 	int numberOfTrees;
 	std::string* treeFiles;
 
@@ -58,11 +58,15 @@ private:
 
 	char removeFile(int /*Tree Number*/, std::string* /*Filename*/);
 	char buildFile(std::string** /*Data*/, std::string* /*Return Filename*/);
-	char readFile(std::string* /*Filename*/, std::string** /*Return Data*/);
 	char editFile(std::string* /*filename*/, std::string** /*Data List*/);
 
-	char populateTree(int /*Tree*/, std::string* /*Filename*/); 
+	char populateTree(int, std::string*);
+
+	std::string** readFile(std::string*);
+
 	char updateTreeFile(int /*Tree Number*/);
+
+	char cleanUp(char, std::string*);
 };
 
 #endif
