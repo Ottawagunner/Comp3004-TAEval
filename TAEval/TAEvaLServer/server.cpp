@@ -35,7 +35,6 @@ void Server::Setup()
     listen(server, 100);  // 50 (the backlog) isn't really used on modern systems
     clilen = sizeof(cliaddr);
     client = accept(server,(sockaddr*)&servaddr, &clilen);  // addr gets info about client
-
 }
 
 void Server::SendText(std::string X )

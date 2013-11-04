@@ -13,6 +13,6 @@ int main(int argc, char *argv[])
     fileList[3] = "Course.db";
     std::string path = "./Storage/";
     Controller c(4,path,fileList);
-    c.runServer();
+    c.runServer(true);
     //c.executeMessage("Iusername~CreateTaskRequest~Message");
 }

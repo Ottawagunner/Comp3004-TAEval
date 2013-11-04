@@ -29,6 +29,7 @@ short clientcontroller::handleLogOut(){
     client.SendText("I"+userName+"~LogoutRequest~"+userName);
     QString buffer = QString::fromStdString(client.ReciveText());
     window->writeToLog(buffer);
+    close(client.sockfd);
     //handleMessage(client.ReciveText());
     return 0;
 }
