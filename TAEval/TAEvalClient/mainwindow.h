@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 #include "server.h"
 #include <QMainWindow>
+#include "clientcontroller.h"
+#include <QString>
+class clientcontroller;
 namespace Ui {
 class MainWindow;
 }
@@ -12,28 +15,22 @@ class MainWindow : public QMainWindow
     
 public:
     QString options[9];
+    bool connected;
+
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    Server client;
-    std::string userName;
-    bool connected;
+
+    void setController(clientcontroller*);
+    void writeToDescription(QString);
+    void writeToLog(QString);
     
 private slots:
-    short handleLogIn();
-    short handleLogOut();
-    short handleCreateTask();
-    short handleEditTask();
-    short handleDeleteTask();
-    short handleViewTask();
-    short handleCreateEval();
-    short handleViewTAs();
-    short handleViewCourse();
     void on_runTestButton_clicked();
-
     void on_selectTestOption_highlighted(const int i);
 
 private:
     Ui::MainWindow *ui;
+    clientcontroller *controller;
 };
 
 #endif // MAINWINDOW_H

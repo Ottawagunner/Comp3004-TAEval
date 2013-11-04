@@ -10,13 +10,6 @@ public:
     void search(std::string, std::string[]);
 private:
     Database* d;
-    short createTask(std::string, std::string *);
-    short editTask(std::string, std::string *);
-    short deleteTask(std::string, std::string *);
-    short viewTask(std::string, std::string *);
-    short viewTAs(std::string, std::string *);
-    short viewCourses(std::string, std::string *);
-    short writeReview(std::string, std::string *);
     std::string reqType[10];
 };
 
