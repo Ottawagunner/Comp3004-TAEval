@@ -5,8 +5,6 @@ Database that utilizes my Binary Tree as the storage mechanism
 Author: Draymire
 Data: 1/11/13
 
-NOTE:: Remember write the update function
-
 DESIGN_DECISION: THIS DATABASE MAKES NO GUARANTEE THAT REFERENCES TO DATA WILL BE REMOVED
 				WHEN THE ACTUAL DATA IS. 
 				This decision was made in a speed/memory use trade favouring the extra speed 
