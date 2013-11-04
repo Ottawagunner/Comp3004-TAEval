@@ -26,6 +26,7 @@
 
 #include <iostream>
 #include <string>
+#include <QDebug>
 
 
 
@@ -334,12 +335,18 @@ char BinaryTree<KEY,VALUE>::find(KEY* locatorKey, VALUE* returnValue){
 //
 //  Description : Locates the first occurence of a given key
 //
+    std::cout << *root->data << std::endl;
 	Node* tempNode;
+    qDebug()<<"BT ABOUT TO FIND NODE";
 	char error = findNode(locatorKey, &tempNode);
+    std::cout<<*tempNode->getData() << std::endl;
 	if (error != NONE)
 		return error;
+    qDebug()<<"BT CHECKED ERROR";
 	VALUE tempValue = *(tempNode->data);
+    qDebug()<<"BT ASSIGNED TEMP VALUE";
 	*returnValue = tempValue;
+    qDebug()<<"BT ASSIGNED RETURN";
 	delete tempNode;
 	return error;
 }
@@ -421,8 +428,10 @@ char BinaryTree<KEY,VALUE>::findNode(KEY* locatorKey, Node** tempNode){
 //
 //  Description : Finds the first Node which has the input key
 //	
+    std::cout << *root->data << " : ROOT" <<std::endl;
 	Node* currNode = root;
 	while (currNode != LEAF){
+        qDebug()<<"LOOP";
 		if (*(currNode->key) > *(locatorKey)){
 			currNode = currNode->leftChild;
 		} else if (*(currNode->key) < *(locatorKey)){

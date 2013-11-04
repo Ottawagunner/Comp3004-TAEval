@@ -4,7 +4,7 @@
 #include <QDebug>
 #include "Controller.h"
 
-int main(int argc, char *argv[])
+int main()
 {
     std::string fileList[4];
     fileList[0] = "Admin.db";
@@ -12,7 +12,6 @@ int main(int argc, char *argv[])
     fileList[2] = "TA.db";
     fileList[3] = "Course.db";
     std::string path = "./Storage/";
-    Controller c(4,path,fileList);
-    c.runServer();
-    //c.executeMessage("Iusername~CreateTaskRequest~Message");
+    Controller* c = new Controller(4,path,fileList);
+    c->runServer();
 }

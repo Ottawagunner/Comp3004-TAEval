@@ -36,30 +36,25 @@ CODE :         NAME           :           DESCRIPTION
 
 
 // Input Params: size = the number of trees
-//				path = the storage pathname
+//				path = the storage storagePath
 //				setupList = list of files used in tree population
-Database::Database(int size = 0, std::string path = "", std::string* setupList = NULL){
-	pathname = path;
-	numberOfTrees = size;
-	if (size != 0)
-		arrayOfTrees = (new BinaryTree<std::string,std::string>[size]);	
+Database::Database(int arg1, std::string arg2, std::string* list) : numberOfTrees(arg1), storagePath(arg2){
+	treeFiles = list;
+	arrayOfTrees = new BinaryTree<std::string, std::string>*[numberOfTrees];	
 
-	treeFiles = new std::string[size];
-	for (int i = 0;i<size;i++){
-		//Should probably do something with this so that the program won't go forward with a corrupt database.
-		treeFiles[i] = setupList[i];
-		populateTree(i, &setupList[i]);
+	for (int i = 0; i < numberOfTrees; i++){
+        arrayOfTrees[i] = new BinaryTree<std::string, std::string>;
+		populateTree(i, &treeFiles[i]);
 	}
 }
 
 Database::~Database(){
-
-	/*for (int i = 0; i < numberOfTrees; i++){
-		std::cout <<"Welcome to tree number: " << i << std::endl;
-		delete(&arrayOfTrees[i]);
-	}*/
 	//delete[] arrayOfTrees;
-	//delete[] treeFiles;
+
+    //for (int i = numberOfTrees-1; i > 0; i--){
+    //    delete arrayOfTrees[i];
+//    }
+    delete[] (arrayOfTrees);
 }
 
 ////////Public Functions
@@ -85,13 +80,16 @@ std::string** Database::query(int treeNumber, std::string* key){
         return NULL;
 
     std::string filename;
-
-    if (arrayOfTrees[treeNumber].find(key, &filename))
+    qDebug()<<"ABOUT TO FIND";
+    std::cout << "KEY :"<<*key<<":"<<std::endl;
+    if (arrayOfTrees[treeNumber]->find(*&key, &filename))
         return NULL;
-
+    std::cout << filename << " : filename" << std::endl;
+    qDebug()<<"FINISHED FINDING";
     return readFile(&filename);
 
 }
+
 
 char Database::insert(int treeNumber, std::string* key, std::string** data, std::string* filename){
 //
@@ -115,20 +113,17 @@ char Database::insert(int treeNumber, std::string* key, std::string** data, std:
 //						any Error Code produced by insertFile()
 //						any Error Code produced by updateTreeFile()
 //
-	char error = ARRAY_OUT_OF_BOUNDS;
-	std::string file;
+   if (treeNumber > numberOfTrees)
+        return ARRAY_OUT_OF_BOUNDS;
 
-	if (treeNumber < numberOfTrees){
-		error = findFile(treeNumber, key, &file);
-		if (error == KEY_NOT_FOUND){
-			error = buildFile(data, filename);
-			if (error  == NONE)
-				return insertFile(treeNumber, key, filename);
-		} else if (error == NONE)
-			return KEY_ALREADY_IN_USE;
-	}
+    std::string randomString;
 
-	return error;
+    if (!arrayOfTrees[treeNumber]->find(key, &randomString))
+        return KEY_ALREADY_IN_USE;
+
+    arrayOfTrees[treeNumber]->add(key, filename);
+
+    return buildFile(filename, *&data);
 }
 
 char Database::removeEntry(int treeNumber, std::string* key){
@@ -175,7 +170,7 @@ char Database::update(){//WARNING
 
 /////////Private Helper Functions
 
-char Database::buildFile(std::string** data, std::string* filename){
+char Database::buildFile(std::string* filename, std::string** data){
 //
 // Input Params : data -> The data to populate the file with
 //					filename -> The name to be used for the new file
@@ -191,40 +186,47 @@ char Database::buildFile(std::string** data, std::string* filename){
 //						CORRUPT_FILE
 //
 
-	int size, ss;
+    int size, ss;
 
-	std::ofstream theFile ((pathname+(*filename)).c_str());
+    std::ofstream theFile ((storagePath+(*filename)).c_str());
 
-	if (!theFile.is_open())
-		return FILE_ALREADY_EXISTS;
+    if (!theFile.is_open()){
+        theFile.close();
+        return FILE_ALREADY_EXISTS;
+    }
 
-	int* arraySizes;
+    int* arraySizes;
 
-	try{
-		//create integer array from data[0]
-		std::stringstream (data[0][0]) >> size;//size = std::stoi(data[0][0]);
-		arraySizes = new int[size];
+    try{
+        //create integer array from data[0]
+        std::stringstream (data[0][0]) >> size;//size = std::stoi(data[0][0]);
+        arraySizes = new int[size];
 
-		theFile << data[0][0];
+        theFile << data[0][0] << std::endl;
 
-		for (int i = 1; i <= size; i++){
-			std::stringstream (data[0][i]) >> ss;// = std::stoi(data[0][i]);
-			(arraySizes[i-1]) = ss;
-			theFile << data[0][i];
-		}
-	} catch (std::exception const & e){
-		return CORRUPT_FILE;
-	}
+        for (int i = 1; i <= size; i++){
+                std::stringstream (data[0][i]) >> ss;// = std::stoi(data[0][i]);
+                (arraySizes[i-1]) = ss;
+                theFile << data[0][i] << std::endl;
+        }
+    } catch (std::exception const & e){
+        theFile.close();
+        return CORRUPT_FILE;
+    }
 
-	for (int i= 0; i < size; i++){
-		for (int k = 0; k < arraySizes[i]; k++){
-			theFile << data[i+1][k] << std::endl;
-		}
-	}
+    for (int i= 0; i < size; i++){
+        for (int k = 0; k < arraySizes[i]; k++){
+            theFile << data[i+1][k] << std::endl;
+        }
+    }
 
-	theFile.close();
+    theFile.close();
 
-	return SUCCESS;
+    delete[] arraySizes;
+    delete[] data;
+
+    return SUCCESS;
+
 
 // FILE SETUP:
 //	[[array of integer values specifying size of itself, and number of other values to expect.],[values 1],...,[Values n]]
@@ -328,7 +330,7 @@ char Database::removeFile(int treeNumber, std::string* key){
 	if (findFile(treeNumber, key, &filename))
 		return cleanUp(FILE_NOT_FOUND, &filename);
 
-	arrayOfTrees[treeNumber].remove(key);
+	arrayOfTrees[treeNumber]->remove(key);
 
 	updateTreeFile(treeNumber);
 
@@ -349,7 +351,7 @@ char Database::findFile(int treeNumber, std::string* key, std::string* filename)
 //
 //      Returns : 0 if there were no errors
 //
-	if (arrayOfTrees[treeNumber].find(key, filename) != NONE)
+	if (arrayOfTrees[treeNumber]->find(key, filename) != NONE)
 		return KEY_NOT_FOUND;
 
 
@@ -370,16 +372,16 @@ char Database::updateTreeFile(int treeNumber){
 //						FAILED_TO_RENAME_FILE
 //
 
-	std::ofstream myFile (((pathname+treeFiles[treeNumber])+".TEMP").c_str());
+	std::ofstream myFile (((storagePath+treeFiles[treeNumber])+".TEMP").c_str());
 
 	myFile << arrayOfTrees[treeNumber];
 
 	myFile.close();
 
-	if (remove((pathname+treeFiles[treeNumber]).c_str()))
+	if (remove((storagePath+treeFiles[treeNumber]).c_str()))
 		return FAILED_FILE_DELETION;
 
-	if (rename((pathname+treeFiles[treeNumber]+".TEMP").c_str(), (pathname+treeFiles[treeNumber]).c_str()))
+	if (rename((storagePath+treeFiles[treeNumber]+".TEMP").c_str(), (storagePath+treeFiles[treeNumber]).c_str()))
 		return FAILED_TO_RENAME_FILE;
 
 	return SUCCESS;
@@ -403,7 +405,7 @@ char Database::insertFile(int treeNumber, std::string* key, std::string* filenam
 //						any Error Code produced by updateTreeFile()
 //
 
-	arrayOfTrees[treeNumber].add(key, filename);
+	arrayOfTrees[treeNumber]->add(key, filename);
 
 	return updateTreeFile(treeNumber);
 
@@ -427,12 +429,12 @@ char Database::editFile(std::string* filename, std::string** dataList){
 //
 	std::string tempFilename = (*filename)+".TEMP";
 
-	char error = buildFile(dataList, &tempFilename);
+	char error = buildFile(&tempFilename, *&dataList);
 
-	if (remove((pathname+(*filename)).c_str()))
+	if (remove((storagePath+(*filename)).c_str()))
 		return FAILED_FILE_DELETION;
 
-	if (rename((pathname+(*filename)+".TEMP").c_str(), (*filename).c_str()))
+	if (rename((storagePath+(*filename)+".TEMP").c_str(), (*filename).c_str()))
 		return FAILED_TO_RENAME_FILE;
 
 	return SUCCESS;
@@ -453,22 +455,26 @@ char Database::populateTree(int treeNumber, std::string* filename){
 //                                        Otherwise can return:
 //                                                CORRUPT_FILE
 //        
-
+    std::cout << *filename << " : crap out" <<std::endl;
         std::ifstream theFile ((storagePath+(*filename)).c_str());
+        std::cout<< (storagePath+(*filename)) << " : StoragePAth" <<std::endl;
 
-        if (!theFile.is_open())
+        if (!theFile.is_open()){
+            std::cout << "It be fucked" << std::endl;
                 return CORRUPT_FILE;
+        }
 
         std::string buffer;
         std::string* key;
         std::string* value;
 
         while(getline(theFile, buffer)){
+            std::cout << buffer << " : buffer" <<std::endl;
                 key = new std::string(buffer);
                 getline(theFile, buffer);
                 value = new std::string(buffer);
-
-                arrayOfTrees[treeNumber].add(key,value);
+                std::cout << *key << " : " << *value << std::endl;
+                arrayOfTrees[treeNumber]->add(key,value);
         }
 
         return SUCCESS;

@@ -14,14 +14,9 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    QString options[9];
-    bool connected;
-
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
     void setController(clientcontroller*);
-    void writeToDescription(QString);
     void writeToLog(QString);
     
 private slots:
@@ -29,8 +24,10 @@ private slots:
     void on_selectTestOption_highlighted(const int i);
 
 private:
+    QString options[9];
     Ui::MainWindow *ui;
     clientcontroller *controller;
+    void writeToDescription(QString);
 };
 
 #endif // MAINWINDOW_H
