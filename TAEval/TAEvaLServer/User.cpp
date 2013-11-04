@@ -41,5 +41,5 @@ std::string User::encode(short listLength, std::string* list)
 
 std::string User::encode(std::string original, std::string toAdd)
 {
-    return original+toAdd;
+    return original+"~"+toAdd;
 }
