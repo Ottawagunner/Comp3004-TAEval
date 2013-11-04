@@ -50,7 +50,6 @@ private:
 
 	BinaryTree<std::string,std::string>* arrayOfTrees;
 	std::string storagePath;
-    std::string pathname;
 	int numberOfTrees;
 	std::string* treeFiles;
 
