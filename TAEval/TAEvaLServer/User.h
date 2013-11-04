@@ -13,7 +13,7 @@ public:
     short login(std::string, std::string*);
     short logout(std::string, std::string*);
     std::string encode(short, std::string, std::string);
-    std::string encode(short, std::string);
+    std::string encode(short, std::string*);
     std::string encode(std::string, std::string);
 
 protected:
