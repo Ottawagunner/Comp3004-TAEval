@@ -38,7 +38,6 @@ CODE :         NAME           :           DESCRIPTION
 // Input Params: size = the number of trees
 //				path = the storage storagePath
 //				setupList = list of files used in tree population
-<<<<<<< HEAD
 Database::Database(int arg1, std::string arg2, std::string* list) : numberOfTrees(arg1), storagePath(arg2){
 	treeFiles = list;
 	arrayOfTrees = new BinaryTree<std::string, std::string>*[numberOfTrees];	
@@ -46,19 +45,6 @@ Database::Database(int arg1, std::string arg2, std::string* list) : numberOfTree
 	for (int i = 0; i < numberOfTrees; i++){
         arrayOfTrees[i] = new BinaryTree<std::string, std::string>;
 		populateTree(i, &treeFiles[i]);
-=======
-Database::Database(int size = 0, std::string path = "", std::string* setupList = NULL){
-    pathname = path;
-	numberOfTrees = size;
-	if (size != 0)
-		arrayOfTrees = (new BinaryTree<std::string,std::string>[size]);	
-
-	treeFiles = new std::string[size];
-	for (int i = 0;i<size;i++){
-		//Should probably do something with this so that the program won't go forward with a corrupt database.
-		treeFiles[i] = setupList[i];
-		populateTree(i, &setupList[i]);
->>>>>>> master
 	}
 }
 
