@@ -17,15 +17,6 @@ private:
     std::string userName;
     std::string userType;
 
-    short handleLogIn();
-    short handleLogOut();
-    short handleCreateTask();
-    short handleEditTask();
-    short handleDeleteTask();
-    short handleViewTask();
-    short handleCreateEval();
-    short handleViewTAs();
-    short handleViewCourse();
     std::string  encode(std::string, std::string);
     std::string* parse(std::string, int, bool);
     std::string* handleMessage(std::string);

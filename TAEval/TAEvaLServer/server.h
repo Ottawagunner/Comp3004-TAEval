@@ -20,6 +20,7 @@ public:
     //bzero(&addr, sizeof(addr));
 
     void Setup();
+    void Listen();
     void SendText(std::string);
     std::string ReciveText();
 };
