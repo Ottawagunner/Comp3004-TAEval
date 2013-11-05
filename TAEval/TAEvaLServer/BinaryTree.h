@@ -26,11 +26,8 @@
 
 #include <iostream>
 #include <string>
-<<<<<<< HEAD
 
 
-=======
->>>>>>> upstream/master
 
 
 template <class KEY, class VALUE>
@@ -337,21 +334,12 @@ char BinaryTree<KEY,VALUE>::find(KEY* locatorKey, VALUE* returnValue){
 //
 //  Description : Locates the first occurence of a given key
 //
-<<<<<<< HEAD
 	Node* tempNode;
 	char error = findNode(locatorKey, &tempNode);
 	if (error != NONE)
 		return error;
 	VALUE tempValue = *(tempNode->data);
 	*returnValue = tempValue;
-=======
-    Node* tempNode;
-    char error = findNode(locatorKey, &tempNode);
-	if (error != NONE)
-        return error;
-    VALUE tempValue = *(tempNode->data);
-    *returnValue = tempValue;
->>>>>>> upstream/master
 	delete tempNode;
 	return error;
 }
@@ -432,15 +420,9 @@ char BinaryTree<KEY,VALUE>::findNode(KEY* locatorKey, Node** tempNode){
 //Output Params : The node corresponding to said key
 //
 //  Description : Finds the first Node which has the input key
-<<<<<<< HEAD
 //	
 	Node* currNode = root;
 	while (currNode != LEAF){
-=======
-//
-	Node* currNode = root;
-    while (currNode != LEAF){
->>>>>>> upstream/master
 		if (*(currNode->key) > *(locatorKey)){
 			currNode = currNode->leftChild;
 		} else if (*(currNode->key) < *(locatorKey)){
