@@ -20,6 +20,7 @@ void Instructor::search(std::string s, std::string a[]){
 
 void Instructor::manageReq(std::string req, std::string message, std::string *response){
     int reqNum=-1;
+    int num=-1;
     std::string** temp;
     for(int i = 0; i<9; i++){
         if(req.compare(reqType[i])==0){
@@ -55,7 +56,11 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
         *response = encode(4, "U", "Alphonse Brown~Charles Dupont~Elise Festive~View TAs handled");
         break;
     case 7:
-        *response = encode(6, "U", "COMP1804~COMP2804~COMP3804~COMP4804~COMP3004~View courses handled");
+        temp = (database->query(1,&message));
+        std::stringstream(temp[0][1]) >> num;
+        qDebug()<<num;
+        std::cout<<"TEMP!)"<<temp[1][0]<<std::endl;
+        *response = encode(num, *&temp[1]);
         break;
     case 8:
         *response = encode(1, "U", "Write review handled");

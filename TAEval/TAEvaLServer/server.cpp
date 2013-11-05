@@ -20,8 +20,6 @@ std::string Server::ReciveText()
        qDebug()<<"FAILED TO READ";
    }
    std::string out =(buffer);
-   qDebug()<<"Received:";
-   qDebug()<<buffer;
    return out;
 }
 

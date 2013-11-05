@@ -80,8 +80,15 @@ std::string** Database::query(int treeNumber, std::string* key){/////
         return NULL;
 
     std::string filename;
+<<<<<<< HEAD
     if (arrayOfTrees[treeNumber]->find(*&key, &filename))
         return NULL;
+=======
+    std::cout << "KEY :"<<*key<<":"<<std::endl;
+    if (arrayOfTrees[treeNumber]->find(*&key, &filename))
+        return NULL;
+    std::cout << filename << " : filename" << std::endl;
+>>>>>>> upstream/master
     return readFile(&filename);
 
 }

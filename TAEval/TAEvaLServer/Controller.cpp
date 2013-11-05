@@ -78,7 +78,6 @@ void Controller::parse(std::string *command) // userType, userName, actionReques
 void Controller::handleMessage(std::string *command) // finds the userType which is one of A, I or T, created an object of the proper class and passes on the request
 {
     short userType = 0;
-    qDebug()<<"Made it to handle message";
     if(message[0].compare("A") == 0) userType = 1;
     else if(message[0].compare("I") == 0) userType = 2;
     else if(message[0].compare("T") == 0) userType = 3;
@@ -92,7 +91,6 @@ void Controller::handleMessage(std::string *command) // finds the userType which
         }
         case 2:
         {
-            qDebug()<<"Made it through the switch";
             Instructor *i = new Instructor(&database);
             i->manageReq(message[2],message[3], command);
             delete(i);

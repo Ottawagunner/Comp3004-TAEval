@@ -3,6 +3,8 @@
 #include "User.h"
 #include "Database.h"
 #include <cstdlib>
+#include <sstream>
+#include <QDebug>
 class Instructor:User{
 public:
     Instructor(Database *database);
