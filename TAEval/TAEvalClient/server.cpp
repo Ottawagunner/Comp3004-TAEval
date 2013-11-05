@@ -34,7 +34,7 @@ void Server::SendText(std::string message)
     //qDebug()<<data;
 }
 
-std::string Server::ReciveText()
+std::string Server::RecieveText()
 {
    ssize_t n;
    char buffer[255];
