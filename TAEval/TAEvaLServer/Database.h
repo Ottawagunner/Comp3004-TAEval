@@ -32,7 +32,6 @@ Data: 30/10/13
 #include <fstream>
 #include <sstream>
 #include "BinaryTree.h"
-#include <QDebug>
 
 
 
@@ -46,7 +45,7 @@ public:
 	char insert(int, std::string*, std::string**, std::string*);
 	
 	char removeEntry(int /*Tree Number*/, std::string* /*Key*/);
-	char update();//variables to be determined
+	char edit(int, std::string*, std::string**);//variables to be determined
 
 private:
 
@@ -56,12 +55,10 @@ private:
 	BinaryTree<std::string, std::string>** arrayOfTrees;
 	std::string* treeFiles;
 
-	char insertFile(int /*Tree Number*/, std::string* /*Key*/, std::string* /*Data*/);
 	char findFile(int /*Tree Number*/, std::string* /*Key*/, std::string* /*Return Filename*/);
 
 	char removeFile(int /*Tree Number*/, std::string* /*Filename*/);
 	char buildFile(std::string*, std::string**);
-	char editFile(std::string* /*filename*/, std::string** /*Data List*/);
 
 	char populateTree(int, std::string*);
 

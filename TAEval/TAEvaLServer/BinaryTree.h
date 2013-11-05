@@ -28,13 +28,15 @@
 #include <string>
 
 
+
+
 template <class KEY, class VALUE>
 class BinaryTree
 {
 
 	//template <class E> //for overloading later
 	template <class KEY_E, class VALUE_E>
-	friend std::ostream& operator<<(std::ostream&, BinaryTree<KEY_E,VALUE_E> const&);
+	friend std::ofstream& operator<<(std::ofstream&, BinaryTree<KEY_E,VALUE_E> const&);
 
 	class Node
 	{
@@ -162,8 +164,8 @@ BinaryTree<KEY,VALUE>::~BinaryTree(){
 		else if (tempNode->rightChild != LEAF)
 			tempNode = tempNode->rightChild;
 		else {
-			delete(tempNode->getKey());
-			delete(tempNode->getData());
+			//delete(tempNode->getKey());
+			//delete(tempNode->getData());
 			destroyNode = tempNode;
 			tempNode = tempNode->parent;
 			if (tempNode != ROOT){
@@ -191,8 +193,8 @@ void BinaryTree<KEY,VALUE>::add(KEY* addKey, VALUE* addValue){
 //					And then adds it.
 //
 	if (isEmpty()){
-		root->key = addKey;
-		root->data = addValue;
+		root->key = new KEY(*addKey);
+		root->data = new VALUE(*addValue);
 		incrementSize();
 	} else {
 		Node* iterNode = root;
@@ -233,8 +235,8 @@ void BinaryTree<KEY,VALUE>::addLeftChild(KEY* addKey, VALUE* addValue, Node* par
 //
 	Node* tempNode = new Node();
 	tempNode->parent = parentNode;
-	tempNode->key = addKey;
-	tempNode->data = addValue;
+	tempNode->key = new KEY(*addKey);
+	tempNode->data = new VALUE(*addValue);
 	tempNode->leftChild = LEAF;
 	tempNode->rightChild = LEAF;
 	parentNode->leftChild = tempNode;
@@ -257,8 +259,8 @@ void BinaryTree<KEY,VALUE>::addRightChild(KEY* addKey, VALUE* addValue, Node* pa
 //
 	Node* tempNode = new Node();
 	tempNode->parent = parentNode;
-	tempNode->key = addKey;
-	tempNode->data = addValue;
+	tempNode->key = new KEY(*addKey);
+	tempNode->data = new VALUE(*addValue);
 	tempNode->leftChild = LEAF;
 	tempNode->rightChild = LEAF;
 	parentNode->rightChild = tempNode;
@@ -332,12 +334,12 @@ char BinaryTree<KEY,VALUE>::find(KEY* locatorKey, VALUE* returnValue){
 //
 //  Description : Locates the first occurence of a given key
 //
-    Node* tempNode;
-    char error = findNode(locatorKey, &tempNode);
+	Node* tempNode;
+	char error = findNode(locatorKey, &tempNode);
 	if (error != NONE)
-        return error;
-    VALUE tempValue = *(tempNode->data);
-    *returnValue = tempValue;
+		return error;
+	VALUE tempValue = *(tempNode->data);
+	*returnValue = tempValue;
 	delete tempNode;
 	return error;
 }
@@ -418,9 +420,9 @@ char BinaryTree<KEY,VALUE>::findNode(KEY* locatorKey, Node** tempNode){
 //Output Params : The node corresponding to said key
 //
 //  Description : Finds the first Node which has the input key
-//
+//	
 	Node* currNode = root;
-    while (currNode != LEAF){
+	while (currNode != LEAF){
 		if (*(currNode->key) > *(locatorKey)){
 			currNode = currNode->leftChild;
 		} else if (*(currNode->key) < *(locatorKey)){
@@ -1019,13 +1021,15 @@ int BinaryTree<KEY,VALUE>::Node::getDepth() const{
 //////////////Overloaded Functions
 
 template <class KEY, class VALUE>
-std::ostream& operator<<(std::ostream& out, BinaryTree<KEY,VALUE> const& rhs){
+std::ofstream& operator<<(std::ofstream& out, BinaryTree<KEY,VALUE> const& rhs){
 	if ( !(rhs.isEmpty()) ){
 		typename BinaryTree<KEY,VALUE>::Node *tempNode;
 		typename BinaryTree<KEY,VALUE>::Node* backupNode;
 		tempNode = (rhs.root);
 		int count = 0;
 		do{
+			std::cout << "KEY: " << *(tempNode->getKey()) << std::endl;
+			std::cout << "VALUE: " << *(tempNode->getData()) <<std::endl;
 			out << /*"KEY: " <<*/ *(tempNode->getKey()) << std::endl;
 			out /*<< " VALUE: "*/ << *(tempNode->getData()) <</* " DEPTH: " << tempNode->getDepth() <<*/ std::endl;
 			count+=1;

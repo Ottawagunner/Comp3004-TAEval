@@ -5,6 +5,7 @@ clientcontroller::clientcontroller()
 {
     userName = "Glynda Goodwitch";
     userType = "I";
+    loggedIn = false;
 }
 
 int clientcontroller::run(int argc, char **argv)
@@ -29,7 +30,7 @@ short clientcontroller::handleRunButton(int index)
     case 1:
         response = encode("LogoutRequest", userName);
         client.SendText(response);
-        handleMessage(client.ReciveText());
+        handleMessage(client.RecieveText());
         close(client.sockfd);
         return 0;
         break;
@@ -43,7 +44,7 @@ short clientcontroller::handleRunButton(int index)
         response = encode("DeleteTaskRequest", "TASK001");
         break;
     case 5:
-        response = encode("ViewTaskRequest", "COMP3004");
+        response = encode("ViewTaskRequest", userName);
         break;
     case 6:
         response = encode("CreateEvaluationRequest", "TASK001");
@@ -59,7 +60,7 @@ short clientcontroller::handleRunButton(int index)
         break;
     }
     client.SendText(response);
-    handleMessage(client.ReciveText());
+    handleMessage(client.RecieveText());
     return 0;
 }
 
@@ -86,7 +87,7 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
              }
              pos[i] = command.find_first_of("~", pos[i-1]+1);
          }
-       //  qDebug()<<pos[i]; // note it won't show 0 as the continue skips this call
+         //qDebug()<<pos[i]; // note it won't show 0 as the continue skips this call
      }
      //qDebug()<<"";
      //qDebug()<<"Content of message:";
@@ -99,7 +100,7 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
              message[i] = command.substr(pos[i]+1,-1);
          else
              message[i] = command.substr(pos[i]+1,pos[i+1]-pos[i]-1);
-         //qDebug()<<(message[i].c_str());
+         qDebug()<<(message[i].c_str());
          if(log) window->writeToLog(QString::fromStdString(message[i]));
      }
      return message;
