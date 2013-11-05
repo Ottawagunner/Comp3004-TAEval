@@ -21,46 +21,70 @@ int clientcontroller::run(int argc, char **argv)
 short clientcontroller::handleRunButton(int index)
 {
     std::string response ="";
+    std::string message;
     switch(index)
     {
     case 0:
         client.Setup();
         response = encode("LoginRequest", userName);
+        client.SendText(response);
+        if(client.RecieveText().compare("1~U~Login successful")==0)
+            window->writeToLog("Login Passed");
+        else{
+            window->writeToLog("Login Failed");
+        }
         break;
     case 1:
         response = encode("LogoutRequest", userName);
         client.SendText(response);
         handleMessage(client.RecieveText());
         close(client.sockfd);
+        window->writeToLog("Logout Passed");
         return 0;
         break;
     case 2:
         response = encode("CreateTaskRequest", "Please grade all of the tests in your mailbox");
         break;
     case 3:
-        response = encode("EditTaskRequest", "TASK001~Title~Grade/5~Written review"); // WIP
+        response = encode("EditTaskRequest", "2~Init-Ruby~Do Lab"); // WIP
         break;
     case 4:
-        response = encode("DeleteTaskRequest", "TASK001");
+        message = "InitBlake";
+        response = encode("DeleteTaskRequest", message);
+        client.SendText(response);
+        if(client.RecieveText().compare("1~U~Delete task handled")==0)
+            window->writeToLog("Delete Task Passed");
+        else
+            window->writeToLog("Delete Task Failed");
         break;
     case 5:
         response = encode("ViewTaskRequest", userName);
         break;
     case 6:
-        response = encode("CreateEvaluationRequest", "TASK001");
+        response = encode("CreateEvaluationRequest", "3~InitRuby~5~Good Job");
         break;
     case 7:
-        response = encode("ViewTARequest", "COMP3004");
+        response = encode("ViewTARequest", "MNSTR101");
+        client.SendText(response);
+        if(client.RecieveText().compare("4~U~Ruby Rose~Weiss Schnee~Yang Xiao Long~Blake Belladonna")==0)
+            window->writeToLog("View TAs Passed");
+        else
+            window->writeToLog("View TAs Failed");
         break;
     case 8:
         response = encode("ViewCoursesRequest", userName);
+        client.SendText(response);
+        if(client.RecieveText().compare("2~U~MNSTR101~HIST101")==0)
+            window->writeToLog("View Courses Passed");
+        else
+            window->writeToLog("View Courses Failed");
         break;
     default:
         return 1;
         break;
     }
-    client.SendText(response);
-    handleMessage(client.RecieveText());
+
+    //handleMessage(client.RecieveText());
     return 0;
 }
 
@@ -72,8 +96,6 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
      for(int i=0; i<numberOfSegments;i++)
          message[i] = "";
 
-     //qDebug()<<"";
-     //qDebug()<<"Positions of ~:";
      for(short i = 0; i < numberOfSegments; i++) // Goes through numberOfSegments of '~' and records the positions in the string
      {
          pos[i] = 0;
@@ -87,10 +109,7 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
              }
              pos[i] = command.find_first_of("~", pos[i-1]+1);
          }
-         //qDebug()<<pos[i]; // note it won't show 0 as the continue skips this call
      }
-     //qDebug()<<"";
-     //qDebug()<<"Content of message:";
 
      for(short i = 0; i < numberOfSegments; i++) // Assigns every segment of the command to the message array
      {
@@ -100,8 +119,7 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
              message[i] = command.substr(pos[i]+1,-1);
          else
              message[i] = command.substr(pos[i]+1,pos[i+1]-pos[i]-1);
-         qDebug()<<(message[i].c_str());
-         if(log) window->writeToLog(QString::fromStdString(message[i]));
+         if(log && message[i].length()>=2) window->writeToLog(QString::fromStdString(message[i]));
      }
      return message;
  }
@@ -109,19 +127,14 @@ std::string* clientcontroller::parse(std::string command, int numberOfSegments, 
 std::string* clientcontroller::handleMessage(std::string command) // Learns if data server-side is locked or not and decomposes the message
  {
      std::string* parsedCommand = parse(command, 3, false); // Parses the command and turns message[] into {numberOfTildas,lockStatus,message}
-     //qDebug()<<"";
 
      bool locked = true; // check if data is locked
 
      if(parsedCommand[1].compare("L") == 0){
          locked = true;
-       //  qDebug()<<"Data is Locked";
-         // do stuff here or later on
      }
      else if(parsedCommand[1].compare("U") == 0){
          locked = false;
-         //qDebug()<<"Data is Unlocked";
-         // do stuff here or later on
      }
      else
      {
@@ -132,18 +145,6 @@ std::string* clientcontroller::handleMessage(std::string command) // Learns if d
 
      std::string* message = parse(parsedCommand[2], numberOfSegments, true); // parses it
      return message;
-     /*
-      * I failed at liberating occupied memory => Memory Leak!
-      */
-
-     //for(int i=0; i<3;i++) // Deallocate the previous message from memory
-     //    delete[] &(parsedCommand[i]);
-     //delete parsedCommand;
-
-     //for(int i=0; i<numberOfSegments;i++) // Deallocate the previous message from memory
-     //     delete[] &(message[i]);
-     //delete &message;
-
 
      // do stuff with the message;
      //qDebug()<<"";
@@ -151,5 +152,5 @@ std::string* clientcontroller::handleMessage(std::string command) // Learns if d
 
 std::string clientcontroller::encode(std::string command, std::string userInput)
 {
-    return userType+userName+"~"+command+"~"+userInput;
+    return userType+"~"+userName+"~"+command+"~"+userInput;
 }

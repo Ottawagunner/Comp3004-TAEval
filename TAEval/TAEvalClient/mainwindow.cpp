@@ -37,31 +37,31 @@ void MainWindow::on_selectTestOption_highlighted(const int i)
     QString info = ""+i;
     switch(i){
     case 0:
-        info = "Login test description";
+        info = "This test sends a request to the server, to look for the username and will reply with a message indicating it's success";
         break;
     case 1:
-        info = "Logout test description";
+        info = "This test sends a message to the server that will tell it to close it's current connection. You cannot log out twice";
         break;
     case 2:
-        info = "Create task test description";
+        info = "This test sends a message to the server to create a new task with the data provided";
         break;
     case 3:
-        info = "Edit task test description";
+        info = "This sends a task number and all the changed data to the server which will search for the task and replace it";
         break;
     case 4:
-        info = "Delete task test description";
+        info = "This deletes a task based on the task provided";
         break;
     case 5:
-        info = "View task test description";
+        info = "This sends a TA name to the server which responds with all the tasks for that TA";
         break;
     case 6:
-        info = "Evaluation test description";
+        info = "This allows the Instructor to write evaluations on existing tasks";
         break;
     case 7:
-        info = "View TAs test description";
+        info = "By specifying a course code the server responds with all the TAs for that course";
         break;
     case 8:
-        info = "View course test description";
+        info = "By specifying their user name, the Instructor can view all of their courses that they are teaching";
         break;
     default:
         break;

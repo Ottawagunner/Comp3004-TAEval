@@ -36,7 +36,7 @@ class BinaryTree
 
 	//template <class E> //for overloading later
 	template <class KEY_E, class VALUE_E>
-	friend std::ofstream& operator<<(std::ofstream&, BinaryTree<KEY_E,VALUE_E> const&);
+    friend std::ostream& operator<<(std::ostream&, BinaryTree<KEY_E,VALUE_E> const&);
 
 	class Node
 	{
@@ -728,6 +728,7 @@ void BinaryTree<KEY,VALUE>::reorganizePatternFour(Node* theNode){
 
 template <class KEY, class VALUE>
 void BinaryTree<KEY,VALUE>::removePatternOne(Node* theNode){
+
 // Remove Pattern One
 	Node* tempNode = theNode->rightChild->leftChild;
 
@@ -751,7 +752,9 @@ void BinaryTree<KEY,VALUE>::removePatternOne(Node* theNode){
 			theNode->parent->leftChild = tempNode;
 		else if (theNode->parent->rightChild == theNode)
 			theNode->parent->rightChild = tempNode;
-	}
+    } else {
+        root = tempNode;
+    }
 
 	theNode->parent = tempNode;
 
@@ -773,14 +776,18 @@ void BinaryTree<KEY,VALUE>::removePatternOne(Node* theNode){
 
 template <class KEY, class VALUE>
 void BinaryTree<KEY,VALUE>::removePatternTwo(Node* theNode){
+
 // Remove Pattern Two
 	theNode->rightChild->parent = theNode->parent;
+
 	if (theNode->parent != ROOT){
 		if (theNode->parent->rightChild == theNode)
 			theNode->parent->rightChild = theNode->rightChild;
 		else if (theNode->parent->leftChild == theNode)
 			theNode->parent->leftChild = theNode->rightChild;
-	}
+    } else {
+        root = theNode->rightChild;
+    }
 
 	if (theNode->rightChild != LEAF)
 		theNode->rightChild->leftChild = theNode->leftChild;
@@ -798,6 +805,7 @@ void BinaryTree<KEY,VALUE>::removePatternTwo(Node* theNode){
 
 template <class KEY, class VALUE>
 void BinaryTree<KEY,VALUE>::removePatternThree(Node* theNode){
+
 // Remove Pattern Three
 	theNode->leftChild->parent = theNode->parent;
 	if (theNode->parent != ROOT){
@@ -805,7 +813,9 @@ void BinaryTree<KEY,VALUE>::removePatternThree(Node* theNode){
 			theNode->parent->leftChild = theNode->leftChild;
 		else if (theNode->parent->rightChild == theNode)
 			theNode->parent->rightChild = theNode->leftChild;
-	}
+    } else {
+        root = theNode->leftChild;
+    }
 
 	if (theNode->leftChild != LEAF)
 		fixDepth(theNode->leftChild);
@@ -814,6 +824,7 @@ void BinaryTree<KEY,VALUE>::removePatternThree(Node* theNode){
 
 template <class KEY, class VALUE>
 void BinaryTree<KEY,VALUE>::removePatternFour(Node* theNode){
+
 // Remove Pattern Four
 
 	theNode->rightChild->parent = theNode->parent;
@@ -822,7 +833,9 @@ void BinaryTree<KEY,VALUE>::removePatternFour(Node* theNode){
 			theNode->parent->rightChild = theNode->rightChild;
 		if (theNode->parent->leftChild == theNode)
 			theNode->parent->leftChild = theNode->rightChild;
-	}
+    } else {
+        root = theNode->rightChild;
+    }
 
 	fixDepth(theNode);
 	destroyNode(theNode);
@@ -1021,15 +1034,13 @@ int BinaryTree<KEY,VALUE>::Node::getDepth() const{
 //////////////Overloaded Functions
 
 template <class KEY, class VALUE>
-std::ofstream& operator<<(std::ofstream& out, BinaryTree<KEY,VALUE> const& rhs){
+std::ostream& operator<<(std::ostream& out, BinaryTree<KEY,VALUE> const& rhs){
 	if ( !(rhs.isEmpty()) ){
 		typename BinaryTree<KEY,VALUE>::Node *tempNode;
 		typename BinaryTree<KEY,VALUE>::Node* backupNode;
 		tempNode = (rhs.root);
 		int count = 0;
 		do{
-			std::cout << "KEY: " << *(tempNode->getKey()) << std::endl;
-			std::cout << "VALUE: " << *(tempNode->getData()) <<std::endl;
 			out << /*"KEY: " <<*/ *(tempNode->getKey()) << std::endl;
 			out /*<< " VALUE: "*/ << *(tempNode->getData()) <</* " DEPTH: " << tempNode->getDepth() <<*/ std::endl;
 			count+=1;

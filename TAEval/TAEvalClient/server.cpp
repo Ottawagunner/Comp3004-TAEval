@@ -19,10 +19,6 @@ void Server::Setup(){
     if (connect(sockfd, (const struct sockaddr *) &server,sizeof(struct sockaddr_in))<0){
         qDebug()<<"ERROR CONNECTING";
     }
-    else{
-        qDebug()<<"CONNECTED";
-    }
-
 }
 
 void Server::SendText(std::string message)

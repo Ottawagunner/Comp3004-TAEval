@@ -23,6 +23,15 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
     int num=-1;
     std::string encMessage="";
     std::string** temp;
+    std::string *messageArray;
+
+    std::string** coursestemp;
+    std::string** tastemp;
+    std::string** tasktemp;
+    std::string out = "";
+    int cn, tn, kn, tt;
+    int count = 0;
+
     for(int i = 0; i<9; i++){
         if(req.compare(reqType[i])==0){
             reqNum = i;
@@ -45,21 +54,71 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
          *response = encode(1, "U", "Create Task handled");
         break;
     case 3:
-        //database->removeEntry(4,&message);
-        *response = encode(1, "U", "Delete task handled");
+        std::cout<<message<<std::endl;
+         if(!database->removeEntry(4,&message))
+            *response = encode(1, "U", "Delete task handled");
+         else{
+             *response = encode(1, "U", "Delete Task Error");
+         }
 
         break;
     case 4:
-        *response = encode(1, "U", "Edit task handled");
-        break;
+        {
+            //setting up a edit task.
+            //needs to parse through the message, to create the object and where to add it to.
+
+            messageArray = parser(message);
+            std::cout << messageArray[0]<<" asdhfadfasdfa" << std::endl;
+            std::cout << messageArray[1]<<" asdhfadfasdfa" << std::endl;
+            std::cout << messageArray[2]<<" asdhfadfasdfa" << std::endl;
+            std::cout << messageArray[3]<<" asdhfadfasdfa" << std::endl;
+            std::cout << messageArray[4]<<" asdhfadfasdfa" << std::endl;
+            temp = (database->query(4,&messageArray[1]));
+            temp[1][0]=(messageArray[2]);
+            temp[2][0]=(messageArray[3]);
+            temp[3][0]=(messageArray[4]);
+
+            database->edit(4,&messageArray[1],temp);
+
+            *response = encode(1, "U", "edited the ");
+            break;
+        }
     case 5:
     {
-           std::string** coursestemp;
-           std::string** tastemp;
-           std::string** tasktemp;
-           std::string out = "";
-           int totsize = 0;
 
+
+           temp = (database->query(1,&message));
+
+           if (temp == NULL){
+               *response = "ERROR";
+            }else {
+
+
+
+           std::stringstream (temp[0][1]) >> cn;
+           for (int i = 0; i < cn; i++){
+               coursestemp = database->query(3, &temp[2][i]);
+               std::cout << coursestemp[2][0]<<std::endl;
+               std::stringstream (coursestemp[0][2]) >> tn;
+               for (int k = 0; k < tn; k++){
+                   tastemp = database->query(2, &coursestemp[2][k]);
+                   std::cout <<tastemp[2][0]<<std::endl;
+                   std::stringstream (tastemp[0][2]) >> kn;
+                   for (int j = 0; j < kn; j++){
+                       tasktemp = database->query(4, &tastemp[2][j]);
+                       std::stringstream (tasktemp[0][1]) >> tt;
+                       for (int h = 0; h < tt; h++){
+                           out += *(new std::string(tasktemp[1][0])) + "~";
+                           count++;
+                       }
+                   }
+               }
+           }
+
+           *response = encode(count, "U", out);
+           }
+    }
+           /*
            temp = (database->query(1,&message));                       //Username
            if((temp) != NULL)
            {
@@ -82,7 +141,7 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
                            for (int t=1;t< atoi(tasktemp[0][0].c_str());t++)
                            {
                                totsize += atoi(tasktemp[0][0].c_str());
-                               out = encode(atoi(tasktemp[0][t].c_str()),tasktemp[t]);
+                               out += encode(atoi(tasktemp[0][t].c_str()),tasktemp[t]);
                            }
                         out += "\n";
                        }
@@ -93,9 +152,21 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
            }
         *response = "Error";
         break;
-    }
+    }*/
+           break;
     case 6:
-        *response = encode(4, "U", "Alphonse Brown~Charles Dupont~Elise Festive~View TAs handled");
+        qDebug()<<"MADE IT TO CASE 6";
+        qDebug(message.c_str());
+        temp = (database->query(3,&message));
+        qDebug()<<"MADE IT PAST QUERY";
+        std::stringstream (temp[0][2])>>num;
+        std::cout<<num<<std::endl;
+        for(int i=0; i<num;i++){
+            encMessage.append(temp[2][i]);
+            if((i != i+1)&&(i+1 !=num))
+                encMessage.append("~");
+        }
+        *response = encode(num,"U", encMessage);
         break;
     case 7:
         temp = (database->query(1,&message));
@@ -108,8 +179,22 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
         *response = encode(num,"U", encMessage);
         break;
     case 8:
-        *response = encode(1, "U", "Write review handled");
-        break;
+        {
+            //setting up a new reveiw.
+            //needs to parse through the message, to create the object and where to add it to.
+            std::string *messageArray;
+            messageArray = parser(message);
+            std::cout << messageArray[1] << " asdfasdfasdfasdfa" <<std::endl;
+            temp = (database->query(4,&messageArray[1]));
+            temp[1][0]=(messageArray[2]);
+            temp[2][0]=(messageArray[3]);
+            temp[3][0]=(messageArray[4]);
+
+            database->edit(4,&messageArray[1],temp);
+
+            *response = encode(1, "U", "Write review handled");
+            break;
+        }
     default:
         *response = "ERROR";
         break;

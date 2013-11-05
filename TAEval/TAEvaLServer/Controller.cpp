@@ -69,8 +69,10 @@ void Controller::parse(std::string *command) // userType, userName, actionReques
     for(short i = 0; i < messageLength; i++){ // Assigns every segment of the command to the message array
         if(i == 0)
             message[i]=(*command).substr(pos[0],1);
+        else if(i+1 >= messageLength)
+            message[i] = (*command).substr(pos[i]+1,-1);
         else
-            message[i] = (*command).substr(pos[i-1]+1,pos[i]-pos[i-1]-1);
+            message[i] = (*command).substr(pos[i]+1,pos[i+1]-pos[i]-1);
         //qDebug()<<(message[i].c_str());
     }
 }

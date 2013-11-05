@@ -75,10 +75,8 @@ std::string** Database::query(int treeNumber, std::string* key){/////
 //						any Error Code produced by findFile()
 //						any Error Code produced by readFile()
 //
-
     if (treeNumber > numberOfTrees)
         return NULL;
-
     std::string filename;
     if (arrayOfTrees[treeNumber]->find(*&key, &filename))
         return NULL;
@@ -142,6 +140,7 @@ char Database::removeEntry(int treeNumber, std::string* key){/////
 //						any Error Code produced by updateTreeFile()
 //
 
+
 	char error = ARRAY_OUT_OF_BOUNDS;
 
 	if (treeNumber < numberOfTrees){
@@ -170,9 +169,12 @@ char Database::edit(int treeNumber, std::string* key, std::string** data){/////
     std::string filename;
     arrayOfTrees[treeNumber]->find(*&key, &filename);
 
-    removeEntry(treeNumber, *&key );
+    //removeEntry(treeNumber, *&key );
+    remove((storagePath+filename).c_str());
 
-    insert(treeNumber, *&key,*&data, &filename);
+    buildFile(&filename, *&data);
+
+    //insert(treeNumber, *&key,*&data, &filename);
 
     return SUCCESS;
 }
@@ -263,7 +265,6 @@ std::string** Database::readFile(std::string* filename){/////
 
     if (!theFile.is_open())
         return NULL;
-
     std::string buffer;
     int tempValue, size;
     //Get the number of arrays to expect.
@@ -272,16 +273,15 @@ std::string** Database::readFile(std::string* filename){/////
 
     std::stringstream (buffer) >> size;
 
-    int* arraySizes[size+1];
+    int arraySizes[size+1];
     returnValue = new std::string*;
     *returnValue = (new std::string[size+1]);
     //returnValue = new std::string*[size+1];
     returnValue[0] = new std::string[size+1];
 
-    arraySizes[0] = &size;
+    arraySizes[0] = size;
     returnValue[0][0] = *(new std::string(buffer));
     //returnValue[0][0] = buffer;
-
 
     //find the size of the following arrays and create the placeholder
     for (int i = 1; i < size+1; i++){
@@ -289,23 +289,18 @@ std::string** Database::readFile(std::string* filename){/////
             return NULL;
 
         std::stringstream (buffer) >> tempValue;
-        arraySizes[i] = &tempValue;
+        arraySizes[i] = tempValue;
         returnValue[i] = new std::string[tempValue];
         returnValue[0][i] = *(new std::string(buffer));
-        //returnValue[0][i] = buffer;
     }
-
     //Populate the arrays
-    for (int i = 1; i < size+1; i++){
-        for (int k = 0; k < *arraySizes[i]; k++){
+    for (int i = 1; i <= size; i++){
+        for (int k = 0; k < arraySizes[i]; k++){
             if (!getline(theFile, buffer))
                 return NULL;
-
             returnValue[i][k] = *(new std::string(buffer));
-            //returnValue[i][k] = buffer;
         }
     }
-
     theFile.close();
 
     return returnValue;
@@ -381,10 +376,8 @@ char Database::updateTreeFile(int treeNumber){/////
 //						FAILED_TO_RENAME_FILE
 //
 
-	std::ofstream myFile (((storagePath+treeFiles[treeNumber])+".TEMP").c_str());
-
+    std::ofstream myFile (((storagePath+treeFiles[treeNumber])+".TEMP").c_str());
     myFile << *(arrayOfTrees[treeNumber]);
-
 	myFile.close();
 
 	if (remove((storagePath+treeFiles[treeNumber]).c_str()))

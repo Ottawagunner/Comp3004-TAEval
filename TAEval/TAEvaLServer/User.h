@@ -2,6 +2,8 @@
 #define USER_H
 #include <string>
 #include "Database.h"
+#include <QDebug>
+#include <stdio.h>
 class User{
 
 public:
@@ -15,6 +17,7 @@ public:
     std::string encode(short, std::string, std::string);
     std::string encode(short, std::string *);
     std::string encode(std::string, std::string);
+    std::string* parser(std::string);
 
 protected:
     std::string userName;
