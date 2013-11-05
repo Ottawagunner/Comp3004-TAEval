@@ -164,8 +164,8 @@ BinaryTree<KEY,VALUE>::~BinaryTree(){
 		else if (tempNode->rightChild != LEAF)
 			tempNode = tempNode->rightChild;
 		else {
-			delete(tempNode->getKey());
-			delete(tempNode->getData());
+			//delete(tempNode->getKey());
+			//delete(tempNode->getData());
 			destroyNode = tempNode;
 			tempNode = tempNode->parent;
 			if (tempNode != ROOT){
@@ -193,8 +193,8 @@ void BinaryTree<KEY,VALUE>::add(KEY* addKey, VALUE* addValue){
 //					And then adds it.
 //
 	if (isEmpty()){
-		root->key = addKey;
-		root->data = addValue;
+		root->key = new KEY(*addKey);
+		root->data = new VALUE(*addValue);
 		incrementSize();
 	} else {
 		Node* iterNode = root;
@@ -235,8 +235,8 @@ void BinaryTree<KEY,VALUE>::addLeftChild(KEY* addKey, VALUE* addValue, Node* par
 //
 	Node* tempNode = new Node();
 	tempNode->parent = parentNode;
-	tempNode->key = addKey;
-	tempNode->data = addValue;
+	tempNode->key = new KEY(*addKey);
+	tempNode->data = new VALUE(*addValue);
 	tempNode->leftChild = LEAF;
 	tempNode->rightChild = LEAF;
 	parentNode->leftChild = tempNode;
@@ -259,8 +259,8 @@ void BinaryTree<KEY,VALUE>::addRightChild(KEY* addKey, VALUE* addValue, Node* pa
 //
 	Node* tempNode = new Node();
 	tempNode->parent = parentNode;
-	tempNode->key = addKey;
-	tempNode->data = addValue;
+	tempNode->key = new KEY(*addKey);
+	tempNode->data = new VALUE(*addValue);
 	tempNode->leftChild = LEAF;
 	tempNode->rightChild = LEAF;
 	parentNode->rightChild = tempNode;

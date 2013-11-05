@@ -117,7 +117,7 @@ char Database::insert(int treeNumber, std::string* key, std::string** data, std:
     if (!arrayOfTrees[treeNumber]->find(key, &randomString))
         return KEY_ALREADY_IN_USE;
 
-    arrayOfTrees[treeNumber]->add(key, filename);
+    arrayOfTrees[treeNumber]->add(*&key, *&filename);
 
     if (buildFile(filename, *&data))
         return UNABLE_TO_CREATE_FILE;
@@ -145,7 +145,7 @@ char Database::removeEntry(int treeNumber, std::string* key){
 	char error = ARRAY_OUT_OF_BOUNDS;
 
 	if (treeNumber < numberOfTrees){
-		error = removeFile(treeNumber, key);
+		error = removeFile(treeNumber, *&key);
 		if (error == NONE)
 			return updateTreeFile(treeNumber);
 	}
@@ -321,16 +321,19 @@ char Database::removeFile(int treeNumber, std::string* key){
 //						FILE_NOT_FOUND
 //						FAILED_FILE_DELETION
 //
+
 	std::string filename;
 
 	if (findFile(treeNumber, key, &filename))
 		return cleanUp(FILE_NOT_FOUND, &filename);
 
-	arrayOfTrees[treeNumber]->remove(key);
+
+	arrayOfTrees[treeNumber]->remove(*&key);
+
 
 	updateTreeFile(treeNumber);
 
-	if (remove((filename).c_str()))
+	if (remove((storagePath+filename).c_str()))
 		return cleanUp(FAILED_FILE_DELETION, &filename);
 
 	return cleanUp(SUCCESS, &filename);
