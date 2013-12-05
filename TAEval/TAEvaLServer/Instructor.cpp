@@ -41,24 +41,26 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
     switch(reqNum){
     case 0:
         temp = (database->query(1,&message));
+
         if((temp) != NULL){
-            *response = encode(1, "U", "Login successful");
+             std::cout<<"case0"<<std::endl;
+            *response = *new std::string(encode(2, "U", "Login successful"));
             break;
         }
-        *response = encode(1,"U", "Invalid Login");
+        *response = encode(2,"U", "Invalid Login");
         break;
     case 1:
-        *response = encode(1, "U", "Logout successful");
+        *response = encode(2, "U", "Logout successful");
         break;
     case 2:
-         *response = encode(1, "U", "Create Task handled");
+         *response = encode(2, "U", "Create Task handled");
         break;
     case 3:
         std::cout<<message<<std::endl;
          if(!database->removeEntry(4,&message))
-            *response = encode(1, "U", "Delete task handled");
+            *response = encode(2, "U", "Delete task handled");
          else{
-             *response = encode(1, "U", "Delete Task Error");
+             *response = encode(2, "U", "Delete Task Error");
          }
 
         break;
@@ -67,12 +69,13 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
             //setting up a edit task.
             //needs to parse through the message, to create the object and where to add it to.
 
-            messageArray = parser(message);
+            decoder decode = *new decoder();
+            decode.decode('~',message, &messageArray);
             std::cout << messageArray[0]<<" asdhfadfasdfa" << std::endl;
-            std::cout << messageArray[1]<<" asdhfadfasdfa" << std::endl;
-            std::cout << messageArray[2]<<" asdhfadfasdfa" << std::endl;
-            std::cout << messageArray[3]<<" asdhfadfasdfa" << std::endl;
-            std::cout << messageArray[4]<<" asdhfadfasdfa" << std::endl;
+            std::cout << messageArray[1]<<" asdhfadsfasdfa" << std::endl;
+            std::cout << messageArray[2]<<" asdhfadffasdfa" << std::endl;
+            std::cout << messageArray[3]<<" asdhfadfdasdfa" << std::endl;
+            std::cout << messageArray[4]<<" asdhfadfaaaasdfa" << std::endl;
             temp = (database->query(4,&messageArray[1]));
             temp[1][0]=(messageArray[2]);
             temp[2][0]=(messageArray[3]);
@@ -80,7 +83,7 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
 
             database->edit(4,&messageArray[1],temp);
 
-            *response = encode(1, "U", "edited the ");
+            *response = encode(2, "U", "edited the ");
             break;
         }
     case 5:
@@ -183,7 +186,8 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
             //setting up a new reveiw.
             //needs to parse through the message, to create the object and where to add it to.
             std::string *messageArray;
-            messageArray = parser(message);
+            decoder decode = *new decoder();
+            decode.decode('~',message, &messageArray);
             std::cout << messageArray[1] << " asdfasdfasdfasdfa" <<std::endl;
             temp = (database->query(4,&messageArray[1]));
             temp[1][0]=(messageArray[2]);
@@ -192,7 +196,7 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
 
             database->edit(4,&messageArray[1],temp);
 
-            *response = encode(1, "U", "Write review handled");
+            *response = encode(2, "U", "Write review handled");
             break;
         }
     default:

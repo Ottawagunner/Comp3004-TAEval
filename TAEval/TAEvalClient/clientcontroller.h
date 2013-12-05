@@ -1,6 +1,10 @@
 #ifndef CLIENTCONTROLLER_H
 #define CLIENTCONTROLLER_H
 #include <QtGui/QApplication>
+#include <string>
+#include <cstdlib>
+#include <sstream>
+#include <QDebug>
 #include "mainwindow.h"
 class MainWindow;
 class clientcontroller
