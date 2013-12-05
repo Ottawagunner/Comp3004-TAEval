@@ -1,5 +1,4 @@
 #include "clientcontroller.h"
-#include "decoder.h"
 #include <QDebug>
 #include <iostream>
 
@@ -24,11 +23,19 @@ short clientcontroller::handleRunButton(int index)
 {
     std::string response ="";
     std::string message;
+    encoder e;
+    response = e.encode(userType, userName);
+    short tildaInResponse = 2;
+
     switch(index)
     {
     case 0:
         client.Setup();
-        response = encode("LoginRequest", userName);
+        response = e.encode(response, "LoginRequest");
+        tildaInResponse++;
+        response = e.encode(response, userName);
+        tildaInResponse++;
+        response = e.encode(tildaInResponse, response);
         client.SendText(response);
         if(client.RecieveText().compare("2~U~Login successful")==0)
             window->writeToLog("Login Passed");
@@ -37,22 +44,39 @@ short clientcontroller::handleRunButton(int index)
         }
         break;
     case 1:
-        response = encode("LogoutRequest", userName);
-        client.SendText(response);
+        response = e.encode(response, "LogoutRequest");
+        tildaInResponse++;
+        response = e.encode(response, userName);
+        tildaInResponse++;
+        response = e.encode(tildaInResponse, response);
         handleMessage(client.RecieveText());
         close(client.sockfd);
         window->writeToLog("Logout Passed");
         return 0;
         break;
     case 2:
-        response = encode("CreateTaskRequest", "Please grade all of the tests in your mailbox");
+        response = e.encode(response, "CreateTaskRequest");
+        tildaInResponse++;
+        response = e.encode(response, "Please grade all of the tests in your mailbox");
+        tildaInResponse++;
+        response = e.encode(tildaInResponse, response);
+        //client.SendText(response);
         break;
     case 3:
-        response = encode("EditTaskRequest", "2~Init-Ruby~Do Lab"); // WIP
+        response = e.encode(response, "EditTaskRequest");
+        tildaInResponse++;
+        response = e.encode(response, "2~Init-Ruby~Do Lab");
+        tildaInResponse++;
+        response = e.encode(tildaInResponse, response);
+        //client.SendText(response);
         break;
     case 4:
         message = "InitBlake";
-        response = encode("DeleteTaskRequest", message);
+        response = e.encode(response, "DeleteTaskRequest");
+        tildaInResponse++;
+        response = e.encode(response, message);
+        tildaInResponse++;
+        response = e.encode(tildaInResponse, response);
         client.SendText(response);
         if(client.RecieveText().compare("2~U~Delete task handled")==0)
             window->writeToLog("Delete Task Passed");
@@ -60,13 +84,26 @@ short clientcontroller::handleRunButton(int index)
             window->writeToLog("Delete Task Failed");
         break;
     case 5:
-        response = encode("ViewTaskRequest", userName);
+        response = e.encode(response, "ViewTaskRequest");
+        tildaInResponse++;
+        response = e.encode(response, userName);
+        tildaInResponse++;
+        //client.SendText(response);
         break;
     case 6:
-        response = encode("CreateEvaluationRequest", "3~InitRuby~5~Good Job");
+        response = e.encode(response, "CreateEvaluationRequest");
+        tildaInResponse++;
+        response = e.encode(response, "3~InitRuby~5~Good Job");
+        tildaInResponse++;
+        response = e.encode(tildaInResponse, response);
+        //client.SendText(response);
         break;
     case 7:
-        response = encode("ViewTARequest", "MNSTR101");
+        response = e.encode(response, "ViewTARequest");
+        tildaInResponse++;
+        response = e.encode(response, "MNSTR101");
+        tildaInResponse++;
+        response = e.encode(tildaInResponse, response);
         client.SendText(response);
         if(client.RecieveText().compare("5~U~Ruby Rose~Weiss Schnee~Yang Xiao Long~Blake Belladonna")==0)
             window->writeToLog("View TAs Passed");
@@ -74,7 +111,11 @@ short clientcontroller::handleRunButton(int index)
             window->writeToLog("View TAs Failed");
         break;
     case 8:
-        response = encode("ViewCoursesRequest", userName);
+        response = e.encode(response, "ViewCoursesRequest");
+        tildaInResponse++;
+        response = e.encode(response, userName);
+        tildaInResponse++;
+        response = e.encode(tildaInResponse, response);
         client.SendText(response);
         if(client.RecieveText().compare("3~U~MNSTR101~HIST101")==0)
             window->writeToLog("View Courses Passed");
@@ -89,8 +130,6 @@ short clientcontroller::handleRunButton(int index)
     //handleMessage(client.RecieveText());
     return 0;
 }
-
-
 
 std::string* clientcontroller::handleMessage(std::string command) // Learns if data server-side is locked or not and decomposes the message
 {
@@ -125,7 +164,3 @@ std::string* clientcontroller::handleMessage(std::string command) // Learns if d
      //qDebug()<<"";
 }
 
-std::string clientcontroller::encode(std::string command, std::string userInput)
-{
-    return "4~"+userType+"~"+userName+"~"+command+"~"+userInput;
-}

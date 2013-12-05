@@ -31,6 +31,7 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
     std::string out = "";
     int cn, tn, kn, tt;
     int count = 0;
+    encoder e = *new encoder();
 
     for(int i = 0; i<9; i++){
         if(req.compare(reqType[i])==0){
@@ -44,23 +45,23 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
 
         if((temp) != NULL){
              std::cout<<"case0"<<std::endl;
-            *response = *new std::string(encode(2, "U", "Login successful"));
+            *response = *new std::string(e.encode(2, "U", "Login successful"));
             break;
         }
-        *response = encode(2,"U", "Invalid Login");
+        *response = e.encode(2,"U", "Invalid Login");
         break;
     case 1:
-        *response = encode(2, "U", "Logout successful");
+        *response = e.encode(2, "U", "Logout successful");
         break;
     case 2:
-         *response = encode(2, "U", "Create Task handled");
+         *response = e.encode(2, "U", "Create Task handled");
         break;
     case 3:
         std::cout<<message<<std::endl;
          if(!database->removeEntry(4,&message))
-            *response = encode(2, "U", "Delete task handled");
+            *response = e.encode(2, "U", "Delete task handled");
          else{
-             *response = encode(2, "U", "Delete Task Error");
+             *response = e.encode(2, "U", "Delete Task Error");
          }
 
         break;
@@ -83,7 +84,7 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
 
             database->edit(4,&messageArray[1],temp);
 
-            *response = encode(2, "U", "edited the ");
+            *response = e.encode(2, "U", "edited the ");
             break;
         }
     case 5:
@@ -118,7 +119,7 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
                }
            }
 
-           *response = encode(count, "U", out);
+           *response = e.encode(count, "U", out);
            }
     }
            /*
@@ -169,7 +170,7 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
             if((i != i+1)&&(i+1 !=num))
                 encMessage.append("~");
         }
-        *response = encode(num,"U", encMessage);
+        *response = e.encode(num,"U", encMessage);
         break;
     case 7:
         temp = (database->query(1,&message));
@@ -179,7 +180,7 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
             if((i != i+1)&&(i+1 !=num))
                 encMessage.append("~");
         }
-        *response = encode(num,"U", encMessage);
+        *response = e.encode(num,"U", encMessage);
         break;
     case 8:
         {
@@ -196,7 +197,7 @@ void Instructor::manageReq(std::string req, std::string message, std::string *re
 
             database->edit(4,&messageArray[1],temp);
 
-            *response = encode(2, "U", "Write review handled");
+            *response = e.encode(2, "U", "Write review handled");
             break;
         }
     default:

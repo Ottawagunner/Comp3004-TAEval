@@ -6,6 +6,9 @@
 #include <sstream>
 #include <QDebug>
 #include "mainwindow.h"
+#include "decoder.h"
+#include "encoder.h"
+
 class MainWindow;
 class clientcontroller
 {
@@ -21,8 +24,6 @@ private:
     MainWindow* window;
     bool loggedIn;
 
-    std::string  encode(std::string, std::string);
-    std::string* parse(std::string, int, bool);
     std::string* handleMessage(std::string);
 };
 

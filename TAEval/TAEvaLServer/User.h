@@ -4,7 +4,8 @@
 #include "Database.h"
 #include <QDebug>
 #include <stdio.h>
-#include <decoder.h>
+#include "decoder.h"
+#include "encoder.h"
 class User{
 
 public:
@@ -15,9 +16,7 @@ public:
     virtual void search(std::string,std::string[]) = 0;
     short login(std::string, std::string*);
     short logout(std::string, std::string*);
-    std::string encode(short, std::string, std::string);
-    std::string encode(short, std::string *);
-    std::string encode(std::string, std::string);
+
 
 protected:
     std::string userName;
