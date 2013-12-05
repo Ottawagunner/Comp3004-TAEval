@@ -11,7 +11,7 @@ public:
     Controller(int, std::string, std::string*);
     ~Controller();
     void parse(std::string*);
-    void handleMessage(std::string *);
+    void handleMessage(std::string*, std::string *);
     void executeMessage(std::string *);
     int runServer();
     Server host;
