@@ -8,7 +8,7 @@ class ClientControl
 public:
     ClientControl(int argc, char** argv);
     int run();
-    void giveRequest(std::string, char, std::string, std::string, std::string* returnInfo);
+    void giveRequest(std::string, std::string, std::string, std::string, std::string* returnInfo);
 
 private:
     UIController *ui;

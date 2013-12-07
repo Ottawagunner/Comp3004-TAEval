@@ -19,7 +19,7 @@ public:
     ViewListDialog(viewTemplate *viewParent, viewListType type,QWidget *parent=0);
     void closeListDialog(ViewListDialog*);
     void closeIndividualDialog(ViewIndividualDialog*);
-    void listReq(viewIndividualType listReq);
+    void listReq(viewIndividualType listReq, std::string);
 private slots:
     void handleAddButton();
     void handleEditButton();

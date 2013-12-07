@@ -33,15 +33,14 @@ void InstructorView::on_logoutButton_clicked()
 void InstructorView::on_viewTaskButton_clicked()
 {
     ViewListDialog *ld = new ViewListDialog(this,INSTRUCT_VIEW_TASK);
-    //SEND REQUEST
-    //UPDATE THE LIST
-    //closeListDialog(ld);
-    control->reqViewAllTasks();
+    std::string additionalInfo =  ui->courseList->currentItem()->text().toStdString();
+    control->reqViewAllTasks(additionalInfo);
     ld->show();
 }
 void InstructorView::on_viewTAButton_clicked(){
     ViewListDialog *ld = new ViewListDialog(this, INSTRUCT_VIEW_TA);
-    control->reqViewAllTAs();
+    std::string additionalInfo =  ui->courseList->currentItem()->text().toStdString();
+    control->reqViewAllTAs(additionalInfo);
     ld->show();
 }
 void InstructorView::closeListDialog(ViewListDialog* temp){
@@ -53,31 +52,31 @@ void InstructorView::closeIndividualDialog(ViewIndividualDialog* temp){
     temp->hide();
     delete(temp);
 }
-void InstructorView::listReq(viewIndividualType listReq){
+void InstructorView::listReq(viewIndividualType listReq, std::string info){
     switch(listReq){
         case INSTRUCT_ADD_TASK:
-            control->reqAddTask();
+            control->reqAddTask(info);
             break;
         case INSTRUCT_ADD_EVAL:
-            control->reqAddEval();
+            control->reqAddEval(info);
             break;
         case INSTRUCT_DEL_TASK:
-            control->reqDeleteTask();
+            control->reqDeleteTask(info);
             break;
         case INSTRUCT_DEL_EVAL:
-            control->reqDeleteEval();
+            control->reqDeleteEval(info);
             break;
         case INSTRUCT_EDIT_TASK:
-            control->reqEditTask();
+            control->reqEditTask(info);
             break;
         case INSTRUCT_EDIT_EVAL:
-            control->reqEditEval();
+            control->reqEditEval(info);
             break;
         case INSTRUCT_DETAIL_TASK:
-            control->reqViewTask("");
+            control->reqViewTask(info);
             break;
         case INSTRUCT_DETAIL_EVAL:
-            control->reqViewEval("");
+            control->reqViewEval(info);
             break;
     }
 }

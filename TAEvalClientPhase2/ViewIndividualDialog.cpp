@@ -6,7 +6,7 @@ ViewIndividualDialog::ViewIndividualDialog(viewTemplate *viewParent, viewIndivid
     myParent = viewParent;
 
     listLabel = new QLabel("");
-    closeButton = new QPushButton("Close");
+    closeButton = new QPushButton("Cancel");
     saveButton = new QPushButton("Save");
     additionalInfo = new QLineEdit;
     mainBody = new QTextEdit;

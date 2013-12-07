@@ -18,7 +18,7 @@ private:
     QApplication a;
     InstructorView *i;
     TAView *t;
-    char currUserType;
+    std::string currUserType;
     std::string username;
 public:
     UIController(ClientControl* mainControl, int argc,char **argv);
@@ -27,16 +27,16 @@ public:
     void logoutNotify();
     void reqViewCourseList(std::string);
     void reqViewTask(std::string taskID);
-    void reqViewAllTasks();
+    void reqViewAllTasks(std::string courseId);
     void reqViewEval(std::string taskID);
     void reqViewAllEvals();
-    void reqAddTask();
-    void reqDeleteTask();
-    void reqEditTask();
-    void reqAddEval();
-    void reqDeleteEval();
-    void reqEditEval();
-    void reqViewAllTAs();
+    void reqAddTask(std::string);
+    void reqDeleteTask(std::string);
+    void reqEditTask(std::string);
+    void reqAddEval(std::string);
+    void reqDeleteEval(std::string);
+    void reqEditEval(std::string);
+    void reqViewAllTAs(std::string);
     void updateList(std::string);
 };
 
