@@ -1,0 +1,4 @@
+#ifndef INDIVIDUALTYPES_H
+#define INDIVIDUALTYPES_H
+enum
+#endif // INDIVIDUALTYPES_H
