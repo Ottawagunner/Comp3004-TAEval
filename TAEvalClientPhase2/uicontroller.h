@@ -18,7 +18,7 @@ private:
     QApplication a;
     InstructorView *i;
     TAView *t;
-    char currUserType;
+    std::string currUserType;
     std::string username;
 public:
     UIController(ClientControl* mainControl, int argc,char **argv);

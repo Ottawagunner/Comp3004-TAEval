@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     evaluation.cpp \
     Database.cpp \
     Admin.cpp \
-    Controller.cpp
+    Controller.cpp \
+    encoder.cpp \
+    decoder.cpp
 
 HEADERS  += mainwindow.h \
     User.h \
@@ -32,6 +34,8 @@ HEADERS  += mainwindow.h \
     Database.h \
     BinaryTree.h \
     Admin.h \
-    Controller.h
+    Controller.h \
+    encoder.h \
+    decoder.h
 
 FORMS    += mainwindow.ui

@@ -23,7 +23,7 @@ public:
 
     void SendText(std::string);
     std::string RecieveText();
-    void Setup();
+    short Setup();
 };
 
 #endif // SERVER_H
