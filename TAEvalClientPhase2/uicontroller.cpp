@@ -23,6 +23,7 @@ void UIController::loginNotify(){
     d->getUserInfo(&username, &currUserType);
     control->giveRequest(username,currUserType,"LOGINREQUEST", "",returnInfo);
     //assume it is verified
+
     if(currUserType.compare("t")){
         t = new TAView(this);
         t->show();
@@ -60,38 +61,49 @@ void UIController::reqViewCourseList(std::string){
 }
 
 void UIController::reqViewTask(std::string taskID){
-    qDebug("VIEW ONE TASK REQ");
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"VIEWONETASK",taskID,returnInfo);
 }
-void UIController::reqViewAllTasks(){
-    qDebug("VIEW ALL TASKs REQ");
+void UIController::reqViewAllTasks(std::string addInfo){
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"VIEWALLTASKS",addInfo,returnInfo);
 }
 void UIController::reqViewEval(std::string taskID){
-    qDebug("VIEW ONE EVAL REQ");
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"VIEWONEEVAL",taskID,returnInfo);
 }
 
 void UIController::reqViewAllEvals(){
-    qDebug("VIEW ALL EVALS REQ");
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"VIEWALLEVALS","",returnInfo);
 }
-void UIController::reqAddTask(){
-    qDebug("ADD TASK REQ");
-}
-
-void UIController::reqDeleteTask(){
-    qDebug("DELETE TASK REQ");
+void UIController::reqAddTask(std::string info){
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"ADDTASK",info,returnInfo);
 }
 
-void UIController::reqEditTask(){
-    qDebug("EDIT TASK REQ");
+void UIController::reqDeleteTask(std::string info){
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"DELETETASK",info,returnInfo);
 }
-void UIController::reqAddEval(){
-    qDebug("ADD EVAL REQ");
+
+void UIController::reqEditTask(std::string info){
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"EDITTASK",info,returnInfo);
 }
-void UIController::reqDeleteEval(){
-    qDebug("DELETE EVAL REQ");
+void UIController::reqAddEval(std::string info){
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"ADDEVAL",info,returnInfo);
 }
-void UIController::reqEditEval(){
-    qDebug("EDIT EVAL REQ");
+void UIController::reqDeleteEval(std::string info){
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"DELETEEVAL",info,returnInfo);
 }
-void UIController::reqViewAllTAs(){
-    qDebug("VIEW ALL TAs Req");
+void UIController::reqEditEval(std::string info){
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"EDITEVAL",info,returnInfo);
+}
+void UIController::reqViewAllTAs(std::string addInfo){
+    std::string *returnInfo;
+    control->giveRequest(username, currUserType,"VIEWALLTAS",addInfo,returnInfo);
 }

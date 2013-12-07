@@ -32,7 +32,7 @@ void TAView::closeIndividualDialog(ViewIndividualDialog* id){
 void TAView::on_ViewTaskButton_clicked()
 {
     ViewListDialog *ld = new ViewListDialog(this, TA_VIEW_TASK);
-    control->reqViewAllTasks();
+    control->reqViewAllTasks("");
     ld->show();
 }
 
@@ -42,13 +42,13 @@ void TAView::on_ViewEvalButton_clicked()
     control->reqViewAllEvals();
     ld->show();
 }
-void TAView::listReq(viewIndividualType listReq){
+void TAView::listReq(viewIndividualType listReq, std::string info){
     switch(listReq){
         case TA_DETAIL_TASK:
-            control->reqViewTask("TASKID");
+            control->reqViewTask(info);
             break;
         case TA_DETAIL_EVAL:
-            control->reqViewEval("EVAL ID");
+            control->reqViewEval(info);
             break;
 
     }

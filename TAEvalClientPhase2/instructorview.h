@@ -21,7 +21,7 @@ public:
     void addToList(std::string);
     void closeListDialog(ViewListDialog*);
     void closeIndividualDialog(ViewIndividualDialog*);
-    void listReq(viewIndividualType listReq);
+    void listReq(viewIndividualType listReq, std::string info);
 
 private slots:
     void on_logoutButton_clicked();

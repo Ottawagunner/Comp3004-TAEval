@@ -11,7 +11,6 @@ int ClientControl::run(){
     ui->run();
     return 0;
 }
-
 void ClientControl::giveRequest(std::string uname, std::string uType, std::string reqType,
                                 std::string additionalInfo, std::string* returnInfo){
     //Checks all 3 necessary arguments to make sure all of them are well-defined

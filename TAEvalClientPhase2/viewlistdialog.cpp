@@ -18,10 +18,14 @@ ViewListDialog::ViewListDialog(viewTemplate *viewParent, viewListType type, QWid
         case INSTRUCT_VIEW_TASK:
             listLabel->setText("Viewing all tasks. Select a task and an option to modify the evaluation data");
             add->setText("Add Evaluation");
+            mylist->addItem("Task001");
+            mylist->addItem("Task002");
             break;
 
         case INSTRUCT_VIEW_TA:
             listLabel->setText("Viewing all TAs");
+            mylist->addItem("Green Arrow");
+            mylist->addItem("Batman");
             break;
 
         case TA_VIEW_TASK:
@@ -29,6 +33,8 @@ ViewListDialog::ViewListDialog(viewTemplate *viewParent, viewListType type, QWid
             add->setEnabled(false);
             del->setEnabled(false);
             edit->setEnabled(false);
+            mylist->addItem("TASK001");
+            mylist->addItem("TASK002");
             break;
 
         case TA_VIEW_EVALS:
@@ -36,6 +42,8 @@ ViewListDialog::ViewListDialog(viewTemplate *viewParent, viewListType type, QWid
             add->setEnabled(false);
             del->setEnabled(false);
             edit->setEnabled(false);
+            mylist->addItem("EVAL001");
+            mylist->addItem("EVAL002");
             break;
 
         default:
@@ -71,54 +79,58 @@ ViewListDialog::ViewListDialog(viewTemplate *viewParent, viewListType type, QWid
 }
 void ViewListDialog::handleAddButton(){
     ViewIndividualDialog *view;
+     std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TA){
         view = new ViewIndividualDialog(this,INSTRUCT_ADD_TASK);
-        myParent->listReq(INSTRUCT_ADD_TASK);
+        myParent->listReq(INSTRUCT_ADD_TASK, additionalInfo);
     }
     else{
         view = new ViewIndividualDialog(this,INSTRUCT_ADD_EVAL);
-        myParent->listReq(INSTRUCT_ADD_EVAL);
+        myParent->listReq(INSTRUCT_ADD_EVAL, additionalInfo);
     }
     view->show();
 }
 
 void ViewListDialog::handleEditButton(){
     ViewIndividualDialog *view;
+     std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TA){
         view = new ViewIndividualDialog(this,INSTRUCT_EDIT_TASK);
-        myParent->listReq(INSTRUCT_EDIT_TASK);
+        myParent->listReq(INSTRUCT_EDIT_TASK, additionalInfo);
     }
     else{
         view = new ViewIndividualDialog(this,INSTRUCT_EDIT_EVAL);
-        myParent->listReq(INSTRUCT_EDIT_EVAL);
+        myParent->listReq(INSTRUCT_EDIT_EVAL, additionalInfo);
     }
     view->show();
 }
 
 void ViewListDialog::handleDeleteButton(){
+    std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType==INSTRUCT_VIEW_TA)
-        myParent->listReq(INSTRUCT_DEL_TASK);
+        myParent->listReq(INSTRUCT_DEL_TASK, additionalInfo);
     if(thisType == INSTRUCT_VIEW_TASK)
-        myParent->listReq(INSTRUCT_DEL_EVAL);
+        myParent->listReq(INSTRUCT_DEL_EVAL, additionalInfo);
 }
 
 void ViewListDialog::handleViewButton(){
     ViewIndividualDialog *view;
+    std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TASK){
         view = new ViewIndividualDialog(this,INSTRUCT_DETAIL_EVAL);
-        myParent->listReq(INSTRUCT_DETAIL_EVAL);
+        myParent->listReq(INSTRUCT_DETAIL_EVAL, additionalInfo);
     }
     else if(thisType== INSTRUCT_VIEW_TA){
         view = new ViewIndividualDialog(this,INSTRUCT_DETAIL_TASK);
-        myParent->listReq(INSTRUCT_DETAIL_TASK);
+        myParent->listReq(INSTRUCT_DETAIL_TASK, additionalInfo);
     }
     else if(thisType == TA_VIEW_TASK){
         view = new ViewIndividualDialog(this,TA_DETAIL_TASK);
-        myParent->listReq(TA_DETAIL_TASK);
+        myParent->listReq(TA_DETAIL_TASK,additionalInfo);
     }
     else if(thisType == TA_VIEW_EVALS){
         view = new ViewIndividualDialog(this,TA_DETAIL_EVAL);
-        myParent->listReq(TA_DETAIL_EVAL);
+        myParent->listReq(TA_DETAIL_EVAL, additionalInfo);
     }
     view->show();
 }
@@ -133,4 +145,4 @@ void ViewListDialog::closeIndividualDialog(ViewIndividualDialog* id){
     id->hide();
     delete(id);
 }
-void ViewListDialog::listReq(viewIndividualType listReq){}
+void ViewListDialog::listReq(viewIndividualType listReq, std::string info){}

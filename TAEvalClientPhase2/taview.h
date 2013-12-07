@@ -22,7 +22,7 @@ public:
     ~TAView();
     void closeListDialog(ViewListDialog*);
     void closeIndividualDialog(ViewIndividualDialog*);
-    void listReq(viewIndividualType listReq);
+    void listReq(viewIndividualType listReq, std::string);
     
 private slots:
     void on_logoutButton_clicked();
