@@ -11,12 +11,19 @@ int UIController::run(){
     a.exec();
     return 0;
 }
-void UIController::loginNotify(std::string uname, char utype){
+/*
+  * Member Function: loginNotify
+  * Description: This function notifies the controller that there has been a request made
+  *                 to log in. It makes a call to the general notification function in the
+  *                 controller class.
+  */
+void UIController::loginNotify(){
     //Send info to main controller to verify
-    control->giveRequest(uname,utype,"LOGINREQUEST", "");
-    //assume it is verified
+    std::string *returnInfo;
     d->getUserInfo(&username, &currUserType);
-    if(utype == 't'){
+    control->giveRequest(username,currUserType,"LOGINREQUEST", "",returnInfo);
+    //assume it is verified
+    if(currUserType == 't'){
         t = new TAView(this);
         t->show();
         d->hide();
@@ -35,6 +42,8 @@ void UIController::updateList(std::string item){
     i->addToList(item);
 }
 void UIController::logoutNotify(){
+    std::string *returnInfo;
+    control->giveRequest(username,currUserType,"LOGOUTREQUEST", "",returnInfo);
     d->clearInfo();
     if(currUserType == 'i'){
         i->hide();

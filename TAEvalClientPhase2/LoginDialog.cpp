@@ -49,7 +49,7 @@ void LoginDialog::loginButtonClicked(){
         userType = 't';
     else
         userType = 'i';
-    c->loginNotify(username, userType);
+    c->loginNotify();
     LoginDialog::close();
 }
 void LoginDialog::quitButtonClicked(){

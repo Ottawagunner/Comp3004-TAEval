@@ -23,7 +23,7 @@ private:
 public:
     UIController(ClientControl* mainControl, int argc,char **argv);
     int run();
-    void loginNotify(std::string, char);
+    void loginNotify();
     void logoutNotify();
     void reqViewCourseList(std::string);
     void reqViewTask(std::string taskID);
