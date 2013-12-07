@@ -17,7 +17,10 @@ SOURCES += main.cpp\
     clientcontrol.cpp \
     instructorview.cpp \
     viewlistdialog.cpp \
-    ViewIndividualDialog.cpp
+    ViewIndividualDialog.cpp \
+    decoder.cpp \
+    encoder.cpp \
+    server.cpp
 
 HEADERS  += \
     LoginDialog.h \
@@ -28,7 +31,10 @@ HEADERS  += \
     viewlistdialog.h \
     ViewIndividualDialog.h \
     types.h \
-    viewtemplate.h
+    viewtemplate.h \
+    decoder.h \
+    encoder.h \
+    server.h
 
 FORMS    += \
     taview.ui \

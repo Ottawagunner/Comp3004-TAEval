@@ -1,11 +1,12 @@
 #include "server.h"
 #include "string.h"
 #include <QDebug>
+
 Server::Server()
 {
 }
 
-void Server::Setup(){
+short Server::Setup(){
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     getaddrinfo("localhost", NULL, NULL, &serverinfo);
@@ -18,7 +19,9 @@ void Server::Setup(){
 
     if (connect(sockfd, (const struct sockaddr *) &server,sizeof(struct sockaddr_in))<0){
         qDebug()<<"ERROR CONNECTING";
+        return -1;
     }
+    return 0;
 }
 
 void Server::SendText(std::string message)

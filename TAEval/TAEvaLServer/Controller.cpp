@@ -4,6 +4,7 @@
 #include "Instructor.h"
 #include "Admin.h"
 #include "TA.h"
+#include "decoder.h"
 #include <cstdlib>
 #include <string>
 
@@ -43,46 +44,21 @@ int Controller::runServer(){
 
 void Controller::executeMessage(std::string *command)
 {
-    parse(command);
-    handleMessage(command);
+    decoder decode = *new decoder();
+    std::string* parsedCommand;
+
+    decode.decode('~', *command, &parsedCommand);
+    //for(int i=0; i<5;i++) std::cout<<parsedCommand[i]<<std::endl;
+    handleMessage(parsedCommand, command);
 }
 
-void Controller::parse(std::string *command) // userType, userName, actionRequested, Message
-{
-    short pos[4+1];
-
-    for(short i = 0; i < 5; i++) // Goes through all '~' and records the positions in the string
-    {
-        pos[i] = 0;
-        if(i == 0) continue;
-        else
-        {
-            if(pos[i-1]+1 >= (*command).length())
-            {
-                pos[i] = -1;
-                break;
-            }
-            pos[i] = (*command).find_first_of("~", pos[i-1]+1);
-        }
-    }
-
-    for(short i = 0; i < messageLength; i++){ // Assigns every segment of the command to the message array
-        if(i == 0)
-            message[i]=(*command).substr(pos[0],1);
-        else if(i+1 >= messageLength)
-            message[i] = (*command).substr(pos[i]+1,-1);
-        else
-            message[i] = (*command).substr(pos[i]+1,pos[i+1]-pos[i]-1);
-        //qDebug()<<(message[i].c_str());
-    }
-}
-
-void Controller::handleMessage(std::string *command) // finds the userType which is one of A, I or T, created an object of the proper class and passes on the request
+void Controller::handleMessage(std::string *command, std::string* response) // finds the userType which is one of A, I or T, created an object of the proper class and passes on the request
 {
     short userType = 0;
-    if(message[0].compare("A") == 0) userType = 1;
-    else if(message[0].compare("I") == 0) userType = 2;
-    else if(message[0].compare("T") == 0) userType = 3;
+    for(int i=0; i<5;i++) std::cout<<command[i]<<std::endl;
+    if(command[2].compare("a") == 0) userType = 1;
+    else if(command[2].compare("i") == 0) userType = 2;
+    else if(command[2].compare("t") == 0) userType = 3;
     switch(userType){
         case 1:
         {
@@ -94,9 +70,10 @@ void Controller::handleMessage(std::string *command) // finds the userType which
         case 2:
         {
             Instructor *i = new Instructor(&database);
-            i->manageReq(message[2],message[3], command);
+
+            i->manageReq(command[3],command[4], response);
             delete(i);
-            if(message[2].compare("LogoutRequest")==0)
+            if(command[3].compare("LogoutRequest")==0)
             {
                 qDebug()<<"LOGOUT!!";
                 listening=false;
@@ -106,7 +83,7 @@ void Controller::handleMessage(std::string *command) // finds the userType which
         case 3:
         {
             TA *t = new TA(&database);
-            //t->manageReq(message[2],message[3], &command);
+            //t->manageReq(command[2],command[3], &command);
             delete(t);
             break;
         }

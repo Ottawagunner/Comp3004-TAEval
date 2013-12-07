@@ -23,7 +23,8 @@ void UIController::loginNotify(){
     d->getUserInfo(&username, &currUserType);
     control->giveRequest(username,currUserType,"LOGINREQUEST", "",returnInfo);
     //assume it is verified
-    if(currUserType == "t"){
+
+    if(currUserType.compare("t")){
         t = new TAView(this);
         t->show();
         d->hide();
@@ -45,11 +46,11 @@ void UIController::logoutNotify(){
     std::string *returnInfo;
     control->giveRequest(username,currUserType,"LOGOUTREQUEST", "",returnInfo);
     d->clearInfo();
-    if(currUserType == "i"){
+    if(currUserType.compare("i")){
         i->hide();
         delete(i);
     }
-    if(currUserType == "t"){
+    if(currUserType.compare("t")){
         t->hide();
         delete(t);
     }

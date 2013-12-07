@@ -2,6 +2,10 @@
 #define CLIENTCONTROL_H
 #include "uicontroller.h"
 #include "clientcontrol.h"
+#include "decoder.h"
+#include "encoder.h"
+#include "server.h"
+
 class UIController;
 class ClientControl
 {
@@ -12,6 +16,8 @@ public:
 
 private:
     UIController *ui;
+    Server client;
+    bool connected;
 };
 
 #endif // CLIENTCONTROL_H

@@ -16,14 +16,14 @@ class LoginDialog : public QDialog{
 
 public:
     LoginDialog(UIController *cont,QWidget *parent=0);
-    void getUserInfo(std::string*, std::string *);
+    void getUserInfo(std::string*, std::string*);
     void clearInfo();
 private slots:
     void loginButtonClicked();
     void quitButtonClicked();
 private:
     std::string username;
-    std::string   userType;
+    std::string userType;
     UIController *c;
     QLabel *loginLabel;
     QPushButton *loginButton;
