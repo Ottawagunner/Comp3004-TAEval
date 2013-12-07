@@ -56,9 +56,9 @@ void Controller::handleMessage(std::string *command, std::string* response) // f
 {
     short userType = 0;
     for(int i=0; i<5;i++) std::cout<<command[i]<<std::endl;
-    if(command[1].compare("A") == 0) userType = 1;
-    else if(command[1].compare("I") == 0) userType = 2;
-    else if(command[1].compare("T") == 0) userType = 3;
+    if(command[2].compare("a") == 0) userType = 1;
+    else if(command[2].compare("i") == 0) userType = 2;
+    else if(command[2].compare("t") == 0) userType = 3;
     switch(userType){
         case 1:
         {

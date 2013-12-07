@@ -46,9 +46,9 @@ LoginDialog::LoginDialog(UIController *cont,QWidget *parent) : QDialog(parent){
 void LoginDialog::loginButtonClicked(){
     username = unameField->text().toStdString();
     if(taOption->isChecked())
-        userType = 't';
+        userType = "t";
     else
-        userType = 'i';
+        userType = "i";
     c->loginNotify();
     LoginDialog::close();
 }
@@ -59,13 +59,13 @@ void LoginDialog::closeEvent(QCloseEvent *e){
         std::cout<<"CLOSED"<<std::endl;
         e->ignore();
 }
-void LoginDialog::getUserInfo(std::string *name, char *type){
+void LoginDialog::getUserInfo(std::string *name, std::string *type){
     *name = username;
     *type = userType;
 }
 void LoginDialog::clearInfo(){
     username = "";
-    userType = 't';
+    userType = "t";
     unameField->setText("");
     taOption->setChecked(true);
 }

@@ -13,10 +13,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     server.cpp \
-    clientcontroller.cpp
+    clientcontroller.cpp \
+    encoder.cpp \
+    decoder.cpp
 
 HEADERS  += mainwindow.h \
     server.h \
-    clientcontroller.h
+    clientcontroller.h \
+    encoder.h \
+    decoder.h
 
 FORMS    += mainwindow.ui
