@@ -54,8 +54,172 @@ void Controller::executeMessage(std::string *command)
 
 void Controller::handleMessage(std::string *command, std::string* response) // finds the userType which is one of A, I or T, created an object of the proper class and passes on the request
 {
-    short userType = 0;
     for(int i=0; i<5;i++) std::cout<<command[i]<<std::endl;
+
+    // send the message to the database
+    //std::string* result;// string obtained from the db
+    if(command[3].compare("LOGINREQUEST")==0)
+    {
+        std::string result[3][1]= {{"1"}, {"1"}, {"HIST1001"}};
+        encoder e;
+        std::string output = "";
+        short tildaInRequest = 0;
+
+        for(int i = 1; i < atoi(result[0][0].c_str()) +1 ; i++)
+        {
+            for(int j = 0; j < atoi(result[i][0].c_str()) ; j++)
+            {
+                output = e.encode(output, result[atoi(result[0][0].c_str())+ i][j]);
+                tildaInRequest++;
+            }
+        }
+        output = output.substr(1, -1); // removes the first tilda as it is going to be added again on the next line
+        output = e.encode(tildaInRequest, output);
+        *response = output;
+    }
+    else if(command[3].compare("LOGOUTREQUEST")==0)
+    {
+        std::string result[3][2]= {{"1",""}, {"2",""}, {"Ruby Rose", "Nora Valkyrie"}};
+        encoder e;
+        std::string output = "";
+        short tildaInRequest = 0;
+
+        for(int i = 1; i < atoi(result[0][0].c_str()) +1 ; i++)
+        {
+            for(int j = 0; j < atoi(result[i][0].c_str()) ; j++)
+            {
+                output = e.encode(output, result[atoi(result[0][0].c_str())+ i][j]);
+                tildaInRequest++;
+            }
+        }
+        output = output.substr(1, -1); // removes the first tilda as it is going to be added again on the next line
+        output = e.encode(tildaInRequest, output);
+        *response = output;
+    }
+    else if(command[3].compare("VIEWONETASK")==0)
+    {
+        std::string result[3][2]= {{"1",""}, {"2",""}, {"Title of Task 1", "Description of Task1"}};
+        encoder e;
+        std::string output = "";
+        short tildaInRequest = 0;
+
+        for(int i = 1; i < atoi(result[0][0].c_str()) +1 ; i++)
+        {
+            for(int j = 0; j < atoi(result[i][0].c_str()) ; j++)
+            {
+                output = e.encode(output, result[atoi(result[0][0].c_str())+ i][j]);
+                tildaInRequest++;
+            }
+        }
+        output = output.substr(1, -1); // removes the first tilda as it is going to be added again on the next line
+        output = e.encode(tildaInRequest, output);
+        *response = output;
+    }
+    else if(command[3].compare("VIEWALLTASKS")==0)
+    {
+        std::string result[3][3]= {{"1",""}, {"3",""}, {"T-1", "T-2", "T-3"}};
+        encoder e;
+        std::string output = "";
+        short tildaInRequest = 0;
+        for(int i = 1; i < atoi(result[0][0].c_str()) +1 ; i++)
+        {
+            for(int j = 0; j < atoi(result[i][0].c_str()) ; j++)
+            {
+                output = e.encode(output, result[atoi(result[0][0].c_str())+ i][j]);
+                tildaInRequest++;
+            }
+        }
+        output = output.substr(1, -1); // removes the first tilda as it is going to be added again on the next line
+        output = e.encode(tildaInRequest, output);
+        *response = output;
+    }
+    else if(command[3].compare("VIEWONEEVAL")==0)
+    {
+
+    }
+    else if(command[3].compare("VIEWALLEVALS")==0)
+    {
+
+    }
+    else if(command[3].compare("ADDTASK")==0)
+    {
+
+    }
+    else if(command[3].compare("DELETETASK")==0)
+    {
+
+    }
+    else if(command[3].compare("EDITTASK")==0)
+    {
+
+    }
+    else if(command[3].compare("ADDEVAL")==0)
+    {
+
+    }
+    else if(command[3].compare("DELETEEVAL")==0)
+    {
+
+    }
+    else if(command[3].compare("EDITEVAL")==0)
+    {
+
+    }
+    else if(command[3].compare("VIEWALLTAS")==0)
+    {
+
+    }
+    else
+    {
+        std::string result[3][1]= {{"1"}, {"1"}, {"ERROR!!"}};
+        encoder e;
+        std::string output = "";
+        short tildaInRequest = 0;
+
+        // Loops through something like this
+        //std::string output[5][3]= {{"2",""}, {"2",""}, {"3",""}, {"Title of Task 1", "Description of Task1 like he's good"}, {"Alpha", "Beta", "Gamma"}};
+        //                           [0][0]   [1][0]     [2][0]       [3][0]                   [3][1]                           [4][0]   [4][1]  [4][2]
+
+        for(int i = 1; i < atoi(result[0][0].c_str()) +1 ; i++)
+        {
+            for(int j = 0; j < atoi(result[i][0].c_str()) ; j++)
+            {
+                output = e.encode(output, result[atoi(result[0][0].c_str())+ i][j]);
+                tildaInRequest++;
+            }
+        }
+        output = output.substr(1, -1); // removes the first tilda as it is going to be added again on the next line
+        output = e.encode(tildaInRequest, output);
+        *response = output;
+    }
+
+
+    /* Encoding function once db works
+    encoder e;
+    std::string output = "";
+    short tildaInRequest = 0;
+
+    // Loops through something like this
+    //std::string output[5][3]= {{"2",""}, {"2",""}, {"3",""}, {"Title of Task 1", "Description of Task1 like he's good"}, {"Alpha", "Beta", "Gamma"}};
+    //                           [0][0]   [1][0]     [2][0]       [3][0]                   [3][1]                           [4][0]   [4][1]  [4][2]
+
+    for(int i = 1; i < atoi(result[0][0].c_str()) +1 ; i++)
+    {
+        for(int j = 0; j < atoi(result[i][0].c_str()) ; j++)
+        {
+            output = e.encode(output, result[atoi(result[0][0].c_str())+ i][j]);
+            tildaInRequest++;
+        }
+    }
+    output = output.substr(1, -1); // removes the first tilda as it is going to be added again on the next line
+    output = e.encode(tildaInRequest, output);
+    *response = output;
+
+
+    */
+
+    /*
+    short userType = 0;
     if(command[2].compare("a") == 0) userType = 1;
     else if(command[2].compare("i") == 0) userType = 2;
     else if(command[2].compare("t") == 0) userType = 3;
@@ -91,5 +255,6 @@ void Controller::handleMessage(std::string *command, std::string* response) // f
             qDebug()<<"ERROR: User type not recognized.";
             break;
     }
+    */
 }
 
