@@ -2,8 +2,9 @@
 #include <QtGui>
 #include "types.h"
 
-ViewListDialog::ViewListDialog(viewTemplate *viewParent, viewListType type, QWidget *parent)
+ViewListDialog::ViewListDialog(viewTemplate *viewParent,viewListType type, QWidget *parent)
 {
+    save = false;
     thisType = type;
     myParent = viewParent;
     listLabel = new QLabel("");
@@ -13,46 +14,6 @@ ViewListDialog::ViewListDialog(viewTemplate *viewParent, viewListType type, QWid
     view = new QPushButton("Details");
     close = new QPushButton("Close");
     mylist = new QListWidget();
-
-    switch(type){
-        case INSTRUCT_VIEW_TASK:
-            listLabel->setText("Viewing all tasks. Select a task and an option to modify the evaluation data");
-            add->setText("Add Evaluation");
-            mylist->addItem("Task001");
-            mylist->addItem("Task002");
-            break;
-
-        case INSTRUCT_VIEW_TA:
-            listLabel->setText("Viewing all TAs");
-            mylist->addItem("Green Arrow");
-            mylist->addItem("Batman");
-            break;
-
-        case TA_VIEW_TASK:
-            listLabel->setText("Viewing your tasks");
-            add->setEnabled(false);
-            del->setEnabled(false);
-            edit->setEnabled(false);
-            mylist->addItem("TASK001");
-            mylist->addItem("TASK002");
-            break;
-
-        case TA_VIEW_EVALS:
-            listLabel->setText("Viewing your evaluations");
-            add->setEnabled(false);
-            del->setEnabled(false);
-            edit->setEnabled(false);
-            mylist->addItem("EVAL001");
-            mylist->addItem("EVAL002");
-            break;
-
-        default:
-            listLabel->setText("THERE WAS AN ERROR");
-            add->setEnabled(false);
-            del->setEnabled(false);
-            edit->setEnabled(false);
-            view->setEnabled(false);
-    }
 
     connect(add,SIGNAL(clicked()),this,SLOT(handleAddButton()));
     connect(edit,SIGNAL(clicked()),this,SLOT(handleEditButton()));
@@ -73,38 +34,34 @@ ViewListDialog::ViewListDialog(viewTemplate *viewParent, viewListType type, QWid
     main->addLayout(left);
     main->addLayout(right);
     setLayout(main);
-
     setWindowTitle("View");
-
+    updateWindow();
 }
 void ViewListDialog::handleAddButton(){
-    ViewIndividualDialog *view;
      std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TA){
-        view = new ViewIndividualDialog(this,INSTRUCT_ADD_TASK);
+        viewID = new ViewIndividualDialog(this,INSTRUCT_ADD_TASK);
         myParent->listReq(INSTRUCT_ADD_TASK, additionalInfo);
     }
     else{
-        view = new ViewIndividualDialog(this,INSTRUCT_ADD_EVAL);
+        viewID = new ViewIndividualDialog(this,INSTRUCT_ADD_EVAL);
         myParent->listReq(INSTRUCT_ADD_EVAL, additionalInfo);
     }
-    view->show();
+    viewID->show();
 }
-
 void ViewListDialog::handleEditButton(){
     ViewIndividualDialog *view;
      std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TA){
-        view = new ViewIndividualDialog(this,INSTRUCT_EDIT_TASK);
+        viewID = new ViewIndividualDialog(this,INSTRUCT_EDIT_TASK);
         myParent->listReq(INSTRUCT_EDIT_TASK, additionalInfo);
     }
     else{
-        view = new ViewIndividualDialog(this,INSTRUCT_EDIT_EVAL);
+        viewID = new ViewIndividualDialog(this,INSTRUCT_EDIT_EVAL);
         myParent->listReq(INSTRUCT_EDIT_EVAL, additionalInfo);
     }
-    view->show();
+    viewID->show();
 }
-
 void ViewListDialog::handleDeleteButton(){
     std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType==INSTRUCT_VIEW_TA)
@@ -112,37 +69,78 @@ void ViewListDialog::handleDeleteButton(){
     if(thisType == INSTRUCT_VIEW_TASK)
         myParent->listReq(INSTRUCT_DEL_EVAL, additionalInfo);
 }
-
 void ViewListDialog::handleViewButton(){
-    ViewIndividualDialog *view;
     std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TASK){
-        view = new ViewIndividualDialog(this,INSTRUCT_DETAIL_EVAL);
+        viewID = new ViewIndividualDialog(this,INSTRUCT_DETAIL_EVAL);
         myParent->listReq(INSTRUCT_DETAIL_EVAL, additionalInfo);
     }
     else if(thisType== INSTRUCT_VIEW_TA){
-        view = new ViewIndividualDialog(this,INSTRUCT_DETAIL_TASK);
+        viewID = new ViewIndividualDialog(this,INSTRUCT_DETAIL_TASK);
         myParent->listReq(INSTRUCT_DETAIL_TASK, additionalInfo);
     }
     else if(thisType == TA_VIEW_TASK){
-        view = new ViewIndividualDialog(this,TA_DETAIL_TASK);
+        viewID = new ViewIndividualDialog(this,TA_DETAIL_TASK);
         myParent->listReq(TA_DETAIL_TASK,additionalInfo);
     }
     else if(thisType == TA_VIEW_EVALS){
-        view = new ViewIndividualDialog(this,TA_DETAIL_EVAL);
+        viewID = new ViewIndividualDialog(this,TA_DETAIL_EVAL);
         myParent->listReq(TA_DETAIL_EVAL, additionalInfo);
     }
-    view->show();
+    viewID->show();
 }
-
 void ViewListDialog::handleCloseButton(){
     myParent->closeListDialog(this);
 }
-
 void ViewListDialog::closeListDialog(ViewListDialog*){}
-
 void ViewListDialog::closeIndividualDialog(ViewIndividualDialog* id){
     id->hide();
+    if(save){
+
+    }
     delete(id);
 }
 void ViewListDialog::listReq(viewIndividualType listReq, std::string info){}
+void ViewListDialog::updateList(std::string s){
+    QString str(s.c_str());
+    mylist->addItem(str);
+}
+void ViewListDialog::updateWindow(){
+    switch(thisType){
+        case INSTRUCT_VIEW_TASK:
+            listLabel->setText("Viewing all tasks. Select a task and an option to modify the evaluation data");
+            add->setText("Add Evaluation");
+            break;
+
+        case INSTRUCT_VIEW_TA:
+            listLabel->setText("Viewing all TAs");
+            break;
+
+        case TA_VIEW_TASK:
+            listLabel->setText("Viewing your tasks");
+            add->setEnabled(false);
+            del->setEnabled(false);
+            edit->setEnabled(false);
+            break;
+
+        case TA_VIEW_EVALS:
+            listLabel->setText("Viewing your evaluations");
+            add->setEnabled(false);
+            del->setEnabled(false);
+            edit->setEnabled(false);
+            break;
+
+        default:
+            listLabel->setText("THERE WAS AN ERROR");
+            add->setEnabled(false);
+            del->setEnabled(false);
+            edit->setEnabled(false);
+            view->setEnabled(false);
+    }
+}
+void ViewListDialog::getIndivDialog(ViewIndividualDialog** d){
+    *d = viewID;
+}
+void ViewListDialog::setSave(bool s){
+    save = s;
+}

@@ -11,10 +11,10 @@ InstructorView::InstructorView(UIController *con, QWidget *parent) :
     ui->setupUi(this);
     control = con;
     ui->welcomeLabel->setText("Welcome to the TAEval System");
+    setWindowTitle("Instructor");
 }
 
-InstructorView::~InstructorView()
-{
+InstructorView::~InstructorView(){
     delete ui;
 }
 void InstructorView::closeEvent(QCloseEvent *e){
@@ -32,13 +32,13 @@ void InstructorView::on_logoutButton_clicked()
 
 void InstructorView::on_viewTaskButton_clicked()
 {
-    ViewListDialog *ld = new ViewListDialog(this,INSTRUCT_VIEW_TASK);
+    ld = new ViewListDialog(this,INSTRUCT_VIEW_TASK);
     std::string additionalInfo =  ui->courseList->currentItem()->text().toStdString();
     control->reqViewAllTasks(additionalInfo);
     ld->show();
 }
 void InstructorView::on_viewTAButton_clicked(){
-    ViewListDialog *ld = new ViewListDialog(this, INSTRUCT_VIEW_TA);
+    ld = new ViewListDialog(this, INSTRUCT_VIEW_TA);
     std::string additionalInfo =  ui->courseList->currentItem()->text().toStdString();
     control->reqViewAllTAs(additionalInfo);
     ld->show();
@@ -80,3 +80,7 @@ void InstructorView::listReq(viewIndividualType listReq, std::string info){
             break;
     }
 }
+void InstructorView::getListDialog(ViewListDialog** v){
+    *v = ld;
+}
+void InstructorView::setSave(bool){}

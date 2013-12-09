@@ -7,6 +7,7 @@ TAView::TAView(UIController *con, QWidget *parent) :
 {
     ui->setupUi(this);
     control = con;
+    setWindowTitle("TA");
 }
 
 TAView::~TAView()
@@ -19,37 +20,35 @@ void TAView::on_logoutButton_clicked()
     control->logoutNotify();
 }
 
-void TAView::closeListDialog(ViewListDialog* ld){
-    ld->hide();
-    delete(ld);
+void TAView::closeListDialog(ViewListDialog*){}
+void TAView::closeIndividualDialog(ViewIndividualDialog* ind){
+    ind->hide();
 }
 
-void TAView::closeIndividualDialog(ViewIndividualDialog* id){
-    id->hide();
-    delete(id);
-}
-
-void TAView::on_ViewTaskButton_clicked()
+void TAView::on_taskDetailsButton_clicked()
 {
-    ViewListDialog *ld = new ViewListDialog(this, TA_VIEW_TASK);
-    control->reqViewAllTasks("");
-    ld->show();
+    id = new ViewIndividualDialog(this, TA_DETAIL_TASK);
+    std::string input = ui->taskList->currentItem()->text().toStdString();
+    if(!input.empty()){
+        control->reqViewTask(ui->taskList->currentItem()->text().toStdString());
+        id->show();
+    }
+    else{
+        //GET ANGRY
+    }
 }
 
 void TAView::on_ViewEvalButton_clicked()
 {
-    ViewListDialog *ld = new ViewListDialog(this, TA_VIEW_EVALS);
-    control->reqViewAllEvals();
-    ld->show();
+    id = new ViewIndividualDialog(this, TA_DETAIL_EVAL);
+    control->reqViewEval(ui->taskList->currentItem()->text().toStdString());
+    id->show();
 }
-void TAView::listReq(viewIndividualType listReq, std::string info){
-    switch(listReq){
-        case TA_DETAIL_TASK:
-            control->reqViewTask(info);
-            break;
-        case TA_DETAIL_EVAL:
-            control->reqViewEval(info);
-            break;
-
-    }
+void TAView::listReq(viewIndividualType, std::string){}
+void TAView::getIndDialog(ViewIndividualDialog** v){
+    *v = id;
 }
+void TAView::addToTaskList(std::string s){
+    ui->taskList->addItem(QString(s.c_str()));
+}
+void TAView::setSave(bool){}

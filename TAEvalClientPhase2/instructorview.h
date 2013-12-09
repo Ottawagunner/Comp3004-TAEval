@@ -22,6 +22,8 @@ public:
     void closeListDialog(ViewListDialog*);
     void closeIndividualDialog(ViewIndividualDialog*);
     void listReq(viewIndividualType listReq, std::string info);
+    void getListDialog(ViewListDialog** v);
+    void setSave(bool);
 
 private slots:
     void on_logoutButton_clicked();
@@ -32,6 +34,7 @@ private:
     Ui::InstructorView *ui;
     virtual void closeEvent(QCloseEvent *e);
     UIController *control;
+    ViewListDialog *ld;
 };
 
 #endif

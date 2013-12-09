@@ -8,6 +8,7 @@ public:
     virtual void closeListDialog(ViewListDialog*) = 0;
     virtual void closeIndividualDialog(ViewIndividualDialog*) = 0;
     virtual void listReq(viewIndividualType listReq, std::string)=0;
+    virtual void setSave(bool) = 0;
 };
 
 #endif // VIEWTEMPLATE_H

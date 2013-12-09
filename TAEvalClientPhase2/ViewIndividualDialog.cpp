@@ -68,7 +68,16 @@ ViewIndividualDialog::ViewIndividualDialog(viewTemplate *viewParent, viewIndivid
 }
 void ViewIndividualDialog::handleCloseButton(){
     myParent->closeIndividualDialog(this);
+    myParent->setSave(false);
 }
 void ViewIndividualDialog::handleSaveButton(){
-    qDebug("SAVE");
+    myParent->setSave(true);
+}
+void ViewIndividualDialog::updateInfo(std::string s1,std::string s2){
+    additionalInfo->setText(QString(s1.c_str()));
+    mainBody->setText(QString(s2.c_str()));
+}
+
+void ViewIndividualDialog::setType(viewIndividualType t){
+
 }
