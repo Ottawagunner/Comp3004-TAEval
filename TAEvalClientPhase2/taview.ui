@@ -24,46 +24,56 @@
      </rect>
     </property>
     <property name="text">
-     <string>Welcome UserName</string>
+     <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="ViewTaskButton">
+   <widget class="QPushButton" name="taskDetailsButton">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>310</x>
       <y>40</y>
-      <width>121</width>
+      <width>101</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
-     <string>View Tasks</string>
+     <string>Task Details</string>
     </property>
    </widget>
    <widget class="QPushButton" name="ViewEvalButton">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>90</y>
-      <width>121</width>
+      <x>310</x>
+      <y>80</y>
+      <width>101</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
-     <string>View Evaluations</string>
+     <string>Evaluation</string>
     </property>
    </widget>
    <widget class="QPushButton" name="logoutButton">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>240</y>
-      <width>90</width>
+      <x>310</x>
+      <y>220</y>
+      <width>101</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
      <string>Logout</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="taskList">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>261</width>
+      <height>211</height>
+     </rect>
     </property>
    </widget>
   </widget>

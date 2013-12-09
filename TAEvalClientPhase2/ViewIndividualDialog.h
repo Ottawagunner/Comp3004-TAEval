@@ -16,6 +16,9 @@ class ViewIndividualDialog:public QDialog
 
 public:
     ViewIndividualDialog(viewTemplate* viewParent,enum viewIndividualType, QWidget *parent=0);
+    void updateInfo(std::string,std::string);
+    void setType(viewIndividualType t);
+
 private slots:
     void handleCloseButton();
     void handleSaveButton();
@@ -27,6 +30,7 @@ private:
     QPushButton *saveButton;
     QLineEdit *additionalInfo;
     QTextEdit *mainBody;
+    viewIndividualType type;
 };
 
 #endif // VIEWINDIVIDUALDIALOG_H

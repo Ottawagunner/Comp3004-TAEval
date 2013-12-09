@@ -23,9 +23,10 @@ private:
 public:
     UIController(ClientControl* mainControl, int argc,char **argv);
     int run();
+    std::string getUser();
+
     void loginNotify();
     void logoutNotify();
-    void reqViewCourseList(std::string);
     void reqViewTask(std::string taskID);
     void reqViewAllTasks(std::string courseId);
     void reqViewEval(std::string taskID);
@@ -37,7 +38,11 @@ public:
     void reqDeleteEval(std::string);
     void reqEditEval(std::string);
     void reqViewAllTAs(std::string);
-    void updateList(std::string);
+
+    void updateCourseList(std::string);
+    void updateTaskList(std::string);
+    void updateListDialogList(std::string);
+    void updateIDialog(std::string, std::string);
 };
 
 #endif // UICONTROLLER_H
