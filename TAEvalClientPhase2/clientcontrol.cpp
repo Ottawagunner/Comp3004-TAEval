@@ -14,82 +14,9 @@ int ClientControl::run(){
 }
 void ClientControl::giveRequest(std::string uname, std::string uType, std::string reqType,
                                 std::string additionalInfo, std::string** returnInfo){
-    std::string testArr[4] = {"4","DID","NOT","WORK"};
-    ////////////////////LOGIN TEST/////////////////////////////////////////
 
-    if((reqType.compare("LOGIN")==0)){
-        testArr[0]="4";
-        testArr[1]="Instructor";
-        testArr[2]="Log";
-        testArr[3]="in";
-    }
-    if(reqType.compare("VIEWONETASK")==0){
-        testArr[0]="3";
-        testArr[1]="VIEW";
-        testArr[2]="ONE TASK";
-        testArr[3]="";
-    }
-    if(reqType.compare("VIEWALLTASKS")==0){
-        testArr[0]="4";
-        testArr[1]="VIEW";
-        testArr[2]="ALL";
-        testArr[3]="TASKS";
-    }
-    if(reqType.compare("VIEWONEEVAL")==0){
-        testArr[0]="3";
-        testArr[1]="VIEW";
-        testArr[2]="ONE EVAL";
-        testArr[3]="";
-    }
-    if(reqType.compare("VIEWALLEVALS")==0){
-        testArr[0]="4";
-        testArr[1]="VIEW";
-        testArr[2]="ALL";
-        testArr[3]="EVALUATIONS";
-    }
-    if(reqType.compare("VIEWALLTASKS")==0){
-        testArr[0]="4";
-        testArr[1]="VIEW";
-        testArr[2]="ALL";
-        testArr[3]="TASKS";
-    }
-    if(reqType.compare("VIEWALLTAS")==0){
-        testArr[0]="4";
-        testArr[1]="VIEW";
-        testArr[2]="ALL";
-        testArr[3]="TAS";
-    }
-    /////////////////////////////////////////////////////////////////////////
-
-    ////////////////////
-    /*if((reqType.compare("VIEWALLTASKS")==0)||(reqType.compare("VIEWALLEVALS"))){
-        std::string viewListTest[5] = {"5","KILL THE BATMAN", "WHY SO SERIOUS", "WANNA KNOW HOW I GOT THESE SCARS?", "ARROW"};
-        std::stringstream convert(viewListTest[0]);
-        int size;
-        convert>>size;
-        std::string *s = new std::string[size];
-        for(int i=0;i<size; i++){
-            s[i] = viewListTest[i];
-        }
-        *returnInfo = s;
-    }
-    else{
-        std::string *s = new std::string[2];
-        s[0]= "2";
-        s[1]= "FAILED TO COMPARE";
-        *returnInfo = s;
-
-    }*/
-    std::stringstream convert(testArr[0]);
-    int size;
-    convert>>size;
-    std::string *s = new std::string[size];
-    for(int i=0;i<size; i++){
-        s[i] = testArr[i];
-    }
-    *returnInfo = s;
     //Checks all 3 necessary arguments to make sure all of them are well-defined
-    /*if(uname.empty())
+    if(uname.empty())
     {
         qDebug()<<"uname in giveRequest is empty";
         return;
@@ -108,7 +35,7 @@ void ClientControl::giveRequest(std::string uname, std::string uType, std::strin
     //If client is not connected, make sure that only LoginRequest can be executed
     if(!connected)
     {
-        if(reqType.compare("LOGINREQUEST") == 0)
+        if(reqType.compare("LOGIN") == 0)
         {
             if(client.Setup() == 0)
                 connected = true;
@@ -144,10 +71,10 @@ void ClientControl::giveRequest(std::string uname, std::string uType, std::strin
     request = e.encode(++tildaInRequest, request); //Finalize the message by adding the number of tildas in front
     client.SendText(request);
 
-    if(reqType.compare("LOGOUTREQUEST") == 0)
+    if(reqType.compare("LOGOUT") == 0)
     {
         connected = false;
-        *returnInfo = std::string("Logged out");
+
         return;
     }
     //========== Done Sending ============
@@ -157,7 +84,18 @@ void ClientControl::giveRequest(std::string uname, std::string uType, std::strin
 
     std::string response = client.RecieveText();
 
-    d.decode('~', response, &returnInfo);*/
+    d.decode('~', response, returnInfo);
+
+//    //for(int i=0; i<2;i++) std::cout<< "randomness: "<<(*returnInfo)[i]<<std::endl;
+//    int size = atoi((*returnInfo)[0].c_str())+1;
+//    std::cout<< "randomness: "<<size<<std::endl;
+
+//    std::string *s = new std::string[size];
+//    for(int i=0;i<size; i++){
+//        s[i] = std::string((*returnInfo)[i]);
+//    }
+//    *returnInfo = s;
+//    for(int i=0; i<2;i++) std::cout<< "randomness1: "<<(*returnInfo)[i]<<std::endl;
 
     return;
 }

@@ -1,8 +1,12 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 #include <QDebug>
-#include "Database.h"
+#include "DatabaseInterface.h"
 #include "mainwindow.h"
+#include "decoder.h"
+#include "encoder.h"
+#include <cstdlib>
+#include <string>
 
 class Controller
 {
@@ -19,7 +23,7 @@ public:
 private:
     const static short messageLength = 4;
     std::string message[messageLength];
-    Database database;
+    DatabaseInterface dbi;
     bool listening;
 };
 

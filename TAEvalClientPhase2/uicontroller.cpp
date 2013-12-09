@@ -26,9 +26,13 @@ void UIController::loginNotify(){
     std::string *returnInfo;
     d->getUserInfo(&username, &currUserType);
     control->giveRequest(username,currUserType,"LOGIN", "",&returnInfo);
+
+    //for(int i=0; i<2;i++) std::cout<< "randomness: "<<returnInfo[i]<<std::endl;
+
     std::stringstream convert(returnInfo[0]);
     int size;
     convert>>size;
+    size++;
     if(returnInfo[1].compare("FAILURE")!=0){
         if(currUserType.compare("t")==0){
             t = new TAView(this);

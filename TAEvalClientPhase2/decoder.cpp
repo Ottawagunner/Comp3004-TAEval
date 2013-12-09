@@ -34,11 +34,11 @@ void decoder::decode(char delimiter, std::string command, std::string** out) // 
     for(short i = 0; i < numberOfSegments; i++) // Assigns every segment of the command to the message array
     {
         if(i == 0)
-            output[i] = command.substr(pos[i],pos[i+1]-pos[i]);
+            output[i] = std::string(command.substr(pos[i],pos[i+1]-pos[i]));
         else if(i+1 > numberOfSegments)
-            output[i] = command.substr(pos[i]+1,-1);
+            output[i] = std::string(command.substr(pos[i]+1,-1));
         else
-            output[i] = command.substr(pos[i]+1,pos[i+1]-pos[i]-1);
+            output[i] = std::string(command.substr(pos[i]+1,pos[i+1]-pos[i]-1));
          //std::cout<<((output[i]).c_str())<<std::endl;
     }
     *out = output;
