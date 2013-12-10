@@ -7,7 +7,7 @@ Server::Server()
 {
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = 0; // bind to all interface addresses
-    servaddr.sin_port = htons(5000);
+    servaddr.sin_port = htons(12000);
 }
 
 std::string Server::ReciveText()

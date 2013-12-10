@@ -51,7 +51,7 @@ char DatabaseInterface::handleRequest(std::string** requestArr, std::string** re
 			*returnArr = new std::string[3];
 			(*returnArr)[0] = ("1");
 			(*returnArr)[1] = ("1");
-			(*returnArr)[2] = ("FAILURE");
+            (*returnArr)[2] = ("Please Refresh");
 		}
 
 	}else if(baseArr[2] == CREATE_EVALUATION || baseArr[2] == CREATE_TASK){
@@ -59,7 +59,7 @@ char DatabaseInterface::handleRequest(std::string** requestArr, std::string** re
 			*returnArr = new std::string[3]; 
 			(*returnArr)[0] = ("1");
 			(*returnArr)[1] = ("1");
-			(*returnArr)[2] = ("FAILURE");
+            (*returnArr)[2] = ("Please Refresh");
 		}
 
 	}else if(baseArr[2] == EDIT_EVALUATION || baseArr[2] == EDIT_TASK){
@@ -67,7 +67,7 @@ char DatabaseInterface::handleRequest(std::string** requestArr, std::string** re
 			*returnArr = new std::string[3]; 
 			(*returnArr)[0] = ("1");
 			(*returnArr)[1] = ("1");
-			(*returnArr)[2] = ("FAILURE");
+            (*returnArr)[2] = ("Please Refresh");
 		}
 
 	}else if(baseArr[2] == DELETE_TASK){
@@ -75,7 +75,7 @@ char DatabaseInterface::handleRequest(std::string** requestArr, std::string** re
 			*returnArr = new std::string[3]; 
 			(*returnArr)[0] = ("1");
 			(*returnArr)[1] = ("1");
-			(*returnArr)[2] = ("FAILURE");
+            (*returnArr)[2] = ("Please Refresh");
 		}
 
 	}else{
@@ -83,7 +83,7 @@ char DatabaseInterface::handleRequest(std::string** requestArr, std::string** re
 			*returnArr = new std::string[3]; 
 			(*returnArr)[0] = ("1");
 			(*returnArr)[1] = ("1");
-			(*returnArr)[2] = ("FAILURE");
+            (*returnArr)[2] = ("Please Refresh");
 		}
 	}
 
@@ -135,7 +135,7 @@ bool DatabaseInterface::createRequest(std::string* userType, std::string* userNa
 			newArr[1] = convert.str();
 
 			for(int i = 0; i < num; i++){
-				newArr[i+2] = arr[i+2];
+                n" ewArr[i+2] = arr[i+2];
 			}
 
 			newArr[sum] = (*dataArr)[2];
@@ -317,12 +317,12 @@ bool DatabaseInterface::viewTaskRequest(std::string* userType, std::string* user
 		}
 
 		std::stringstream convert;
-		convert << (count-1);
+        convert << (count-2);
         (*dataArr)[1] = convert.str();
         (*dataArr)[0] = "1";
 
 		delete[] arr;		
-	} 
+    }
 	return true;
 }
 
