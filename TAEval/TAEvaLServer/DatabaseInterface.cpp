@@ -135,7 +135,7 @@ bool DatabaseInterface::createRequest(std::string* userType, std::string* userNa
 			newArr[1] = convert.str();
 
 			for(int i = 0; i < num; i++){
-                n" ewArr[i+2] = arr[i+2];
+                newArr[i+2] = arr[i+2];
 			}
 
 			newArr[sum] = (*dataArr)[2];

@@ -25,9 +25,10 @@ ViewListDialog::ViewListDialog(viewTemplate *viewParent,viewListType type, QWidg
         edit->setEnabled(false);
         del->setEnabled(false);
     }
-    /*if(thisType == INSTRUCT_VIEW_TASK){
-        del->setEnabled(false);
-    }*/
+    if(thisType == INSTRUCT_VIEW_TASK){
+        add->setEnabled(false);
+        view->setText("View Tasks");
+    }
 
     QVBoxLayout *left = new QVBoxLayout;
     left->addWidget(listLabel);
@@ -119,7 +120,7 @@ void ViewListDialog::updateWindow(){
     switch(thisType){
         case INSTRUCT_VIEW_TASK:
             listLabel->setText("Viewing all tasks. Select a task and an option to modify the evaluation data");
-            add->setText("Add Evaluation");
+            add->setText("Add");
             break;
 
         case INSTRUCT_VIEW_TA:

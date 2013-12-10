@@ -51,10 +51,7 @@ void Controller::handleMessage(std::string *command, std::string* response) // f
 
     // send the message to the database
     std::string* result;
-
-
     dbi.handleRequest(&command,&result);
-
 
     // Encoding function once db works
     // Loops through something like this
@@ -67,9 +64,9 @@ void Controller::handleMessage(std::string *command, std::string* response) // f
         result[1]="1";
         result[2]="SUCCESS";
     }
-    std::cout << "result[0]: " << result[0] << std::endl;
-    std::cout << "result[1]: " << result[1] << std::endl;
-    std::cout << "result[2]: " << result[2] << std::endl;
+    //std::cout << "result[0]: " << result[0] << std::endl;
+    //std::cout << "result[1]: " << result[1] << std::endl;
+   // std::cout << "result[2]: " << result[2] << std::endl;
 
     encoder e;
     std::string output = "";
@@ -77,7 +74,6 @@ void Controller::handleMessage(std::string *command, std::string* response) // f
     short numberOfData = 0;
     for(int i = 1; i < atoi(result[0].c_str()) +1 ; i++) // Find out how many data blocks was given by the db
         numberOfData+=atoi(result[i].c_str());
-    std::cout<<"do I crash after this?d"<<std::endl;
     for(int j = 0; j < numberOfData; j++) // Loops through all of the data and encodes them into a single string
     {
         output = e.encode(output, result[atoi(result[0].c_str())+1+j]);
@@ -85,10 +81,8 @@ void Controller::handleMessage(std::string *command, std::string* response) // f
         std::cout<<output<<std::endl;
         tildaInRequest++;
     }
-    std::cout<<"do I crash after this?s"<<std::endl;
     output = output.substr(1, -1); // cuts the first tilda off
     output = e.encode(tildaInRequest, output); // adds the number of tildas through the encoder (adds the tilda we cut off)
     *response = output;
-        std::cout<<"do I crash after thissadas?"<<std::endl;
 }
 
