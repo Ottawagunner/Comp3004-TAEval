@@ -8,6 +8,8 @@ TAView::TAView(UIController *con, QWidget *parent) :
     ui->setupUi(this);
     control = con;
     setWindowTitle("TA");
+    ui->taskDetailsButton->setEnabled(false);
+    ui->ViewEvalButton->setEnabled(false);
 }
 
 TAView::~TAView()
@@ -26,23 +28,26 @@ void TAView::closeIndividualDialog(ViewIndividualDialog* ind){
 }
 
 void TAView::on_taskDetailsButton_clicked()
-{
-    id = new ViewIndividualDialog(this, TA_DETAIL_TASK);
-    std::string input = ui->taskList->currentItem()->text().toStdString();
-    if(!input.empty()){
-        control->reqViewTask(ui->taskList->currentItem()->text().toStdString());
-        id->show();
-    }
-    else{
-        //GET ANGRY
+{   if(ui->taskList->currentItem() != NULL){
+        id = new ViewIndividualDialog(this, TA_DETAIL_TASK);
+        std::string input = ui->taskList->currentItem()->text().toStdString();
+        if(!input.empty()){
+            control->reqViewTask(ui->taskList->currentItem()->text().toStdString());
+            id->show();
+        }
+        else{
+            //GET ANGRY
+        }
     }
 }
 
 void TAView::on_ViewEvalButton_clicked()
 {
-    id = new ViewIndividualDialog(this, TA_DETAIL_EVAL);
-    control->reqViewEval(ui->taskList->currentItem()->text().toStdString());
-    id->show();
+    if(ui->taskList->currentItem() != NULL){
+        id = new ViewIndividualDialog(this, TA_DETAIL_EVAL);
+        control->reqViewEval(ui->taskList->currentItem()->text().toStdString());
+        id->show();
+    }
 }
 void TAView::listReq(viewIndividualType, std::string){}
 void TAView::getIndDialog(ViewIndividualDialog** v){
@@ -50,5 +55,8 @@ void TAView::getIndDialog(ViewIndividualDialog** v){
 }
 void TAView::addToTaskList(std::string s){
     ui->taskList->addItem(QString(s.c_str()));
+    ui->taskDetailsButton->setEnabled(true);
+    ui->ViewEvalButton->setEnabled(true);
+
 }
 void TAView::setSave(bool){}

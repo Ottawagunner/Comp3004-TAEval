@@ -14,7 +14,6 @@ int ClientControl::run(){
 }
 void ClientControl::giveRequest(std::string uname, std::string uType, std::string reqType,
                                 std::string additionalInfo, std::string** returnInfo){
-
     //Checks all 3 necessary arguments to make sure all of them are well-defined
     if(uname.empty())
     {
@@ -85,17 +84,4 @@ void ClientControl::giveRequest(std::string uname, std::string uType, std::strin
     std::string response = client.RecieveText();
 
     d.decode('~', response, returnInfo);
-
-//    //for(int i=0; i<2;i++) std::cout<< "randomness: "<<(*returnInfo)[i]<<std::endl;
-//    int size = atoi((*returnInfo)[0].c_str())+1;
-//    std::cout<< "randomness: "<<size<<std::endl;
-
-//    std::string *s = new std::string[size];
-//    for(int i=0;i<size; i++){
-//        s[i] = std::string((*returnInfo)[i]);
-//    }
-//    *returnInfo = s;
-//    for(int i=0; i<2;i++) std::cout<< "randomness1: "<<(*returnInfo)[i]<<std::endl;
-
-    return;
 }

@@ -103,7 +103,6 @@ void UIController::reqViewAllEvals(){
 void UIController::reqAddTask(std::string info){
     std::string *returnInfo;
     control->giveRequest(username, currUserType,"ADDTASK",info,&returnInfo);
-    updateIDialog("YOU","BITCH");
 }
 
 void UIController::reqDeleteTask(std::string info){
@@ -114,12 +113,10 @@ void UIController::reqDeleteTask(std::string info){
 void UIController::reqEditTask(std::string info){
     std::string *returnInfo;
     control->giveRequest(username, currUserType,"EDITTASK",info,&returnInfo);
-    updateIDialog("YOU","BITCH");
 }
 void UIController::reqAddEval(std::string info){
     std::string *returnInfo;
     control->giveRequest(username, currUserType,"ADDEVAL",info,&returnInfo);
-    updateIDialog("YOU","BITCH");
 }
 void UIController::reqDeleteEval(std::string info){
     std::string *returnInfo;
@@ -128,7 +125,6 @@ void UIController::reqDeleteEval(std::string info){
 void UIController::reqEditEval(std::string info){
     std::string *returnInfo;
     control->giveRequest(username, currUserType,"EDITEVAL",info,&returnInfo);
-    updateIDialog("YOU","BITCH");
 }
 void UIController::reqViewAllTAs(std::string addInfo){
     std::string *returnInfo;
@@ -153,16 +149,9 @@ void UIController::updateTaskList(std::string item){
 }
 
 void UIController::updateListDialogList(std::string s){
-    /*if(currUserType.compare("t")==0){
-        ViewListDialog *v;
-        t->getListDialog(&v);
-        v->updateList(s);
-    }
-    else{*/
-        ViewListDialog *v;
-        i->getListDialog(&v);
-        v->updateList(s);
-    //}
+    ViewListDialog *v;
+    i->getListDialog(&v);
+    v->updateList(s);
 }
 void UIController::updateIDialog(std::string s1, std::string s2){
     if(currUserType.compare("t")==0){
