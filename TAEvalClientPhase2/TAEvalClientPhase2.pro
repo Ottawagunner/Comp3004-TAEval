@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     ViewIndividualDialog.cpp \
     decoder.cpp \
     encoder.cpp \
-    server.cpp
+    server.cpp \
+    prevententer.cpp
 
 HEADERS  += \
     LoginDialog.h \
@@ -34,7 +35,8 @@ HEADERS  += \
     viewtemplate.h \
     decoder.h \
     encoder.h \
-    server.h
+    server.h \
+    prevententer.h
 
 FORMS    += \
     taview.ui \

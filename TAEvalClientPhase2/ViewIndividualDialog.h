@@ -18,6 +18,7 @@ public:
     ViewIndividualDialog(viewTemplate* viewParent,enum viewIndividualType, QWidget *parent=0);
     void updateInfo(std::string,std::string);
     void setType(viewIndividualType t);
+    viewIndividualType getType();
 
 private slots:
     void handleCloseButton();
