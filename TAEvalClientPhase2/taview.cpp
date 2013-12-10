@@ -49,7 +49,7 @@ void TAView::on_ViewEvalButton_clicked()
         id->show();
     }
 }
-void TAView::listReq(viewIndividualType, std::string, std::string){}
+void TAView::listReq(viewIndividualType, std::string, std::string, std::string){}
 void TAView::getIndDialog(ViewIndividualDialog** v){
     *v = id;
 }

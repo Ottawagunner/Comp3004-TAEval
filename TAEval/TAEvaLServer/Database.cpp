@@ -44,6 +44,8 @@ char Database::add(int treeNum, std::string* keyPtr, std::string* filenamePtr, s
 
 	arrayOfTrees[treeNum].add(&data);
 
+    updateTreeFile(treeNum);
+
 	return 0;
 }
 
@@ -70,6 +72,8 @@ char Database::remove(int treeNum, std::string* keyPtr){
 	std::string fileValue = data.getFile();
 	arrayOfTrees[treeNum].remove(&data);
 	fileIO.removeFile(&fileValue);
+
+    updateTreeFile(treeNum);
 
 	return 0;
 }

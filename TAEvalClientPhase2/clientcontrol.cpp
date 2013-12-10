@@ -13,7 +13,7 @@ int ClientControl::run(){
     return 0;
 }
 void ClientControl::giveRequest(std::string uname, std::string uType, std::string reqType,
-                                std::string addInfo1, std::string addInfo2, std::string** returnInfo){
+                                std::string addInfo1, std::string addInfo2, std::string addInfo3,std::string** returnInfo){
     //Checks all 3 necessary arguments to make sure all of them are well-defined
     if(uname.empty())
     {
@@ -71,9 +71,16 @@ void ClientControl::giveRequest(std::string uname, std::string uType, std::strin
         request = e.encode(request, addInfo2);
         tildaInRequest++;
     }
+    if(!addInfo3.empty()) //Adds the additional info if it is not empty
+    {
+        request = e.encode(request, addInfo3);
+        tildaInRequest++;
+    }
 
     request = e.encode(++tildaInRequest, request); //Finalize the message by adding the number of tildas in front
-    client.SendText(request);
+    std::cout<<request<<std::endl;
+    if(request.compare("")!=0)
+        client.SendText(request);
 
     if(reqType.compare("LOGOUT") == 0)
     {

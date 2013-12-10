@@ -12,7 +12,7 @@ class ClientControl
 public:
     ClientControl(int argc, char** argv);
     int run();
-    void giveRequest(std::string, std::string, std::string, std::string, std::string, std::string **returnInfo);
+    void giveRequest(std::string un, std::string ut, std::string req, std::string title, std::string body,std::string listThing, std::string **returnInfo);
 
 private:
     UIController *ui;

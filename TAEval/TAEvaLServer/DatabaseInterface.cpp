@@ -71,7 +71,7 @@ char DatabaseInterface::handleRequest(std::string** requestArr, std::string** re
 		}
 
 	}else if(baseArr[2] == DELETE_TASK){
-		if(!removeRequest(&(baseArr[0]), &(dataArr)[1])){
+        if(!removeRequest(&(dataArr)[1], &(dataArr)[2])){
 			*returnArr = new std::string[3]; 
 			(*returnArr)[0] = ("1");
 			(*returnArr)[1] = ("1");
@@ -115,7 +115,8 @@ bool DatabaseInterface::createRequest(std::string* userType, std::string* userNa
 		if(*userType == INSTRUCTOR_TYPE){
 
 			std::string* arr;
-			if(db.find(1, userName, &arr))
+            std::string key = (*dataArr)[1];
+            if(db.find(1, &key, &arr))
 				return false;
 
 			int num;
@@ -139,7 +140,7 @@ bool DatabaseInterface::createRequest(std::string* userType, std::string* userNa
 
 			newArr[sum] = (*dataArr)[2];
 
-			db.edit(1, userName, &newArr);
+            db.edit(1, &key, &newArr);
 
 			delete[] arr;
 			delete[] newArr;
@@ -148,15 +149,16 @@ bool DatabaseInterface::createRequest(std::string* userType, std::string* userNa
 
 			arr[0] = "1";
 			arr[1] = "5";
+            arr[2] = *userName;
 			arr[5] = RATING_PLACEHOLDER;
 			arr[6] = REVIEW_PLACEHOLDER;
 
-			for(int i = 0; i < 3; i++){
-				arr[2+i] = (*dataArr)[1+i];
+            for(int i = 0; i < 2; i++){
+                arr[3+i] = (*dataArr)[2+i];
 			}
 
-			std::string key = (*dataArr)[2];
-			std::string filename = "Task/"+(*dataArr)[2]+".txt";
+            key = (*dataArr)[2];
+            std::string filename = "Task/"+key+".txt";
 
 			db.add(3, &key, &filename, &arr);
 

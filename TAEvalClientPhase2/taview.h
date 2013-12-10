@@ -22,7 +22,7 @@ public:
     ~TAView();
     void closeListDialog(ViewListDialog*);
     void closeIndividualDialog(ViewIndividualDialog*);
-    void listReq(viewIndividualType listReq, std::string, std::string);
+    void listReq(viewIndividualType listReq, std::string, std::string,std::string);
     void getIndDialog(ViewIndividualDialog** v);
     void addToTaskList(std::string);
     void setSave(bool);
