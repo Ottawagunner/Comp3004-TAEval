@@ -1,5 +1,6 @@
 #include "server.h"
 #include "string.h"
+#include <fstream>
 #include <QDebug>
 
 Server::Server()
@@ -8,13 +9,23 @@ Server::Server()
 
 short Server::Setup(){
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
-
-    getaddrinfo("localhost", NULL, NULL, &serverinfo);
+    std::ifstream myfile("config.txt");
+    std::string buffer;
+    if(myfile)
+        std::getline(myfile, buffer);
+    else buffer = "localhost";
+    qDebug()<<buffer.c_str();
+    getaddrinfo(buffer.c_str(), NULL, NULL, &serverinfo);
 
     /*Copy size of sockaddr_in b/c res->ai_addr to big for this example*/
     memcpy (&server, serverinfo->ai_addr, sizeof(struct sockaddr_in));
     server.sin_family = AF_INET;
-    server.sin_port = htons(5000);
+    if(myfile)
+        std::getline(myfile, buffer);
+    else buffer = "5000";
+    qDebug()<<buffer.c_str();
+
+    server.sin_port = htons(atoi(buffer.c_str()));
     freeaddrinfo(serverinfo);
 
     if (connect(sockfd, (const struct sockaddr *) &server,sizeof(struct sockaddr_in))<0){
