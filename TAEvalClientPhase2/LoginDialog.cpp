@@ -45,12 +45,14 @@ LoginDialog::LoginDialog(UIController *cont,QWidget *parent) : QDialog(parent){
 }
 void LoginDialog::loginButtonClicked(){
     username = unameField->text().toStdString();
-    if(taOption->isChecked())
-        userType = "t";
-    else
-        userType = "i";
-    c->loginNotify();
-    LoginDialog::close();
+    if(username.compare("")!=0){
+        if(taOption->isChecked())
+            userType = "t";
+        else
+            userType = "i";
+        c->loginNotify();
+        LoginDialog::close();
+    }
 }
 void LoginDialog::quitButtonClicked(){
     QApplication::quit();

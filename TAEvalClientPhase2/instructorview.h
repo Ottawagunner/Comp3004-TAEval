@@ -24,6 +24,7 @@ public:
     void listReq(viewIndividualType listReq, std::string info);
     void getListDialog(ViewListDialog** v);
     void setSave(bool);
+    void switchToTask(std::string s, ViewListDialog* v);
 
 private slots:
     void on_logoutButton_clicked();

@@ -21,6 +21,14 @@ ViewListDialog::ViewListDialog(viewTemplate *viewParent,viewListType type, QWidg
     connect(view,SIGNAL(clicked()),this,SLOT(handleViewButton()));
     connect(close,SIGNAL(clicked()),this,SLOT(handleCloseButton()));
 
+    if(thisType == INSTRUCT_VIEW_TA){
+        edit->setEnabled(false);
+        del->setEnabled(false);
+    }
+    if(thisType == INSTRUCT_VIEW_TASK){
+        del->setEnabled(false);
+    }
+
     QVBoxLayout *left = new QVBoxLayout;
     left->addWidget(listLabel);
     left->addWidget(mylist);
@@ -41,11 +49,9 @@ void ViewListDialog::handleAddButton(){
     std::string currentCourse =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TA){
         viewID = new ViewIndividualDialog(this,INSTRUCT_ADD_TASK);
-        //myParent->listReq(INSTRUCT_ADD_TASK, currentCourse);
     }
     else{
         viewID = new ViewIndividualDialog(this,INSTRUCT_ADD_EVAL);
-        //myParent->listReq(INSTRUCT_ADD_EVAL, currentCourse);
     }
     viewID->show();
 }
@@ -74,20 +80,23 @@ void ViewListDialog::handleViewButton(){
     if(thisType == INSTRUCT_VIEW_TASK){
         viewID = new ViewIndividualDialog(this,INSTRUCT_DETAIL_EVAL);
         myParent->listReq(INSTRUCT_DETAIL_EVAL, additionalInfo);
+        viewID->show();
     }
     else if(thisType== INSTRUCT_VIEW_TA){
-        viewID = new ViewIndividualDialog(this,INSTRUCT_DETAIL_TASK);
-        myParent->listReq(INSTRUCT_DETAIL_TASK, additionalInfo);
+        //viewID = new ViewIndividualDialog(this,INSTRUCT_DETAIL_TASK);
+        //myParent->listReq(INSTRUCT_DETAIL_TASK, additionalInfo);
+        myParent->switchToTask(additionalInfo, this);
     }
     else if(thisType == TA_VIEW_TASK){
         viewID = new ViewIndividualDialog(this,TA_DETAIL_TASK);
         myParent->listReq(TA_DETAIL_TASK,additionalInfo);
+        viewID->show();
     }
     else if(thisType == TA_VIEW_EVALS){
         viewID = new ViewIndividualDialog(this,TA_DETAIL_EVAL);
         myParent->listReq(TA_DETAIL_EVAL, additionalInfo);
+        viewID->show();
     }
-    viewID->show();
 }
 void ViewListDialog::handleCloseButton(){
     myParent->closeListDialog(this);
@@ -144,4 +153,7 @@ void ViewListDialog::getIndivDialog(ViewIndividualDialog** d){
 }
 void ViewListDialog::setSave(bool s){
     save = s;
+}
+void ViewListDialog::switchToTask(std::string s, ViewListDialog* v){
+
 }

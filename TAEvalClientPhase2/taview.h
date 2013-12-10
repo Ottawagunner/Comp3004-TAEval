@@ -26,6 +26,7 @@ public:
     void getIndDialog(ViewIndividualDialog** v);
     void addToTaskList(std::string);
     void setSave(bool);
+    void switchToTask(std::string s, ViewListDialog* v);
     
 private slots:
     void on_logoutButton_clicked();

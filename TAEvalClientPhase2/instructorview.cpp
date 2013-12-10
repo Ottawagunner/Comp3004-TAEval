@@ -84,3 +84,10 @@ void InstructorView::getListDialog(ViewListDialog** v){
     *v = ld;
 }
 void InstructorView::setSave(bool){}
+void InstructorView::switchToTask(std::string s, ViewListDialog* v){
+    closeListDialog(v);
+    ld = new ViewListDialog(this,INSTRUCT_VIEW_TASK);
+    control->reqViewAllTasks(s);
+    ld->show();
+
+}

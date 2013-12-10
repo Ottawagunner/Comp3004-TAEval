@@ -24,6 +24,7 @@ public:
     void updateWindow();
     void getIndivDialog(ViewIndividualDialog** d);
     void setSave(bool);
+    void switchToTask(std::string s, ViewListDialog* v);
 private slots:
     void handleAddButton();
     void handleEditButton();
@@ -42,6 +43,7 @@ private:
     QList<QString>          currList;
     viewTemplate*           myParent;
     ViewIndividualDialog*   viewID;
+    ViewListDialog*         taskList;
     bool                    save;
 };
 
