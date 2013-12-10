@@ -38,14 +38,14 @@ ViewListDialog::ViewListDialog(viewTemplate *viewParent,viewListType type, QWidg
     updateWindow();
 }
 void ViewListDialog::handleAddButton(){
-     std::string additionalInfo =  mylist->currentItem()->text().toStdString();
+    std::string currentCourse =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TA){
         viewID = new ViewIndividualDialog(this,INSTRUCT_ADD_TASK);
-        myParent->listReq(INSTRUCT_ADD_TASK, additionalInfo);
+        //myParent->listReq(INSTRUCT_ADD_TASK, currentCourse);
     }
     else{
         viewID = new ViewIndividualDialog(this,INSTRUCT_ADD_EVAL);
-        myParent->listReq(INSTRUCT_ADD_EVAL, additionalInfo);
+        //myParent->listReq(INSTRUCT_ADD_EVAL, currentCourse);
     }
     viewID->show();
 }
@@ -54,11 +54,11 @@ void ViewListDialog::handleEditButton(){
      std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TA){
         viewID = new ViewIndividualDialog(this,INSTRUCT_EDIT_TASK);
-        myParent->listReq(INSTRUCT_EDIT_TASK, additionalInfo);
+        myParent->listReq(INSTRUCT_DETAIL_TASK, additionalInfo);
     }
     else{
         viewID = new ViewIndividualDialog(this,INSTRUCT_EDIT_EVAL);
-        myParent->listReq(INSTRUCT_EDIT_EVAL, additionalInfo);
+        myParent->listReq(INSTRUCT_DETAIL_EVAL, additionalInfo);
     }
     viewID->show();
 }
@@ -96,7 +96,8 @@ void ViewListDialog::closeListDialog(ViewListDialog*){}
 void ViewListDialog::closeIndividualDialog(ViewIndividualDialog* id){
     id->hide();
     if(save){
-
+        viewIndividualType t = id->getType();
+        myParent->listReq(t,mylist->currentItem()->text().toStdString());
     }
     delete(id);
 }

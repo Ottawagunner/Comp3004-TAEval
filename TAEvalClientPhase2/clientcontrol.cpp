@@ -16,7 +16,7 @@ void ClientControl::giveRequest(std::string uname, std::string uType, std::strin
                                 std::string additionalInfo, std::string** returnInfo){
     std::string testArr[4] = {"4","DID","NOT","WORK"};
     ////////////////////LOGIN TEST/////////////////////////////////////////
-
+    std::cout<<reqType<<std::endl;
     if((reqType.compare("LOGIN")==0)){
         testArr[0]="4";
         testArr[1]="Instructor";
@@ -62,24 +62,6 @@ void ClientControl::giveRequest(std::string uname, std::string uType, std::strin
     /////////////////////////////////////////////////////////////////////////
 
     ////////////////////
-    /*if((reqType.compare("VIEWALLTASKS")==0)||(reqType.compare("VIEWALLEVALS"))){
-        std::string viewListTest[5] = {"5","KILL THE BATMAN", "WHY SO SERIOUS", "WANNA KNOW HOW I GOT THESE SCARS?", "ARROW"};
-        std::stringstream convert(viewListTest[0]);
-        int size;
-        convert>>size;
-        std::string *s = new std::string[size];
-        for(int i=0;i<size; i++){
-            s[i] = viewListTest[i];
-        }
-        *returnInfo = s;
-    }
-    else{
-        std::string *s = new std::string[2];
-        s[0]= "2";
-        s[1]= "FAILED TO COMPARE";
-        *returnInfo = s;
-
-    }*/
     std::stringstream convert(testArr[0]);
     int size;
     convert>>size;
