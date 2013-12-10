@@ -27,8 +27,6 @@ void UIController::loginNotify(){
     d->getUserInfo(&username, &currUserType);
     control->giveRequest(username,currUserType,"LOGIN", "",&returnInfo);
 
-    //for(int i=0; i<2;i++) std::cout<< "randomness: "<<returnInfo[i]<<std::endl;
-
     std::stringstream convert(returnInfo[0]);
     int size;
     convert>>size;
@@ -71,22 +69,23 @@ void UIController::logoutNotify(){
 
 void UIController::reqViewTask(std::string taskID){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"VIEWONETASK",taskID,&returnInfo);
+    control->giveRequest(username, currUserType,"VIEW-TASK-INFO",taskID,&returnInfo);
     updateIDialog(returnInfo[1],returnInfo[2]);
 }
 void UIController::reqViewAllTasks(std::string addInfo){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"VIEWALLTASKS",addInfo,&returnInfo);
+    control->giveRequest(username, currUserType,"VIEW-TASK",addInfo,&returnInfo);
     std::stringstream convert(returnInfo[0]);
     int size;
     convert>>size;
+    size++;
     for(int i=1; i<size; i++){
         updateListDialogList(returnInfo[i]);
     }
 }
 void UIController::reqViewEval(std::string taskID){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"VIEWONEEVAL",taskID,&returnInfo);
+    control->giveRequest(username, currUserType,"VIEW-EVAL-INFO",taskID,&returnInfo);
     updateIDialog(returnInfo[1],returnInfo[2]);
 }
 
@@ -96,27 +95,28 @@ void UIController::reqViewAllEvals(){
     std::stringstream convert(returnInfo[0]);
     int size;
     convert>>size;
+    size++;
     for(int i=1; i<size; i++){
         updateListDialogList(returnInfo[i]);
     }
 }
 void UIController::reqAddTask(std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"ADDTASK",info,&returnInfo);
+    control->giveRequest(username, currUserType,"CREATE-TASK",info,&returnInfo);
 }
 
 void UIController::reqDeleteTask(std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"DELETETASK",info,&returnInfo);
+    control->giveRequest(username, currUserType,"DELETE-TASK",info,&returnInfo);
 }
 
 void UIController::reqEditTask(std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"EDITTASK",info,&returnInfo);
+    control->giveRequest(username, currUserType,"EDIT-TASK",info,&returnInfo);
 }
 void UIController::reqAddEval(std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"ADDEVAL",info,&returnInfo);
+    control->giveRequest(username, currUserType,"EDIT-EVAL",info,&returnInfo);
 }
 void UIController::reqDeleteEval(std::string info){
     std::string *returnInfo;
@@ -124,14 +124,15 @@ void UIController::reqDeleteEval(std::string info){
 }
 void UIController::reqEditEval(std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"EDITEVAL",info,&returnInfo);
+    control->giveRequest(username, currUserType,"EDIT-EVAL",info,&returnInfo);
 }
 void UIController::reqViewAllTAs(std::string addInfo){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"VIEWALLTAS",addInfo,&returnInfo);
+    control->giveRequest(username, currUserType,"VIEW-TA",addInfo,&returnInfo);
     std::stringstream convert(returnInfo[0]);
     int size;
     convert>>size;
+    size++;
     for(int i=1; i<size; i++){
         updateListDialogList(returnInfo[i]);
     }
