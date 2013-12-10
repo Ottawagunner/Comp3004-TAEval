@@ -92,3 +92,9 @@ void ViewIndividualDialog::setType(viewIndividualType){}
 viewIndividualType ViewIndividualDialog::getType(){
     return type;
 }
+std::string ViewIndividualDialog::getTitle(){
+    return additionalInfo->text().toStdString();
+}
+std::string ViewIndividualDialog::getBody(){
+    return mainBody->toPlainText().toStdString();
+}

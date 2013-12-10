@@ -19,7 +19,7 @@ public:
     ViewListDialog(viewTemplate *viewParent, viewListType t,QWidget *parent=0);
     void closeListDialog(ViewListDialog*);
     void closeIndividualDialog(ViewIndividualDialog*);
-    void listReq(viewIndividualType listReq, std::string);
+    void listReq(viewIndividualType listReq,std::string,  std::string);
     void updateList(std::string);
     void updateWindow();
     void getIndivDialog(ViewIndividualDialog** d);

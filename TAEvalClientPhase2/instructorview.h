@@ -21,7 +21,7 @@ public:
     void addToList(std::string);
     void closeListDialog(ViewListDialog*);
     void closeIndividualDialog(ViewIndividualDialog*);
-    void listReq(viewIndividualType listReq, std::string info);
+    void listReq(viewIndividualType listReq, std::string, std::string info);
     void getListDialog(ViewListDialog** v);
     void setSave(bool);
     void switchToTask(std::string s, ViewListDialog* v);

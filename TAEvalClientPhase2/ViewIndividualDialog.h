@@ -19,6 +19,8 @@ public:
     void updateInfo(std::string,std::string);
     void setType(viewIndividualType t);
     viewIndividualType getType();
+    std::string getTitle();
+    std::string getBody();
 
 private slots:
     void handleCloseButton();

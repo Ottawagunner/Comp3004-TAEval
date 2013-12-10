@@ -98,7 +98,6 @@ char DatabaseInterface::handleRequest(std::string** requestArr, std::string** re
 }
 
 bool DatabaseInterface::loginRequest(std::string* userType, std::string* userName, std::string** dataArr){
-    std::cout << "I like to eat rabbits" << std::endl;
 	if(*userType == INSTRUCTOR_TYPE){
         if(db.find(0, userName, dataArr)) return false;
         else return true;
@@ -287,7 +286,7 @@ bool DatabaseInterface::viewTaRequest(std::string* userType, std::string* id, st
 
 bool DatabaseInterface::viewTaskRequest(std::string* userType, std::string* userName, std::string* id, std::string** dataArr){
     if(*userType == INSTRUCTOR_TYPE){
-        std::cout << "This is teh username used: " <<*userName << std::endl;
+
 
 		std::string* arr;
 		if(db.find(1, id, &arr))
@@ -296,11 +295,11 @@ bool DatabaseInterface::viewTaskRequest(std::string* userType, std::string* user
 		int lenOfArr;
 		std::stringstream(arr[1]) >> lenOfArr;
 
-		*dataArr = new std::string[lenOfArr];
+        *dataArr = new std::string[lenOfArr+2];
 
 		std::string* tempArr;
 
-		int count = 1;
+        int count = 2;
 		for(int i = 0; i < lenOfArr; i++){
  			if(db.find(3, &(arr[2+i]), &tempArr))
  				return false;
@@ -313,7 +312,8 @@ bool DatabaseInterface::viewTaskRequest(std::string* userType, std::string* user
 
 		std::stringstream convert;
 		convert << (count-1);
-		(*dataArr)[0] = convert.str();
+        (*dataArr)[1] = convert.str();
+        (*dataArr)[0] = "1";
 
 		delete[] arr;		
 	} 

@@ -46,7 +46,7 @@ void Controller::executeMessage(std::string *command)
 
 void Controller::handleMessage(std::string *command, std::string* response) // finds the userType which is one of A, I or T, created an object of the proper class and passes on the request
 {
-    for(int i=0; i<5;i++) std::cout<<command[i]<<std::endl;
+    //for(int i=0; i<5;i++) std::cout<<command[i]<<std::endl;
 
     // send the message to the database
     std::string* result;
@@ -202,13 +202,17 @@ void Controller::handleMessage(std::string *command, std::string* response) // f
     // Loops through something like this
     //std::string result[8]= {"2", "2", "3", "Title of Task 1", "Description of Task1 like he's good", "Alpha", "Beta", "Gamma"};
     //                        [0]  [1]  [2]      [3]                    [4]                              [5]      [6]     [7]
-    std::cout<<result[0]<<std::endl;
+    //std::cout<<result[0]<<std::endl;
     if(result == NULL){
         result = new std::string[3];
         result[0]="1";
         result[1]="1";
         result[2]="SUCCESS";
     }
+    //std::cout << "result[0]: " << result[0] << std::endl;
+    //std::cout << "result[1]: " << result[1] << std::endl;
+    //std::cout << "result[2]: " << result[2] << std::endl;
+
     encoder e;
     std::string output = "";
     short tildaInRequest = 0;

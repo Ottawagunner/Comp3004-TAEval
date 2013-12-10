@@ -60,26 +60,26 @@ void ViewListDialog::handleEditButton(){
      std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TA){
         viewID = new ViewIndividualDialog(this,INSTRUCT_EDIT_TASK);
-        myParent->listReq(INSTRUCT_DETAIL_TASK, additionalInfo);
+        myParent->listReq(INSTRUCT_DETAIL_TASK, additionalInfo,"");
     }
     else{
         viewID = new ViewIndividualDialog(this,INSTRUCT_EDIT_EVAL);
-        myParent->listReq(INSTRUCT_DETAIL_EVAL, additionalInfo);
+        myParent->listReq(INSTRUCT_DETAIL_EVAL, additionalInfo,"");
     }
     viewID->show();
 }
 void ViewListDialog::handleDeleteButton(){
     std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType==INSTRUCT_VIEW_TA)
-        myParent->listReq(INSTRUCT_DEL_TASK, additionalInfo);
+        myParent->listReq(INSTRUCT_DEL_TASK, additionalInfo,"");
     if(thisType == INSTRUCT_VIEW_TASK)
-        myParent->listReq(INSTRUCT_DEL_EVAL, additionalInfo);
+        myParent->listReq(INSTRUCT_DEL_EVAL, additionalInfo,"");
 }
 void ViewListDialog::handleViewButton(){
     std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TASK){
         viewID = new ViewIndividualDialog(this,INSTRUCT_DETAIL_EVAL);
-        myParent->listReq(INSTRUCT_DETAIL_EVAL, additionalInfo);
+        myParent->listReq(INSTRUCT_DETAIL_EVAL, additionalInfo,"");
         viewID->show();
     }
     else if(thisType== INSTRUCT_VIEW_TA){
@@ -89,12 +89,12 @@ void ViewListDialog::handleViewButton(){
     }
     else if(thisType == TA_VIEW_TASK){
         viewID = new ViewIndividualDialog(this,TA_DETAIL_TASK);
-        myParent->listReq(TA_DETAIL_TASK,additionalInfo);
+        myParent->listReq(TA_DETAIL_TASK,additionalInfo,"");
         viewID->show();
     }
     else if(thisType == TA_VIEW_EVALS){
         viewID = new ViewIndividualDialog(this,TA_DETAIL_EVAL);
-        myParent->listReq(TA_DETAIL_EVAL, additionalInfo);
+        myParent->listReq(TA_DETAIL_EVAL, additionalInfo,"");
         viewID->show();
     }
 }
@@ -106,11 +106,11 @@ void ViewListDialog::closeIndividualDialog(ViewIndividualDialog* id){
     id->hide();
     if(save){
         viewIndividualType t = id->getType();
-        myParent->listReq(t,mylist->currentItem()->text().toStdString());
+        myParent->listReq(t,id->getTitle(),id->getBody());
     }
     delete(id);
 }
-void ViewListDialog::listReq(viewIndividualType listReq, std::string info){}
+void ViewListDialog::listReq(viewIndividualType listReq, std::string title,std::string info){}
 void ViewListDialog::updateList(std::string s){
     QString str(s.c_str());
     mylist->addItem(str);

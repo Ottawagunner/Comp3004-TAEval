@@ -13,7 +13,7 @@ int ClientControl::run(){
     return 0;
 }
 void ClientControl::giveRequest(std::string uname, std::string uType, std::string reqType,
-                                std::string additionalInfo, std::string** returnInfo){
+                                std::string addInfo1, std::string addInfo2, std::string** returnInfo){
     //Checks all 3 necessary arguments to make sure all of them are well-defined
     if(uname.empty())
     {
@@ -61,9 +61,14 @@ void ClientControl::giveRequest(std::string uname, std::string uType, std::strin
     request = e.encode(request, reqType); // uname~uType~reqType, 2
     tildaInRequest++;
 
-    if(!additionalInfo.empty()) //Adds the additional info if it is not empty
+    if(!addInfo1.empty()) //Adds the additional info if it is not empty
     {
-        request = e.encode(request, additionalInfo);
+        request = e.encode(request, addInfo1);
+        tildaInRequest++;
+    }
+    if(!addInfo2.empty()) //Adds the additional info if it is not empty
+    {
+        request = e.encode(request, addInfo2);
         tildaInRequest++;
     }
 

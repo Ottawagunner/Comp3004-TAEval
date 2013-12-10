@@ -25,7 +25,7 @@ int UIController::run(){
 void UIController::loginNotify(){
     std::string *returnInfo;
     d->getUserInfo(&username, &currUserType);
-    control->giveRequest(username,currUserType,"LOGIN", "",&returnInfo);
+    control->giveRequest(username,currUserType,"LOGIN", "","",&returnInfo);
 
     std::stringstream convert(returnInfo[0]);
     int size;
@@ -54,7 +54,7 @@ void UIController::loginNotify(){
 
 void UIController::logoutNotify(){
     std::string *returnInfo;
-    control->giveRequest(username,currUserType,"LOGOUT", "",&returnInfo);
+    control->giveRequest(username,currUserType,"LOGOUT", "","",&returnInfo);
     d->clearInfo();
     if(currUserType.compare("i")==0){
         i->hide();
@@ -69,29 +69,33 @@ void UIController::logoutNotify(){
 
 void UIController::reqViewTask(std::string taskID){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"VIEW-TASK-INFO",taskID,&returnInfo);
+    control->giveRequest(username, currUserType,"VIEW-TASK-INFO",taskID,"",&returnInfo);
     updateIDialog(returnInfo[1],returnInfo[2]);
 }
 void UIController::reqViewAllTasks(std::string addInfo){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"VIEW-TASK",addInfo,&returnInfo);
+    control->giveRequest(username, currUserType,"VIEW-TASK",addInfo,"",&returnInfo);
+
     std::stringstream convert(returnInfo[0]);
+
     int size;
     convert>>size;
     size++;
     for(int i=1; i<size; i++){
+
         updateListDialogList(returnInfo[i]);
     }
+
 }
 void UIController::reqViewEval(std::string taskID){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"VIEW-EVAL-INFO",taskID,&returnInfo);
+    control->giveRequest(username, currUserType,"VIEW-EVAL-INFO",taskID,"",&returnInfo);
     updateIDialog(returnInfo[1],returnInfo[2]);
 }
 
 void UIController::reqViewAllEvals(){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"VIEWALLEVALS","",&returnInfo);
+    control->giveRequest(username, currUserType,"VIEWALLEVALS","","",&returnInfo);
     std::stringstream convert(returnInfo[0]);
     int size;
     convert>>size;
@@ -100,35 +104,35 @@ void UIController::reqViewAllEvals(){
         updateListDialogList(returnInfo[i]);
     }
 }
-void UIController::reqAddTask(std::string info){
+void UIController::reqAddTask(std::string title, std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"CREATE-TASK",info,&returnInfo);
+    control->giveRequest(username, currUserType,"CREATE-TASK",title, info,&returnInfo);
 }
 
 void UIController::reqDeleteTask(std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"DELETE-TASK",info,&returnInfo);
+    control->giveRequest(username, currUserType,"DELETE-TASK",info,"",&returnInfo);
 }
 
-void UIController::reqEditTask(std::string info){
+void UIController::reqEditTask(std::string title, std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"EDIT-TASK",info,&returnInfo);
+    control->giveRequest(username, currUserType,"EDIT-TASK",title, info,&returnInfo);
 }
-void UIController::reqAddEval(std::string info){
+void UIController::reqAddEval(std::string title, std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"EDIT-EVAL",info,&returnInfo);
+    control->giveRequest(username, currUserType,"EDIT-EVAL",title, info,&returnInfo);
 }
 void UIController::reqDeleteEval(std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"DELETEEVAL",info,&returnInfo);
+    control->giveRequest(username, currUserType,"DELETEEVAL",info,"",&returnInfo);
 }
-void UIController::reqEditEval(std::string info){
+void UIController::reqEditEval(std::string title,std::string info){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"EDIT-EVAL",info,&returnInfo);
+    control->giveRequest(username, currUserType,"EDIT-EVAL",title, info,&returnInfo);
 }
 void UIController::reqViewAllTAs(std::string addInfo){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"VIEW-TA",addInfo,&returnInfo);
+    control->giveRequest(username, currUserType,"VIEW-TA",addInfo,"",&returnInfo);
     std::stringstream convert(returnInfo[0]);
     int size;
     convert>>size;

@@ -52,31 +52,31 @@ void InstructorView::closeIndividualDialog(ViewIndividualDialog* temp){
     temp->hide();
     delete(temp);
 }
-void InstructorView::listReq(viewIndividualType listReq, std::string info){
+void InstructorView::listReq(viewIndividualType listReq, std::string title, std::string info){
     switch(listReq){
         case INSTRUCT_ADD_TASK:
-            control->reqAddTask(info);
+            control->reqAddTask(title,info);
             break;
         case INSTRUCT_ADD_EVAL:
-            control->reqAddEval(info);
+            control->reqAddEval(title,info);
             break;
         case INSTRUCT_DEL_TASK:
-            control->reqDeleteTask(info);
+            control->reqDeleteTask(title);
             break;
         case INSTRUCT_DEL_EVAL:
-            control->reqDeleteEval(info);
+            control->reqDeleteEval(title);
             break;
         case INSTRUCT_EDIT_TASK:
-            control->reqEditTask(info);
+            control->reqEditTask(title, info);
             break;
         case INSTRUCT_EDIT_EVAL:
-            control->reqEditEval(info);
+            control->reqEditEval(title,info);
             break;
         case INSTRUCT_DETAIL_TASK:
-            control->reqViewTask(info);
+            control->reqViewTask(title);
             break;
         case INSTRUCT_DETAIL_EVAL:
-            control->reqViewEval(info);
+            control->reqViewEval(title);
             break;
     }
 }
