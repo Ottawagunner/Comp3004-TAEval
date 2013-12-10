@@ -24,7 +24,8 @@ public:
     void updateWindow();
     void getIndivDialog(ViewIndividualDialog** d);
     void setSave(bool);
-    void switchToTask(std::string s, ViewListDialog* v);
+    void setTa(std::string);
+    void switchToTask(std::string s, ViewListDialog* v, std::string);
 private slots:
     void handleAddButton();
     void handleEditButton();
@@ -45,6 +46,7 @@ private:
     ViewIndividualDialog*   viewID;
     ViewListDialog*         taskList;
     bool                    save;
+    std::string             ta;
 };
 
 #endif // VIEWLISTDIALOG_H

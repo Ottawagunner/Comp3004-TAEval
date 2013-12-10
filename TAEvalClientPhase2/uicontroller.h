@@ -32,7 +32,7 @@ public:
     void reqViewEval(std::string taskID);
     void reqViewAllEvals();
     void reqAddTask(std::string,std::string,std::string);
-    void reqDeleteTask(std::string);
+    void reqDeleteTask(std::string, std::string);
     void reqEditTask(std::string,std::string, std::string);
     void reqAddEval(std::string,std::string, std::string);
     //void reqDeleteEval(std::string);

@@ -39,6 +39,7 @@ ViewIndividualDialog::ViewIndividualDialog(viewTemplate *viewParent, viewIndivid
 
     case INSTRUCT_EDIT_TASK:
         listLabel->setText("Edit a task:");
+        additionalInfo->setReadOnly(true);
         break;
 
     case INSTRUCT_EDIT_EVAL:

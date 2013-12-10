@@ -23,6 +23,7 @@ int Controller::runServer(){
         listening = true;
         do{
             std::string buffer = (host.ReciveText());
+            if(buffer.empty()) break;
             executeMessage(&buffer);
             host.SendText(buffer);
         }while(listening);

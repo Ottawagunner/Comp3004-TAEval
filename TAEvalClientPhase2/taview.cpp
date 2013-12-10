@@ -60,4 +60,4 @@ void TAView::addToTaskList(std::string s){
 
 }
 void TAView::setSave(bool){}
-void TAView::switchToTask(std::string s, ViewListDialog* v){}
+void TAView::switchToTask(std::string s, ViewListDialog* v, std::string){}

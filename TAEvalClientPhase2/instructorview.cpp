@@ -30,13 +30,13 @@ void InstructorView::on_logoutButton_clicked()
     control->logoutNotify();
 }
 
-void InstructorView::on_viewTaskButton_clicked()
+/*void InstructorView::on_viewTaskButton_clicked()
 {
     ld = new ViewListDialog(this,INSTRUCT_VIEW_TASK);
     std::string additionalInfo =  ui->courseList->currentItem()->text().toStdString();
     control->reqViewAllTasks(additionalInfo);
     ld->show();
-}
+}*/
 void InstructorView::on_viewTAButton_clicked(){
     ld = new ViewListDialog(this, INSTRUCT_VIEW_TA);
     std::string additionalInfo =  ui->courseList->currentItem()->text().toStdString();
@@ -61,11 +61,11 @@ void InstructorView::listReq(viewIndividualType listReq, std::string title, std:
             control->reqAddEval(title,info, listPiece);
             break;
         case INSTRUCT_DEL_TASK:
-            control->reqDeleteTask(title);
+            control->reqDeleteTask(title, info);
             break;
-        case INSTRUCT_DEL_EVAL:
-            control->reqDeleteTask(title);
-            break;
+        //case INSTRUCT_DEL_EVAL:
+          //  control->reqDeleteTask(title);
+            //break;
         case INSTRUCT_EDIT_TASK:
             control->reqEditTask(title, info,listPiece);
             break;
@@ -84,9 +84,10 @@ void InstructorView::getListDialog(ViewListDialog** v){
     *v = ld;
 }
 void InstructorView::setSave(bool){}
-void InstructorView::switchToTask(std::string s, ViewListDialog* v){
+void InstructorView::switchToTask(std::string s, ViewListDialog* v, std::string ta){
     closeListDialog(v);
     ld = new ViewListDialog(this,INSTRUCT_VIEW_TASK);
+    ld->setTa(ta);
     control->reqViewAllTasks(s);
     ld->show();
 

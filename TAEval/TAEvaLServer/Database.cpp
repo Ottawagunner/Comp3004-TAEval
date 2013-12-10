@@ -56,7 +56,10 @@ char Database::edit(int treeNum, std::string* keyPtr, std::string** dataArray){
 	if(arrayOfTrees[treeNum].find(&data))
 		return DATA_NOT_FOUND; //Thus the appropriate file cannot be edited
 
+    for(int i = 0; i < 5; i++){std::cout << "(*dataArray)[" << i << "] " << (*dataArray)[i] << std::endl;}
+
 	std::string fileValue = data.getFile();
+    std::cout << "fileVAlue " << fileValue << std::endl;
 	fileIO.overwriteFile(&fileValue, dataArray);
 
 	return 0;

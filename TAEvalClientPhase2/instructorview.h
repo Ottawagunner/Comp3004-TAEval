@@ -24,11 +24,11 @@ public:
     void listReq(viewIndividualType listReq, std::string, std::string info, std::string);
     void getListDialog(ViewListDialog** v);
     void setSave(bool);
-    void switchToTask(std::string s, ViewListDialog* v);
+    void switchToTask(std::string s, ViewListDialog* v, std::string ta);
 
 private slots:
     void on_logoutButton_clicked();
-    void on_viewTaskButton_clicked();
+    //void on_viewTaskButton_clicked();
     void on_viewTAButton_clicked();
 
 private:

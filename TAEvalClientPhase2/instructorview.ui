@@ -24,24 +24,11 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="viewTaskButton">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>60</y>
-      <width>90</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>View Tasks</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="viewTAButton">
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>100</y>
+      <y>40</y>
       <width>90</width>
       <height>27</height>
      </rect>

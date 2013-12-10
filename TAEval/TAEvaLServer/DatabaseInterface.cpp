@@ -208,6 +208,8 @@ bool DatabaseInterface::viewRequest(std::string* userType, std::string* userName
 
 bool DatabaseInterface::removeRequest(std::string* taKey, std::string* taskKey){
 
+
+    std::cout << "taKey " << *taKey <<std::endl;
 	std::string* arr;
 	if(db.find(1, taKey, &arr))
 		return false;
@@ -222,8 +224,10 @@ bool DatabaseInterface::removeRequest(std::string* taKey, std::string* taskKey){
 	int count = 0;
 
 	for(int i = 0; i < (num+1); i++){
+        std::cout << "*taskKey: " << *taskKey << std::endl;
+        std::cout << "arr[" << i << "+2] " << arr[i+2] << std::endl;
         if( *taskKey != arr[i+2]){
-			newArr[2+count] == arr[i+2];
+            newArr[2+count] = arr[i+2];
 			count+=1;
 		}
 	}

@@ -109,9 +109,9 @@ void UIController::reqAddTask(std::string title, std::string info, std::string l
     control->giveRequest(username, currUserType,"CREATE-TASK",listPiece,title, info,&returnInfo);
 }
 
-void UIController::reqDeleteTask(std::string info){
+void UIController::reqDeleteTask(std::string info, std::string s){
     std::string *returnInfo;
-    control->giveRequest(username, currUserType,"DELETE-TASK",info,"","",&returnInfo);
+    control->giveRequest(username, currUserType,"DELETE-TASK",s,info,"",&returnInfo);
 }
 
 void UIController::reqEditTask(std::string title, std::string info, std::string listPiece){

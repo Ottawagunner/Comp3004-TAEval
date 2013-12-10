@@ -9,8 +9,8 @@ ViewListDialog::ViewListDialog(viewTemplate *viewParent,viewListType type, QWidg
     myParent = viewParent;
     listLabel = new QLabel("");
     add = new QPushButton("Add");
-    edit = new QPushButton("Edit");
-    del = new QPushButton("Delete");
+    edit = new QPushButton("View Evaluation");
+    del = new QPushButton("Delete Task");
     view = new QPushButton("Details");
     close = new QPushButton("Close");
     mylist = new QListWidget();
@@ -70,22 +70,22 @@ void ViewListDialog::handleEditButton(){
 }
 void ViewListDialog::handleDeleteButton(){
     std::string additionalInfo =  mylist->currentItem()->text().toStdString();
-    if(thisType==INSTRUCT_VIEW_TA)
-        myParent->listReq(INSTRUCT_DEL_TASK, additionalInfo,"","");
-    if(thisType == INSTRUCT_VIEW_TASK)
-        myParent->listReq(INSTRUCT_DEL_EVAL, additionalInfo,"","");
+    //if(thisType==INSTRUCT_VIEW_TA)
+        myParent->listReq(INSTRUCT_DEL_TASK, additionalInfo,ta,"");
+   // if(thisType == INSTRUCT_VIEW_TASK)
+     //   myParent->listReq(INSTRUCT_DEL_EVAL, additionalInfo,"","");
 }
 void ViewListDialog::handleViewButton(){
     std::string additionalInfo =  mylist->currentItem()->text().toStdString();
     if(thisType == INSTRUCT_VIEW_TASK){
-        viewID = new ViewIndividualDialog(this,INSTRUCT_DETAIL_EVAL);
-        myParent->listReq(INSTRUCT_DETAIL_EVAL, additionalInfo,"","");
+        viewID = new ViewIndividualDialog(this,INSTRUCT_EDIT_TASK);
+        myParent->listReq(INSTRUCT_DETAIL_TASK, additionalInfo,"","");
         viewID->show();
     }
     else if(thisType== INSTRUCT_VIEW_TA){
         //viewID = new ViewIndividualDialog(this,INSTRUCT_DETAIL_TASK);
         //myParent->listReq(INSTRUCT_DETAIL_TASK, additionalInfo);
-        myParent->switchToTask(additionalInfo, this);
+        myParent->switchToTask(additionalInfo, this, mylist->currentItem()->text().toStdString());
     }
     else if(thisType == TA_VIEW_TASK){
         viewID = new ViewIndividualDialog(this,TA_DETAIL_TASK);
@@ -154,6 +154,10 @@ void ViewListDialog::getIndivDialog(ViewIndividualDialog** d){
 void ViewListDialog::setSave(bool s){
     save = s;
 }
-void ViewListDialog::switchToTask(std::string s, ViewListDialog* v){
+void ViewListDialog::switchToTask(std::string s, ViewListDialog* v, std::string){
 
+}
+void ViewListDialog::setTa(std::string t){
+    ta = t;
+    std::cout<<ta<<std::endl;
 }
